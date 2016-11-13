@@ -14,7 +14,24 @@ db.define_table('post',
                 Field('post_content', 'text'),
                 Field('created_on', 'datetime', default=datetime.datetime.utcnow()),
                 Field('updated_on', 'datetime', update=datetime.datetime.utcnow()),
+                Field('studentClass','text'),
+                Field('subject','text'),
                 )
+
+db.define_table('topics',
+                Field('user_email', default=auth.user.email if auth.user_id else None),
+                Field('postID', 'integer'), #where the post is
+                Field('topicName','text'),
+                )
+
+db.define_table('definitions',
+                Field('user_email', default=auth.user.email if auth.user_id else None),
+                Field('postID', 'integer'), #where the topic is defined
+                Field('topicName', 'text'),
+                Field('topicDefinition','text'),
+                )
+
+
 
 # I don't want to display the user email by default in all forms.
 db.post.user_email.readable = db.post.user_email.writable = False
