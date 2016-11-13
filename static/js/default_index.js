@@ -1,6 +1,6 @@
 // This is the js for the default/index.html view.
 
-var app = function() {
+var app = function () {
 
     //this controls the number of posts displayed at first and the number of posts received from the server
     const DEFAULT_POST_LIST_LENGTH = 10;
@@ -10,15 +10,15 @@ var app = function() {
     Vue.config.silent = false; // show all warnings
 
     // Extends an array
-    self.extend = function(a, b) {
+    self.extend = function (a, b) {
         for (var i = 0; i < b.length; i++) {
             a.push(b[i]);
         }
     };
 
     // Enumerates an array.
-    var enumerate_and_sort = function(v) {
-        v.sort(function(a,b) {
+    var enumerate_and_sort = function (v) {
+        v.sort(function (a, b) {
             if (a.updated_on > b.updated_on)
                 return -1;
             else if (a.updated_on < b.updated_on)
@@ -28,8 +28,10 @@ var app = function() {
         });
 
 
-        var k=0;
-        return v.map(function(e) {e._idx = k++;});
+        var k = 0;
+        return v.map(function (e) {
+            e._idx = k++;
+        });
     };
 
     function get_posts_url(start_idx, end_idx) {
@@ -41,14 +43,15 @@ var app = function() {
     };
 
     self.get_posts = function () {
-        $.getJSON(get_posts_url(0,DEFAULT_POST_LIST_LENGTH), function (data) {
-                    self.vue.posts = data.posts;
-                    self.vue.has_more = data.has_more;
-                    self.vue.logged_in = data.logged_in;
-                    self.vue.user_email = data.user_email;
-                    enumerate_and_sort(self.vue.posts);
-                }
-            );
+        $.getJSON(get_posts_url(0, DEFAULT_POST_LIST_LENGTH), function (data) {
+                self.vue.posts = data.posts;
+                self.vue.has_more = data.has_more;
+                self.vue.logged_in = data.logged_in;
+                self.vue.user_email = data.user_email;
+                self.vue.form_class_content = data.studentClass;
+                enumerate_and_sort(self.vue.posts);
+            }
+        );
     };
 
     self.load_more = function () {
@@ -70,6 +73,7 @@ var app = function() {
         // The button to add a post has been pressed.
         self.vue.form_post_content = "";
         self.vue.form_edit_content = "";
+        self.vue.form_class_content = "";
         self.vue.is_adding_post = false;
         self.vue.is_editing_post = false;
     };
@@ -80,15 +84,17 @@ var app = function() {
         // The submit button to add a post has been added.
         $.post(add_post_url,
             {
-                post_content: self.vue.form_post_content
+                post_content: self.vue.form_post_content,
+                studentClass: self.vue.form_class_content
+
             },
             function (data) {
-               // $.web2py.enableElement($("#add_post_btn"));
+                // $.web2py.enableElement($("#add_post_btn"));
 
                 //remove post from end of list if necessary to ensure num posts displayed doesnt change once posts
                 // reaches its default limit
-                if ( (self.vue.posts.length > 0) &&
-                    (self.vue.posts % DEFAULT_POST_LIST_LENGTH == 0) ) {
+                if ((self.vue.posts.length > 0) &&
+                    (self.vue.posts % DEFAULT_POST_LIST_LENGTH == 0)) {
                     self.vue.posts.pop();
                     self.vue.has_more = true;
                 }
@@ -96,8 +102,9 @@ var app = function() {
                 self.vue.posts.unshift(data.post);
                 enumerate_and_sort(self.vue.posts);
             });
-
+    //clear out all posts so they don't have leftover data in them
         self.vue.form_post_content = "";
+        self.vue.form_class_content = "";
         self.vue.is_adding_post = false;
     };
 
@@ -125,7 +132,7 @@ var app = function() {
     }
 
     self.edit_post = function () {
-    // The edit button to commit changes to a post has been pressed.
+        // The edit button to commit changes to a post has been pressed.
         $.post(edit_post_url,
             {
                 post_id: self.vue.posts[self.vue.idx_to_edit].id,
@@ -134,14 +141,14 @@ var app = function() {
             function (data) {
                 self.vue.posts.splice(self.vue.idx_to_edit, 1);
                 self.vue.posts.unshift(data.post);
-                enumerate_and_sort (self.vue.posts);
+                enumerate_and_sort(self.vue.posts);
             }
         )
         self.vue.is_editing_post = false;
     };
 
 
-    self.delete_post = function(post_idx) {
+    self.delete_post = function (post_idx) {
 
         if (post_idx < self.vue.posts.length) {
             $.post(del_post_url,
@@ -168,6 +175,7 @@ var app = function() {
             logged_in: false,
             has_more: false,
             form_post_content: null,
+            form_class_content: null,
             form_edit_content: null,
             user_email: null
         },
@@ -196,4 +204,6 @@ var APP = null;
 
 // This will make everything accessible from the js console;
 // for instance, self.x above would be accessible as APP.x
-jQuery(function(){APP = app();});
+jQuery(function () {
+    APP = app();
+});

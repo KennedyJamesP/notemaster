@@ -35,7 +35,7 @@
                 <div class="form-group" id="class">
                     <div>
                         <input class="form-control string" id="class" name="album" type="text"
-                               v-model="form_album" placeholder="Class"/>
+                               v-model="form_class_content" placeholder="Class"/>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
             <div class="post" v-for="post in posts">
                 <div class="post_listing" v-if="!is_idx_being_edited(post._idx)">
                     <p class="post-content center-block" v-model="post.post_content">
-                        ${post.post_content}
+                        ${post.post_content} ${post.studentClass}
                     </p>
                     <div style="color: blue" class="post_details row">
                         <div class="col-md-3"> ${post.author_name}</div>
