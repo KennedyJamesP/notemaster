@@ -17,21 +17,43 @@
 
     <div id="vue-div" class="display:none">
         <div class="button_bar">
-            <button class="btn btn-danger btn-sm" v-if="!is_adding_or_editing()"  v-on:click="add_post_button()"  v-bind:class="{'disabled': !logged_in}">
-                    <i class="fa fa-plus"></i>Add new post
+            <button class="btn btn-danger btn-sm" v-if="!is_adding_or_editing()" v-on:click="add_post_button()"
+                    v-bind:class="{'disabled': !logged_in}">
+                <i class="fa fa-plus"></i>Add new post
             </button>
-             <button class="btn btn-danger btn-sm" v-if="is_adding_or_editing()"  v-on:click="cancel_post_button()" >
-                    <i class="fa fa-close"></i>Cancel
+            <button class="btn btn-danger btn-sm" v-if="is_adding_or_editing()" v-on:click="cancel_post_button()">
+                <i class="fa fa-close"></i>Cancel
             </button>
         </div>
 
-        <template id="add_post_template" v-if = "is_adding_post">
+        <template id="add_post_template" v-if="is_adding_post">
             <div id="add_post_div">
-                <div id="new_post_text" class ="row">
+                <div id="new_post_text" class="row">
                     <textarea v-model="form_post_content">
                     </textarea>
                 </div>
-                <div id = "add_post_btn" class = "row">
+                <div class="form-group" id="class">
+                    <div>
+                        <input class="form-control string" id="class" name="album" type="text"
+                               v-model="form_album" placeholder="Class"/>
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group" id="topic">
+                    <div>
+                        <input class="form-control string" id="topic" name="album" type="text"
+                               v-model="form_album" placeholder="Topic"/>
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group" id="tag">
+                    <div>
+                        <input class="form-control string" id="tag" name="album" type="text"
+                               v-model="form_album" placeholder="Tags"/>
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <div id="add_post_btn" class="row">
                     <button class="btn btn-danger btn-sm col-md-offset-9" v-on:click="add_post()">
                         <i class="fa fa-plus"></i>Post
                     </button>
@@ -40,32 +62,34 @@
         </template>
 
 
-        <div class="post_list" >
+        <div class="post_list">
             <div class="post" v-for="post in posts">
                 <div class="post_listing" v-if="!is_idx_being_edited(post._idx)">
-                    <p class ="post-content center-block" v-model="post.post_content">
+                    <p class="post-content center-block" v-model="post.post_content">
                         ${post.post_content}
                     </p>
                     <div style="color: blue" class="post_details row">
-                        <div class = "col-md-3"> ${post.author_name} </div>
-                        <div class = "col-md-3"> created ${post.created_on} </div>
+                        <div class="col-md-3"> ${post.author_name}</div>
+                        <div class="col-md-3"> created ${post.created_on}</div>
                         <!-- add updated_on info if post has been updated since creation -->
-                        <div class = "col-md-3" v-if="post.updated_on!=post.created_on">
-                            updated ${post.updated_on} </div>
+                        <div class="col-md-3" v-if="post.updated_on!=post.created_on">
+                            updated ${post.updated_on}
+                        </div>
                     </div>
                     <div class="row_buttons" v-if="user_email==post.author_email">
                         <i class="fa fa-trash-o" id="del_post_btn" v-on:click="delete_post(post._idx)"></i>
-                        <i class="fa fa-pencil" id="edit_post_btn" v-on:click="edit_post_button(post._idx)" v-bind:class="{'disabled': is_adding_post}"></i>
+                        <i class="fa fa-pencil" id="edit_post_btn" v-on:click="edit_post_button(post._idx)"
+                           v-bind:class="{'disabled': is_adding_post}"></i>
                     </div>
                 </div>
 
-                <template id="edit_post_template" v-if ="is_idx_being_edited(post._idx)">
+                <template id="edit_post_template" v-if="is_idx_being_edited(post._idx)">
                     <div id="edit_post_div">
-                        <div id="edit_post_text" class ="row">
-                            <textarea  v-model="form_edit_content">
+                        <div id="edit_post_text" class="row">
+                            <textarea v-model="form_edit_content">
                             </textarea>
                         </div>
-                        <div id = "post_changes_btn" class = "row">
+                        <div id="post_changes_btn" class="row">
                             <button class="btn btn-danger btn-sm col-md-offset-9" v-on:click="edit_post()">
                                 <i class="fa fa-plus"></i>Post changes
                             </button>
