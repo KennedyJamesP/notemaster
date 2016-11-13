@@ -3,7 +3,7 @@
 var app = function() {
 
     //this controls the number of posts displayed at first and the number of posts received from the server
-    const DEFAULT_POST_LIST_LENGTH = 4;
+    const DEFAULT_POST_LIST_LENGTH = 10;
 
     var self = {};
 

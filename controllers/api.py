@@ -10,7 +10,6 @@ def get_user_name_from_email(email):
     else:
         return ' '.join([u.first_name, u.last_name])
 
-
 def get_posts():
     start_idx = int(request.vars.start_idx) if request.vars.start_idx is not None else 0
     end_idx = int(request.vars.end_idx) if request.vars.end_idx is not None else 0
@@ -20,6 +19,7 @@ def get_posts():
     rows = db().select(db.post.ALL, limitby=(start_idx, end_idx + 1), orderby=~db.post.updated_on)
     for i, r in enumerate(rows):
         if i < end_idx - start_idx:
+
             p = dict(
                 id = r.id,
                 post_content = r.post_content,
