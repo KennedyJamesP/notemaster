@@ -19,7 +19,6 @@ def get_posts():
     rows = db().select(db.post.ALL, limitby=(start_idx, end_idx + 1), orderby=~db.post.updated_on)
     for i, r in enumerate(rows):
         if i < end_idx - start_idx:
-
             p = dict(
                 id = r.id,
                 post_content = r.post_content,
@@ -27,7 +26,11 @@ def get_posts():
                 author_name = get_user_name_from_email(r.user_email),
                 created_on =r.created_on,
                 updated_on=r.updated_on,
+                class_content=r.studentClass,
+                topic_content=r.topic,
+                tags_content=r.tags,
             )
+            print (r.studentClass);
             posts.append(p)
         else:
             has_more = True
@@ -54,6 +57,9 @@ def add_post():
         author_name=get_user_name_from_email(p_raw.user_email),
         created_on=p_raw.created_on,
         updated_on=p_raw.updated_on,
+        studentClass=p_raw.studentClass,
+        topic=p_raw.topic,
+        tags=p_raw.tags,
     )
     return response.json(dict(post=p))
 
