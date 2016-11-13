@@ -15,7 +15,7 @@ db.define_table('post',
                 Field('created_on', 'datetime', default=datetime.datetime.utcnow()),
                 Field('updated_on', 'datetime', update=datetime.datetime.utcnow()),
                 Field('studentClass','text'),
-                Field('subject','text'),
+                Field('topic','text'),
                 Field('tags','text'),
                 )
 

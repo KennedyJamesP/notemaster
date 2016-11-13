@@ -74,6 +74,8 @@ var app = function () {
         self.vue.form_post_content = "";
         self.vue.form_edit_content = "";
         self.vue.form_class_content = "";
+        self.form_topic_content = "";
+        self.form_tags_content = "";
         self.vue.is_adding_post = false;
         self.vue.is_editing_post = false;
     };
@@ -85,8 +87,9 @@ var app = function () {
         $.post(add_post_url,
             {
                 post_content: self.vue.form_post_content,
-                studentClass: self.vue.form_class_content
-
+                studentClass: self.vue.form_class_content,
+                topic: self.vue.form_topic_content,
+                tags: self.vue.form_tags_content,
             },
             function (data) {
                 // $.web2py.enableElement($("#add_post_btn"));
@@ -102,9 +105,11 @@ var app = function () {
                 self.vue.posts.unshift(data.post);
                 enumerate_and_sort(self.vue.posts);
             });
-    //clear out all posts so they don't have leftover data in them
+        //clear out all posts so they don't have leftover data in them
         self.vue.form_post_content = "";
         self.vue.form_class_content = "";
+        self.form_topic_content = "";
+        self.form_tags_content = "";
         self.vue.is_adding_post = false;
     };
 
@@ -177,6 +182,8 @@ var app = function () {
             form_post_content: null,
             form_class_content: null,
             form_edit_content: null,
+            form_topic_content: null,
+            form_tags_content: null,
             user_email: null
         },
         methods: {
