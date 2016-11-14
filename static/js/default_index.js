@@ -48,7 +48,7 @@ var app = function () {
                 self.vue.has_more = data.has_more;
                 self.vue.logged_in = data.logged_in;
                 self.vue.user_email = data.user_email;
-                self.vue.form_class_content = data.studentClass;
+                self.vue.form_class_content = data.studentClass; //not sure if working
                 enumerate_and_sort(self.vue.posts);
             }
         );
