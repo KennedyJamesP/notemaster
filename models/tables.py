@@ -32,6 +32,12 @@ db.define_table('definitions',
                 Field('topicDefinition','text'),
                 )
 
+db.define_table('courses',
+                Field('user_email', default=auth.user.email if auth.user_id else None),
+                Field('created_on', 'datetime', default=datetime.datetime.utcnow()),
+                Field('last_used', 'datetime', update=datetime.datetime.utcnow()),
+                )
+
 
 
 # I don't want to display the user email by default in all forms.
