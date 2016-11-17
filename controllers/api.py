@@ -43,6 +43,43 @@ def get_posts():
         user_email=user_email,
     ))
 
+def search_posts(search):
+    posts = []
+    q = ((db.post.post_content.contains(search)) |
+         (db.post.topic.contains(search))
+          | (db.post.tags.contains(search))
+         | (db.post.studentClass.contains(search))
+         )
+    #print q
+    rows = db(q).select(db.post.ALL)
+    print rows
+
+    for i, r in enumerate(rows):
+            p = dict(
+                id = r.id,
+                post_content = r.post_content,
+                author_email = r.user_email,
+                author_name = get_user_name_from_email(r.user_email),
+                created_on =r.created_on,
+                updated_on=r.updated_on,
+                class_content=r.studentClass,
+                topic_content=r.topic,
+                tags_content=r.tags,
+            )
+            print "post p is: "
+            print (p) #debug
+            posts.append(p)
+    logged_in = auth.user_id is not None
+    user_email = auth.user.email if logged_in else None
+    return response.json(dict(
+        posts=posts,
+        logged_in=logged_in,
+        user_email=user_email,
+    ))
+
+
+
+
 
 # Note that we need the URL to be signed, as this changes the db.
 @auth.requires_signature()
@@ -86,3 +123,5 @@ def edit_post():
         updated_on=p_raw.updated_on,
     )
     return response.json(dict(post=p))
+
+

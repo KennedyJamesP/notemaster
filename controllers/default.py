@@ -22,7 +22,12 @@ def index():
     """
     This is your main controller.  Here you do almost nothing; you just cause index.html to be served.
     """
+
+    #search_posts("John")
     return dict()
+
+
+
 
 
 @auth.requires_login()
