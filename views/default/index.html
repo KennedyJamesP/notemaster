@@ -34,8 +34,8 @@
                 </div>
                 <div class="form-group" id="class">
                     <div>
-                        <input class="form-control string" id="class" name="album" type="text"
-                               v-model="form_class_content" placeholder="Class"/>
+                        <input class="form-control string" id="class" name="course" type="text"
+                               v-model="current_course_name" placeholder="Class"/>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -62,21 +62,26 @@
         </template>
 
 
-        <div class="post_list">
+        <div class="post_list" v-if="logged_in">
             <div class="post" v-for="post in posts">
                 <div class="post_listing" v-if="!is_idx_being_edited(post._idx)">
-                    <p class="post-content center-block" v-model="post.post_content">
-                        ${post.post_content} ${post.class_content}
+                    <p class="post-content center-block" >
+                        ${post.post_content}
+                    </p>
+                    <p class="post-content center-block" v-model="post.post_topic">
+                        topic: ${post.topic}
+                    </p>
+                    <p class="post-content center-block" v-model="post.post_tags">
+                        tags: ${post.tags}
                     </p>
                     <div style="color: blue" class="post_details row">
-                        <div class="col-md-3"> ${post.author_name}</div>
                         <div class="col-md-3"> created ${post.created_on}</div>
                         <!-- add updated_on info if post has been updated since creation -->
                         <div class="col-md-3" v-if="post.updated_on!=post.created_on">
                             updated ${post.updated_on}
                         </div>
                     </div>
-                    <div class="row_buttons" v-if="user_email==post.author_email">
+                    <div class="row_buttons">
                         <i class="fa fa-trash-o" id="del_post_btn" v-on:click="delete_post(post._idx)"></i>
                         <i class="fa fa-pencil" id="edit_post_btn" v-on:click="edit_post_button(post._idx)"
                            v-bind:class="{'disabled': is_adding_post}"></i>
