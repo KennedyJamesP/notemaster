@@ -50,7 +50,11 @@ def get_posts():
         user_email=user_email,
     ))
 
-def search_posts(search):
+
+@auth.requires_login()
+def search_posts():
+    search = int(request.vars.start_idx) if request.vars.start_idx is not None else 0
+    print("search is: "+search)
     posts = []
     q = ((db.post.post_content.contains(search)) |
          (db.post.topic.contains(search))

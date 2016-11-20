@@ -171,6 +171,14 @@ var app = function () {
         }
     };
 
+         self.do_search= function () {
+        // Perform search on database
+        $.getJSON(search_post_url, $.param({q: self.vue.search}), function(data) {
+            self.vue.posts = data.posts;
+            enumerate(self.vue.posts);
+        });
+    };
+
     self.vue = new Vue({
         el: "#vue-div",
         delimiters: ['${', '}'],
@@ -188,7 +196,8 @@ var app = function () {
             form_edit_content: null,
             form_topic_content: null,
             form_tags_content: null,
-            user_email: null
+            user_email: null,
+            search: '',
         },
         methods: {
             load_more: self.load_more,
@@ -199,11 +208,15 @@ var app = function () {
             is_idx_being_edited: self.is_idx_being_edited,
             add_post: self.add_post,
             edit_post: self.edit_post,
+            do_search: self.do_search,
             delete_post: self.delete_post
         }
 
     });
 
+
+
+    self.do_search();
     self.get_posts();
     $("#vue-div").show();
 

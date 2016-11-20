@@ -7,12 +7,18 @@
     var add_post_url = "{{=URL('api', 'add_post', user_signature=True)}}";
     var del_post_url = "{{=URL('api', 'del_post', user_signature=True)}}";
     var edit_post_url = "{{=URL('api', 'edit_post', user_signature=True)}}";
+    var search_post_url = "{{=URL('api', 'search_posts', user_signature=True)}}";
 </script>
 {{end}}
 
 <div class="main_content">
 
     <h2>NOTEMASTER </h2>
+
+    <div class="search_div threequarters">
+        <input class="search_input" v-model="search"/>
+        <button class="btn" v-on:click="do_search"><i class="fa fa-search fa-lg"></i></button>
+    </div>
 
 
     <div id="vue-div" class="display:none">
@@ -65,7 +71,7 @@
         <div class="post_list" v-if="logged_in">
             <div class="post" v-for="post in posts">
                 <div class="post_listing" v-if="!is_idx_being_edited(post._idx)">
-                    <p class="post-content center-block" >
+                    <p class="post-content center-block">
                         ${post.post_content}
                     </p>
                     <p class="post-content center-block" v-model="post.post_topic">
