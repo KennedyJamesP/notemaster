@@ -55,6 +55,26 @@ var app = function () {
         );
     };
 
+        function SearchPostUrl() {
+        var ppx = {
+            query: self.vue.post_search,
+        };
+        return search_post_url + "?" + $.param(ppx);
+    };
+
+
+        self.do_search = function () {
+        $.getJSON(SearchPostUrl(), function (data) {
+                self.vue.posts = data.posts;
+                self.vue.has_more = data.has_more;
+                self.vue.logged_in = data.logged_in;
+                self.vue.user_email = data.user_email;
+                self.vue.current_course_id = data.course_id; //not sure if working
+                enumerate_and_sort(self.vue.posts);
+            }
+        );
+    };
+
     self.load_more = function () {
         var num_posts = self.vue.posts.length;
         $.getJSON(get_posts_url(num_posts, num_posts + DEFAULT_POST_LIST_LENGTH), function (data) {
@@ -171,14 +191,6 @@ var app = function () {
         }
     };
 
-         self.do_search= function () {
-        // Perform search on database
-        $.getJSON(search_post_url, $.param({q: self.vue.search}), function(data) {
-            self.vue.posts = data.posts;
-            enumerate(self.vue.posts);
-        });
-    };
-
     self.vue = new Vue({
         el: "#vue-div",
         delimiters: ['${', '}'],
@@ -197,7 +209,7 @@ var app = function () {
             form_topic_content: null,
             form_tags_content: null,
             user_email: null,
-            search: '',
+            post_search: "",
         },
         methods: {
             load_more: self.load_more,
@@ -208,16 +220,14 @@ var app = function () {
             is_idx_being_edited: self.is_idx_being_edited,
             add_post: self.add_post,
             edit_post: self.edit_post,
-            do_search: self.do_search,
-            delete_post: self.delete_post
+            delete_post: self.delete_post,
+            do_search:self.do_search
         }
 
     });
 
-
-
-    self.do_search();
     self.get_posts();
+    self.do_search();
     $("#vue-div").show();
 
 
