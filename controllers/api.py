@@ -15,7 +15,6 @@ def get_posts():
     start_idx = int(request.vars.start_idx) if request.vars.start_idx is not None else 0
     end_idx = int(request.vars.end_idx) if request.vars.end_idx is not None else 0
     selected_course_id = int(request.vars.course_id) if request.vars.course_id is not None else 0
-
     # We just generate a lot of of data.
     posts = []
     has_more = False
@@ -50,19 +49,20 @@ def get_posts():
         user_email=user_email,
     ))
 
-
-@auth.requires_login()
 def search_posts():
-    search = int(request.vars.start_idx) if request.vars.start_idx is not None else 0
-    print("search is: "+search)
     posts = []
-    q = ((db.post.post_content.contains(search)) |
-         (db.post.topic.contains(search))
-          | (db.post.tags.contains(search))
-         | (db.post.course_id.contains(search))
+    print "search posts"
+    print request.vars.query
+    search = request.vars.query.strip() if request.vars.query is not None else 0
+    print "search is: "+search
+
+    q = ((db.post.post_content.contains(search))
+         | (db.post.topic.contains(search))
+         | (db.post.tags.contains(search))
          )
-    #print q
-    rows = db(q).select(db.post.ALL)
+    print "done with search"
+    # print "q is: "+q
+    rows = db(q)((db.post.user_email == auth.user.email)).select(db.post.ALL,orderby=~db.post.updated_on)
     print rows
 
     for i, r in enumerate(rows):
@@ -82,6 +82,7 @@ def search_posts():
             posts.append(p)
     logged_in = auth.user_id is not None
     user_email = auth.user.email if logged_in else None
+    print p
     return response.json(dict(
         posts=posts,
         logged_in=logged_in,
