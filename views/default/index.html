@@ -15,13 +15,16 @@
 
     <h2>NOTEMASTER </h2>
 
-    <div class="search_div threequarters">
-        <input class="search_input" v-model="search"/>
-        <button class="btn" v-on:click="do_search"><i class="fa fa-search fa-lg"></i></button>
-    </div>
+
 
 
     <div id="vue-div" class="display:none">
+
+            <div class="search_div threequarters">
+        <input class="search_input" v-model="post_search"/>
+        <button class="btn" v-on:click="do_search"><i class="fa fa-search fa-lg"></i></button>
+          </div>
+
         <div class="button_bar">
             <button class="btn btn-danger btn-sm" v-if="!is_adding_or_editing()" v-on:click="add_post_button()"
                     v-bind:class="{'disabled': !logged_in}">
