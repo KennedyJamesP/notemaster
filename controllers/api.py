@@ -49,6 +49,8 @@ def get_posts():
         user_email=user_email,
     ))
 
+
+@auth.requires_login()
 def search_posts():
     posts = []
     print "search posts"
