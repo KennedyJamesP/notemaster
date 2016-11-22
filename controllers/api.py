@@ -55,7 +55,6 @@ def search_posts():
     print request.vars.query
     search = request.vars.query.strip() if request.vars.query is not None else 0
     print "search is: "+search
-
     q = ((db.post.post_content.contains(search))
          | (db.post.topic.contains(search))
          | (db.post.tags.contains(search))
