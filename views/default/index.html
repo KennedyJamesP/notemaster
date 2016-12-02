@@ -1,125 +1,23 @@
 {{extend 'layout.html'}}
+<link rel="stylesheet" href="{{=URL('static','css/index.css')}}"/>
 
-{{block head}}
-<script src="{{=URL('static', 'js/vue.js')}}"></script>
-<script>
-    var posts_url = "{{=URL('api', 'get_posts')}}";
-    var add_post_url = "{{=URL('api', 'add_post', user_signature=True)}}";
-    var del_post_url = "{{=URL('api', 'del_post', user_signature=True)}}";
-    var edit_post_url = "{{=URL('api', 'edit_post', user_signature=True)}}";
-    var search_post_url = "{{=URL('api', 'search_posts')}}";
-</script>
-{{end}}
+<!-- Splash Page -->
+<header>
 
-<div class="main_content">
+    <div class="logo">Notemaster</div>
 
-    <h2>NOTEMASTER </h2>
+    <nav>
+        <a href="">About Us</a>
+        <a href="{{=URL('main')}}">Notes</a>
+        <a href="">Organizer</a>
+        <a href="{{=URL('default', 'user', args=['login'])}}">Log In</a>
+    </nav>
 
+    <h1><span>Notemaster</span></h1>
+    <p class="caption">Blah // Blah // Blah</p>
 
-
-
-    <div id="vue-div" class="display:none">
-
-            <div class="search_div threequarters">
-        <input class="search_input" v-model="post_search"/>
-        <button class="btn" v-on:click="do_search"><i class="fa fa-search fa-lg"></i></button>
-          </div>
-
-        <div class="button_bar">
-            <button class="btn btn-danger btn-sm" v-if="!is_adding_or_editing()" v-on:click="add_post_button()"
-                    v-bind:class="{'disabled': !logged_in}">
-                <i class="fa fa-plus"></i>Add new post
-            </button>
-            <button class="btn btn-danger btn-sm" v-if="is_adding_or_editing()" v-on:click="cancel_post_button()">
-                <i class="fa fa-close"></i>Cancel
-            </button>
-        </div>
-
-        <template id="add_post_template" v-if="is_adding_post">
-            <div id="add_post_div">
-                <div id="new_post_text" class="row">
-                    <textarea v-model="form_post_content">
-                    </textarea>
-                </div>
-                <div class="form-group" id="class">
-                    <div>
-                        <input class="form-control string" id="class" name="course" type="text"
-                               v-model="current_course_name" placeholder="Class"/>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-                <div class="form-group" id="topic">
-                    <div>
-                        <input class="form-control string" id="topic" name="album" type="text"
-                               v-model="form_topic_content" placeholder="Topic"/>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-                <div class="form-group" id="tag">
-                    <div>
-                        <input class="form-control string" id="tag" name="album" type="text"
-                               v-model="form_tags_content" placeholder="Tags"/>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-                <div id="add_post_btn" class="row">
-                    <button class="btn btn-danger btn-sm col-md-offset-9" v-on:click="add_post()">
-                        <i class="fa fa-plus"></i>Post
-                    </button>
-                </div>
-            </div>
-        </template>
+</header>
+<!-- End of Splash Page -->
 
 
-        <div class="post_list" v-if="logged_in">
-            <div class="post" v-for="post in posts">
-                <div class="post_listing" v-if="!is_idx_being_edited(post._idx)">
-                    <p class="post-content center-block">
-                        ${post.post_content}
-                    </p>
-                    <p class="post-content center-block" v-model="post.post_topic">
-                        topic: ${post.topic}
-                    </p>
-                    <p class="post-content center-block" v-model="post.post_tags">
-                        tags: ${post.tags}
-                    </p>
-                    <div style="color: blue" class="post_details row">
-                        <div class="col-md-3"> created ${post.created_on}</div>
-                        <!-- add updated_on info if post has been updated since creation -->
-                        <div class="col-md-3" v-if="post.updated_on!=post.created_on">
-                            updated ${post.updated_on}
-                        </div>
-                    </div>
-                    <div class="row_buttons">
-                        <i class="fa fa-trash-o" id="del_post_btn" v-on:click="delete_post(post._idx)"></i>
-                        <i class="fa fa-pencil" id="edit_post_btn" v-on:click="edit_post_button(post._idx)"
-                           v-bind:class="{'disabled': is_adding_post}"></i>
-                    </div>
-                </div>
-
-                <template id="edit_post_template" v-if="is_idx_being_edited(post._idx)">
-                    <div id="edit_post_div">
-                        <div id="edit_post_text" class="row">
-                            <textarea v-model="form_edit_content">
-                            </textarea>
-                        </div>
-                        <div id="post_changes_btn" class="row">
-                            <button class="btn btn-danger btn-sm col-md-offset-9" v-on:click="edit_post()">
-                                <i class="fa fa-plus"></i>Post changes
-                            </button>
-                        </div>
-                    </div>
-                </template>
-
-            </div>
-
-            <div v-if="has_more" class="load_more">
-                <button class="btn btn-default" v-on:click="load_more()">Load more</button>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<script src="{{=URL('static', 'js/default_index.js')}}"></script>
 

@@ -1,0 +1,71 @@
+header {
+    height: 450px;
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.50),
+            rgba(0, 0, 0, 0.50)
+        ),
+        url(http://gratisography.com/pictures/346_1.jpg)
+        no-repeat center;
+    background-size: cover;
+
+}
+
+header .logo {
+    float: left;
+    margin: 15px 0 0 30px;
+    display: inline-block;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 0.2em 0.5em;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+
+header nav {
+    float: right;
+    margin: 30px 30px 0 0;
+}
+
+header nav a {
+    display: inline-block;
+    margin-left: 20px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+header nav a:hover {
+    color: rgba(0, 0, 0, 1);
+    text-decoration: none;
+}
+
+header h1 {
+    text-align: center;
+    font-size: 72px;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    clear: both;
+    padding-top: 100px;
+}
+
+header h1 span {
+    display: inline-block;
+    padding: 0.2em 0.5em;
+    border: white solid 10px;
+    text-shadow: none;
+    margin-bottom: 20px;
+}
+
+header .caption {
+    text-align: center;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: white;
+    line-height: 1;
+}

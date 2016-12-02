@@ -24,9 +24,7 @@ div.w2p_flash.alert:hover {
 .ie-lte8 div.w2p_flash:hover {
     filter: alpha(opacity=25);
 }
-.main-container {
-    margin-top: 20px;
-}
+
 
 div.error {
     width: auto;

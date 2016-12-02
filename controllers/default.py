@@ -27,7 +27,9 @@ def index():
     return dict()
 
 
-
+@auth.requires_login()
+def main():
+    return dict()
 
 
 @auth.requires_login()
