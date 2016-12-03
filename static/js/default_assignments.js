@@ -56,9 +56,9 @@ var app = function() {
         });
     };
 
-    self.add_track_button = function () {
+    self.add_assignment_button = function () {
         // The button to add a track has been pressed.
-        self.vue.is_adding_track = !self.vue.is_adding_track;
+        self.vue.is_adding_assignment = !self.vue.is_adding_assignment;
     };
 
     self.add_assignment = function () {
@@ -137,7 +137,7 @@ var app = function() {
             assignment_name: null,
             assignment_description: null,
             due: null,
-            is_adding_track: false,
+            is_adding_assignment: false,
             tracks: [],
             logged_in: false,
             has_more: false,
@@ -153,7 +153,7 @@ var app = function() {
         },
         methods: {
             get_more: self.get_more,
-            add_track_button: self.add_track_button,
+            add_assignment_button: self.add_assignment_button,
             add_assignment: self.add_assignment,
             delete_track: self.delete_track,
             select_track: self.select_track,
