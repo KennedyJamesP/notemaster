@@ -20,14 +20,14 @@
     <div id="vue-div" class="display:none">
 
         <!-- Splash Page -->
-        <div v-if="page=='splash'">
+        <div v-if="page=='splash'" id="splash_page">
             <header>
 
             <div class="logo">Notemaster</div>
 
             <nav>
                 <a href="">About Us</a>
-                <a href="{{=URL('main')}}">Notes</a>
+                <a v-on:click="goto('notebook')">Notes</a>
                 <a href="">Organizer</a>
                 <a href="{{=URL('default', 'user', args=['login'])}}">Log In</a>
             </nav>
@@ -39,7 +39,7 @@
         </div>
         <!-- End of Splash Page -->
 
-        <div id="notebook-div" v-if="page=='notebook'">
+        <div v-if="page=='notebook'" id="notebook_page" >
 
             <h2>NOTEMASTER</h2>
             <div id="main-container" class="container-fluid">
@@ -49,7 +49,7 @@
                 <div id="sidebar-closed" class="col-md-1 post"  v-if="!is_sidebar_open">
                         <i class="fa fa-large fa-chevron-circle-right" v-on:click="sidebar_collapse_btn()"></i>
                 </div>
-                <div id="sidebar-open" class="col-md-2 post"  v-if="is_sidebar_open">
+                <div id="sidebar-open" class="col-md-3 post"  v-if="is_sidebar_open">
                     <button class="btn btn-danger btn-sm" v-on:click="sidebar_collapse_btn()">
                         <i class="fa fa-large fa-chevron-circle-left"></i>Collapse
                     </button>

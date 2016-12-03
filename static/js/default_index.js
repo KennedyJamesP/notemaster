@@ -195,6 +195,12 @@ var app = function () {
         self.vue.is_sidebar_open = !self.vue.is_sidebar_open;
     }
 
+
+    self.goto = function (page_name) {
+        //changes the current page to the one specified
+        self.vue.page = page_name;
+    }
+
     self.vue = new Vue({
         el: "#vue-div",
         delimiters: ['${', '}'],
@@ -215,6 +221,7 @@ var app = function () {
             form_tags_content: null,
             user_email: null,
             post_search: "",
+            page:"splash"
         },
         methods: {
             load_more: self.load_more,
@@ -228,9 +235,10 @@ var app = function () {
             delete_post: self.delete_post,
             do_search:self.do_search,
             sidebar_collapse_btn:self.sidebar_collapse_btn,
+            goto:self.goto,
         }
 
-    });
+    })
 
 
     self.get_posts();
