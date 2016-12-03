@@ -1,0 +1,104 @@
+{{extend 'layout.html'}}
+
+{{block head}}
+<script src="{{=URL('static', 'js/vue.js')}}"></script>
+<script>
+    var tracks_url = "{{=URL('api', 'get_tracks')}}";
+    var add_track_url = "{{=URL('api', 'add_track', user_signature=True)}}";
+    var del_track_url = "{{=URL('api', 'del_track', user_signature=True)}}";
+    var upload_url = "{{=URL('api', 'upload_track')}}";
+    var play_url = "{{=URL('api', 'play_track')}}";
+    var delete_file_url = "{{=URL('api', 'delete_music')}}";
+</script>
+
+{{end}}
+
+<div class="main_content">
+
+
+
+    <div id="vue-div" style="display:none">
+
+
+        <div class="button_bar">
+            <button v-if="!is_adding_track" class="btn btn-danger btn-sm" v-on:click="add_track_button()" v-bind:class="{'disabled': !logged_in}">
+                <i class="fa fa-plus"></i>Add new assignment
+            </button>
+            <button v-if="is_adding_track" class="btn btn-warning btn-sm" v-on:click="add_track_button()">
+                <i class="btn btn-danger btn-sm"></i>Add new assignment
+            </button>
+        </div>
+
+
+
+        <div v-if="is_adding_track" id="add_track_div">
+            <form action="#" v-on:submit.prevent="add_track" class="form-horizontal" enctype="multipart/form-data" method="post">
+                <div class="form-group" id="no_table_artist__row">
+                    <div>
+                        <input class="form-control string" id="no_table_artist" v-model="form_artist" placeholder="Artist" type="text" />
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group" id="no_table_album__row">
+                    <div>
+                        <input class="form-control string" id="no_table_album" name="album" type="text" v-model="form_album" placeholder="Album"/>
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group" id="no_table_track__row">
+                    <div><input class="form-control string" id="no_table_track" name="track" type="text" v-model="form_track" placeholder="Track"/>
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group" id="no_table_duration__row">
+                    <div><input class="form-control string" id="no_table_duration" name="duration" type="text" v-model="form_duration" placeholder="Duration in seconds" />
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group" id="submit_record__row">
+                    <div>
+                        <input class="btn btn-primary" id="add_track_submit" type="submit" value="Submit" />
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="result_table">
+            <table>
+                <thead>
+                <tr>
+                    <th></th>
+                    <th v-on:click="toggle_sort('artist')"><i class="fa" v-bind:class="{'fa-sort-up': is_sort_up.artist, 'fa-sort-down': is_sort_down.artist, 'fa-sort': !(is_sort_up.artist || is_sort_down.artist)}"></i>Artist</th>
+                    <th>Album</th>
+                    <th v-on:click="toggle_sort('track')"><i class="fa" v-bind:class="{'fa-sort-up': is_sort_up.track, 'fa-sort-down': is_sort_down.track, 'fa-sort': !(is_sort_up.track || is_sort_down.track)}"></i>Track</th>
+                    <th>Duration</th>
+                    <th>Rating</th>
+                    <th>N Plays</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="track in tracks">
+                    <td><i class="fa" v-on:click="select_track(track._idx)" v-bind:class="{'fa-volume-up': track.id == selected_id, 'fa-volume-off': !(track.id == selected_id)}"></i></td>
+                    <td>${track.artist}</td>
+                    <td>${track.album}</td>
+                    <td>${track.title}</td>
+                    <td>${track.duration}</td>
+                    <td>${track.rating}</td>
+                    <td>${track.num_plays}</td>
+                    <td><i class="fa fa-trash-o" v-on:click="delete_track(track._idx)"></i></td>
+                </tr>
+                </tbody>
+            </table>
+            <div v-if="has_more" class="show_more">
+                <button class="btn btn-default" v-on:click="get_more()">Load more</button></div>
+        </div>
+    </div>
+
+
+</div>
+
+</div>
+
+<script src="{{=URL('static', 'js/default_assignments.js')}}"></script>
+
