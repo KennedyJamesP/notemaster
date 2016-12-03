@@ -129,11 +129,6 @@ var app = function() {
             tracks: [],
             logged_in: false,
             has_more: false,
-            form_artist: null,
-            form_track: null,
-            form_album: null,
-            form_duration: null,
-            selected_id: -1,  // Track selected to play.
             selected_idx: null,
             selected_url: null,
             is_sort_up: {'artist': false, 'track': false},

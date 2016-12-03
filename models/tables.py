@@ -70,5 +70,9 @@ db.definitions.post_id.requires = IS_NOT_EMPTY()
 db.definitions.subject_name.requires = IS_NOT_EMPTY()
 db.definitions.subject_definition.requires = IS_NOT_EMPTY()
 
+db.assignments.user_email.readable = db.assignments.user_email.writable = False
+
+
+
 # after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
