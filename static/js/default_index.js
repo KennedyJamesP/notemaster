@@ -69,7 +69,6 @@ var app = function () {
                 self.vue.has_more = data.has_more;
                 self.vue.logged_in = data.logged_in;
                 self.vue.user_email = data.user_email;
-                self.vue.current_course_id = data.course_id; //not sure if working
                 enumerate_and_sort(self.vue.posts);
             }
         );
@@ -191,13 +190,19 @@ var app = function () {
         }
     };
 
+    //toggles the expanded/collapsed view of the sidebar
+    self.sidebar_collapse_btn = function () {
+        self.vue.is_sidebar_open = !self.vue.is_sidebar_open;
+    }
+
     self.vue = new Vue({
         el: "#vue-div",
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
-            is_adding_post: false,
+            is_adding_post: true,
             is_editing_post: false,
+            is_sidebar_open: false,
             idx_to_edit: null,
             posts: [],
             logged_in: false,
@@ -221,13 +226,14 @@ var app = function () {
             add_post: self.add_post,
             edit_post: self.edit_post,
             delete_post: self.delete_post,
-            do_search:self.do_search
+            do_search:self.do_search,
+            sidebar_collapse_btn:self.sidebar_collapse_btn,
         }
 
     });
 
+
     self.get_posts();
-    self.do_search();
     $("#vue-div").show();
 
 

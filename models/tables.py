@@ -11,7 +11,7 @@ import datetime
 
 db.define_table('courses',
                 Field('user_email', default=auth.user.email if auth.user_id else None),
-                Field('course_name', 'text'),
+                Field('course_name', 'text', unique=True),
                 Field('created_on', 'datetime', default=datetime.datetime.utcnow()),
                 Field('last_used', 'datetime', update=datetime.datetime.utcnow()),
                 )
@@ -44,6 +44,7 @@ db.courses.user_email.readable = db.courses.user_email.writable = False
 db.courses.created_on.readable = db.courses.created_on.writable = False
 db.courses.last_used.readable = db.courses.last_used.writable = False
 db.courses.course_name.requires = IS_NOT_EMPTY()
+db.courses.course_name.requires = IS_NOT_IN_DB(db, db.courses)
 
 db.post.user_email.readable = db.post.user_email.writable = False
 db.post.created_on.readable = db.post.created_on.writable = False

@@ -4,6 +4,8 @@
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script>
     var posts_url = "{{=URL('api', 'get_posts')}}";
+    var get_courses_url = "{{=URL('api', 'get_courses', user_signature=True)}}";
+    var add_course_url = "{{=URL('api', 'add_course', user_signature=True)}}";
     var add_post_url = "{{=URL('api', 'add_post', user_signature=True)}}";
     var del_post_url = "{{=URL('api', 'del_post', user_signature=True)}}";
     var edit_post_url = "{{=URL('api', 'edit_post', user_signature=True)}}";
@@ -11,115 +13,197 @@
 </script>
 {{end}}
 
-<div class="main_content">
+
+<div class="main_content container-fluid">
 
     <h2>NOTEMASTER </h2>
 
-
-
-
     <div id="vue-div" class="display:none">
+        <div id="main-container" class="container-fluid">
+            <div id="main-row" class="row">
 
-            <div class="search_div threequarters">
-        <input class="search_input" v-model="post_search"/>
-        <button class="btn" v-on:click="do_search"><i class="fa fa-search fa-lg"></i></button>
-          </div>
-
-        <div class="button_bar">
-            <button class="btn btn-danger btn-sm" v-if="!is_adding_or_editing()" v-on:click="add_post_button()"
-                    v-bind:class="{'disabled': !logged_in}">
-                <i class="fa fa-plus"></i>Add new post
-            </button>
-            <button class="btn btn-danger btn-sm" v-if="is_adding_or_editing()" v-on:click="cancel_post_button()">
-                <i class="fa fa-close"></i>Cancel
-            </button>
-        </div>
-
-        <template id="add_post_template" v-if="is_adding_post">
-            <div id="add_post_div">
-                <div id="new_post_text" class="row">
-                    <textarea v-model="form_post_content">
-                    </textarea>
+                <div id="sidebar-closed" class="col-md-1 post"  v-if="!is_sidebar_open">
+                        <i class="fa fa-large fa-chevron-circle-right" v-on:click="sidebar_collapse_btn()"></i>
                 </div>
-                <div class="form-group" id="class">
-                    <div>
-                        <input class="form-control string" id="class" name="course" type="text"
-                               v-model="current_course_name" placeholder="Class"/>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-                <div class="form-group" id="topic">
-                    <div>
-                        <input class="form-control string" id="topic" name="album" type="text"
-                               v-model="form_topic_content" placeholder="Topic"/>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-                <div class="form-group" id="tag">
-                    <div>
-                        <input class="form-control string" id="tag" name="album" type="text"
-                               v-model="form_tags_content" placeholder="Tags"/>
-                        <span class="help-block"></span>
-                    </div>
-                </div>
-                <div id="add_post_btn" class="row">
-                    <button class="btn btn-danger btn-sm col-md-offset-9" v-on:click="add_post()">
-                        <i class="fa fa-plus"></i>Post
+                <div id="sidebar-open" class="col-md-2 post"  v-if="is_sidebar_open">
+                    <button class="btn btn-danger btn-sm" v-on:click="sidebar_collapse_btn()">
+                        <i class="fa fa-large fa-chevron-circle-left"></i>Collapse
                     </button>
+                    <ul class="menuDropdown large-text">
+                          <li class="menuDropdownList" id="menu-userinfo">
+                            <div class="menuLabel font-soft-semibold" tabindex="0">
+                                <button class="btn"><i class="fa fa-book fa-lg"></i> Web Applications </button>
+                            </div>
+                            <ul class="innerDropdown medium-text font-soft-regular">
+                                <li class="innerDropdownList" id="messagesSubMenu" tabindex="-1">
+                                    <button class="btn btn-block" ><i class="fa fa-file"></i> Messages </button>
+                                </li>
+                                <li class="innerDropdownList" id="notificationsSubMenu" data-ember-action="1149" tabindex="-1">
+                                    <button class="btn btn-block" ><i class="fa fa-plus"></i> Notifications </button>
+                                </li>
+                                <li class="innerDropdownList" id="settingsSubMenu" data-ember-action="1151" tabindex="-1">
+                                    <button class="btn" ><i class="fa fa-plus"></i> My Account </button>
+                                </li>
+                                <li class="innerDropdownList" id="helpSubMenu" data-ember-action="1153" tabindex="-1">
+                                    <button class="btn" ><i class="fa fa-plus"></i> Help </button>
+                                </li>
+                                <li class="innerDropdownList" id="signoutSubMenu" data-ember-action="1155" tabindex="-1">
+                                    <button class="btn" ><i class="fa fa-plus"></i> LogOut </button>
+
+                                </li>
+                            </ul>
+                          </li>
+                          <li class="menuDropdownList" id="menu-userinfo">
+                            <div class="menuLabel font-soft-semibold" tabindex="0" data-ember-action="1145">
+                                <button class="btn" v-on:click="do_search"><i class="fa fa-book fa-lg"></i> Web Applications </button>
+                            </div>
+                            <ul class="innerDropdown medium-text font-soft-regular">
+                                <li class="innerDropdownList" id="messagesSubMenu" data-ember-action="1147" tabindex="-1">
+                                    <button class="btn" ><i class="fa fa-file"></i> Messages </button>
+                                </li>
+                                <li class="innerDropdownList" id="notificationsSubMenu" data-ember-action="1149" tabindex="-1">
+                                    <button class="btn" ><i class="fa fa-plus"></i> Notifications </button>
+                                </li>
+                                <li class="innerDropdownList" id="settingsSubMenu" data-ember-action="1151" tabindex="-1">
+                                    <button class="btn" ><i class="fa fa-plus"></i> My Account </button>
+                                </li>
+                                <li class="innerDropdownList" id="helpSubMenu" data-ember-action="1153" tabindex="-1">
+                                    <button class="btn" ><i class="fa fa-plus"></i> Help </button>
+                                </li>
+                                <li class="innerDropdownList" id="signoutSubMenu" data-ember-action="1155" tabindex="-1">
+                                    <button class="btn" ><i class="fa fa-plus"></i> LogOut </button>
+
+                                </li>
+                            </ul>
+                          </li>
+                          <li class="menuDropdownList" id="menu-userinfo">
+                            <div class="menuLabel font-soft-semibold" tabindex="0" data-ember-action="1145">
+                                <button class="btn" v-on:click="do_search"><i class="fa fa-book fa-lg"></i> Web Applications </button>
+                            </div>
+                            <ul class="innerDropdown medium-text font-soft-regular">
+                                <li class="innerDropdownList" id="messagesSubMenu" data-ember-action="1147" tabindex="-1">
+                                    <button class="btn" ><i class="fa fa-file"></i> Messages </button>
+                                </li>
+                                <li class="innerDropdownList" id="notificationsSubMenu" data-ember-action="1149" tabindex="-1">
+                                    <button class="btn" ><i class="fa fa-plus"></i> Notifications </button>
+                                </li>
+                                <li class="innerDropdownList" id="settingsSubMenu" data-ember-action="1151" tabindex="-1">
+                                    <button class="btn" ><i class="fa fa-plus"></i> My Account </button>
+                                </li>
+                                <li class="innerDropdownList" id="helpSubMenu" data-ember-action="1153" tabindex="-1">
+                                    <button class="btn" ><i class="fa fa-plus"></i> Help </button>
+                                </li>
+                                <li class="innerDropdownList" id="signoutSubMenu" data-ember-action="1155" tabindex="-1">
+                                    <button class="btn" ><i class="fa fa-plus"></i> LogOut </button>
+
+                                </li>
+                            </ul>
+                          </li>
+
+                        </ul>
                 </div>
-            </div>
-        </template>
 
+                <div id="main_panel" class="post col-md-9 container-fluid">
+                <div class="search_div row">
+                    <input class="search_input col-md-9" v-model="post_search"/>
+                    <button class="btn" v-on:click="do_search"><i class="fa fa-search fa-lg"></i></button>
+                </div>
 
-        <div class="post_list" v-if="logged_in">
-            <div class="post" v-for="post in posts">
-                <div class="post_listing" v-if="!is_idx_being_edited(post._idx)">
-                    <p class="post-content center-block">
-                        ${post.post_content}
-                    </p>
-                    <p class="post-content center-block" v-model="post.post_topic">
-                        topic: ${post.topic}
-                    </p>
-                    <p class="post-content center-block" v-model="post.post_tags">
-                        tags: ${post.tags}
-                    </p>
-                    <div style="color: blue" class="post_details row">
-                        <div class="col-md-3"> created ${post.created_on}</div>
-                        <!-- add updated_on info if post has been updated since creation -->
-                        <div class="col-md-3" v-if="post.updated_on!=post.created_on">
-                            updated ${post.updated_on}
+                <!--div class="button_bar">TODO: decide what to do with these add post/cancel buttons
+                    <button class="btn btn-danger btn-sm" v-if="!is_adding_or_editing()" v-on:click="add_post_button()"
+                            v-bind:class="{'disabled': !logged_in}">
+                        <i class="fa fa-plus"></i>Add new post
+                    </button>
+                    <button class="btn btn-danger btn-sm" v-if="is_adding_or_editing()" v-on:click="cancel_post_button()">
+                        <i class="fa fa-close"></i>Cancel
+                    </button>
+                </div-->
+
+                <div class="post_list row" v-if="logged_in">
+                    <div class="post" v-for="post in posts">
+                        <div class="post_listing" v-if="!is_idx_being_edited(post._idx)">
+                            <p class="post-content center-block">
+                                ${post.post_content}
+                            </p>
+                            <p class="post-content center-block">
+                                topic: ${post.topic}
+                            </p>
+                            <p class="post-content center-block">
+                                tags: ${post.tags}
+                            </p>
+                            <div style="color: blue" class="post_details row">
+                                <div class="col-md-3"> created ${post.created_on}</div>
+                                <!-- add updated_on info if post has been updated since creation -->
+                                <div class="col-md-3" v-if="post.updated_on!=post.created_on">
+                                    updated ${post.updated_on}
+                                </div>
+                            </div>
+                            <div class="row_buttons">
+                                <i class="fa fa-trash-o" id="del_post_btn" v-on:click="delete_post(post._idx)"></i>
+                                <i class="fa fa-pencil" id="edit_post_btn" v-on:click="edit_post_button(post._idx)"
+                                   v-bind:class="{'disabled': is_adding_post}"></i>
+                            </div>
                         </div>
+
+                        <template id="edit_post_template" v-if="is_idx_being_edited(post._idx)">
+                            <div id="edit_post_div">
+                                <div id="edit_post_text" class="row">
+                                    <textarea v-model="form_edit_content">
+                                    </textarea>
+                                </div>
+                                <div id="post_changes_btn" class="row">
+                                    <button class="btn btn-danger btn-sm col-md-offset-9" v-on:click="edit_post()">
+                                        <i class="fa fa-plus"></i>Post changes
+                                    </button>
+                                </div>
+                            </div>
+                        </template>
+
                     </div>
-                    <div class="row_buttons">
-                        <i class="fa fa-trash-o" id="del_post_btn" v-on:click="delete_post(post._idx)"></i>
-                        <i class="fa fa-pencil" id="edit_post_btn" v-on:click="edit_post_button(post._idx)"
-                           v-bind:class="{'disabled': is_adding_post}"></i>
+
+                    <div v-if="has_more" class="load_more">
+                        <button class="btn btn-default" v-on:click="load_more()">Load more</button>
                     </div>
                 </div>
-
-                <template id="edit_post_template" v-if="is_idx_being_edited(post._idx)">
-                    <div id="edit_post_div">
-                        <div id="edit_post_text" class="row">
-                            <textarea v-model="form_edit_content">
+                <template id="add_post_template" v-if="is_adding_post">
+                    <div id="add_post_div" class="row">
+                        <div id="new_post_text" class="row">
+                            <textarea v-model="form_post_content" class="center-block" rows="5">
                             </textarea>
                         </div>
-                        <div id="post_changes_btn" class="row">
-                            <button class="btn btn-danger btn-sm col-md-offset-9" v-on:click="edit_post()">
-                                <i class="fa fa-plus"></i>Post changes
+                        <div class="form-group" id="class">
+                            <div>
+                                <input class="form-control string" id="class" name="course" type="text"
+                                       v-model="current_course_name" placeholder="Class"/>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" id="topic">
+                            <div>
+                                <input class="form-control string" id="topic" name="album" type="text"
+                                       v-model="form_topic_content" placeholder="Topic"/>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" id="tag">
+                            <div>
+                                <input class="form-control string" id="tag" name="album" type="text"
+                                       v-model="form_tags_content" placeholder="Tags"/>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div id="add_post_btn" class="row">
+                            <button class="btn btn-danger btn-sm col-md-offset-9" v-on:click="add_post()">
+                                <i class="fa fa-plus"></i>Post
                             </button>
                         </div>
                     </div>
                 </template>
 
             </div>
-
-            <div v-if="has_more" class="load_more">
-                <button class="btn btn-default" v-on:click="load_more()">Load more</button>
             </div>
         </div>
     </div>
-
 </div>
-
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
 

@@ -21,3 +21,17 @@
   -webkit-border-radius: 16px;
   border-radius: 16px;
 }
+
+.leftMenu.active {
+    width: 290px;
+    transition: width .3s ease-in;
+}
+.layoutWrapper .leftMenu {
+    background-color: #292929;
+    display: table-cell;
+    vertical-align: top;
+    width: 54px;
+    transition: width .3s ease-out;
+    position: relative;
+    z-index: 0;
+}

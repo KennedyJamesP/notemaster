@@ -19,23 +19,13 @@ def get_posts():
     posts = []
     has_more = False
     # TODO: change query once courses data entered into db
-    # post_db_rows = db((db.post.user_email == auth.user.email) & (db.courses.id == selected_course_id))\
-    #    .select(db.post.ALL, db.courses.course_name, limitby=(start_idx, end_idx + 1), orderby=~db.post.created_on)
+    # post_db_rows = db((db.post.user_email == auth.user.email) & (db.post.course_id == selected_course_id))\
+    #    .select(db.post.ALL,  limitby=(start_idx, end_idx + 1), orderby=~db.post.created_on)
     post_db_rows = db((db.post.user_email == auth.user.email)).select(db.post.ALL, limitby=(start_idx, end_idx + 1), orderby=~db.post.updated_on)
 
     for i, r in enumerate(post_db_rows):
         if i < end_idx - start_idx:
-            p = dict(
-                id=r.id,
-                post_content=r.post_content,
-                created_on=r.created_on,
-                updated_on=r.updated_on,
-                #TODO: include course_name once courses data entered into db
-                # course_name=r.course_name,
-                topic=r.topic,
-                tags=r.tags,
-                course_id=r.course_id,
-            )
+            p = generate_post(r)
             posts.append(p)
         else:
             has_more = True
@@ -67,20 +57,10 @@ def search_posts():
     print rows
 
     for i, r in enumerate(rows):
-            p = dict(
-                id = r.id,
-                post_content = r.post_content,
-                author_email = r.user_email,
-                author_name = get_user_name_from_email(r.user_email),
-                created_on =r.created_on,
-                updated_on=r.updated_on,
-                class_content=r.course_id,
-                topic_content=r.topic,
-                tags_content=r.tags,
-            )
-            print "post p is: "
-            print (p) #debug
-            posts.append(p)
+        p = generate_post(r)
+        print "post p is: "
+        print (p) #debug
+        posts.append(p)
     logged_in = auth.user_id is not None
     user_email = auth.user.email if logged_in else None
     print p
@@ -101,17 +81,7 @@ def add_post():
         course_id=request.vars.course_id
     )
     p_raw = db.post(post_id)
-    p = dict(
-        id=p_raw.id,
-        post_content=p_raw.post_content,
-        author_email=p_raw.user_email,
-        author_name=get_user_name_from_email(p_raw.user_email),
-        created_on=p_raw.created_on,
-        updated_on=p_raw.updated_on,
-        course_id=p_raw.course_id,
-        topic=p_raw.topic,
-        tags=p_raw.tags,
-    )
+    p = generate_post(p_raw)
     return response.json(dict(post=p))
 
 
@@ -128,14 +98,63 @@ def edit_post():
     post.update_record(post_content=request.vars.post_content)
 
     p_raw = db.post(request.vars.post_id)
-    p = dict(
-        id=p_raw.id,
-        post_content=p_raw.post_content,
-        author_email=p_raw.user_email,
-        author_name=get_user_name_from_email(p_raw.user_email),
-        created_on=p_raw.created_on,
-        updated_on=p_raw.updated_on,
-    )
+    p = generate_post(p_raw)
     return response.json(dict(post=p))
 
 
+@auth.requires_signature()
+def add_course():
+    """adds a course name to the database and returns the course ID. course name must not match any existing name"""
+    post_id = db.courses.insert(
+        course_name=request.vars.course_name
+    )
+    new_row = db.courses(post_id)
+    c = dict(
+        course_name=new_row.course_name,
+        created_on=new_row.created_on,
+        last_used=new_row.last_used
+    )
+
+    return response.json(dict(course=c))
+
+
+@auth.requires_login()
+def get_courses():
+    """returns the list of courses for the current user"""
+    courses = []
+    course_db_rows = db((db.courses.user_email == auth.user.email)).select(db.courses.ALL, orderby=~db.courses.last_used)
+
+    for r in course_db_rows:
+        course = generate_course(r)
+        courses.append(course)
+
+    return response.json(dict(
+        courses=courses
+    ))
+
+
+def generate_post(post_db_row):
+    """generate a post dictionary from a post db row entry"""
+    p = dict(
+        id=post_db_row.id,
+        post_content=post_db_row.post_content,
+        author_email=post_db_row.user_email,
+        author_name=get_user_name_from_email(post_db_row.user_email),
+        created_on=post_db_row.created_on,
+        updated_on=post_db_row.updated_on,
+        course_id=post_db_row.course_id,
+        topic=post_db_row.topic,
+        tags=post_db_row.tags,
+    )
+    return p
+
+
+def generate_course(courses_db_row):
+    """generate a course dictionary from a courses db row entry"""
+    c = dict(
+        course_name=courses_db_row.course_name,
+        created_on=courses_db_row.created_on,
+        last_used=courses_db_row.last_used,
+        course_id=courses_db_row.id,
+    )
+    return c
