@@ -180,6 +180,5 @@ def add_assignments():
     print request.vars.due
     print request.vars.assignment_name
     print request.vars.assignment_definition
-    print t_id
     t = db.assignments(t_id)
     return response.json(dict(track=t))

@@ -25,7 +25,7 @@ def index():
 
     #search_posts("John")
     #getDaysApart(2016,12,25)
-    redirect(URL('default', 'assignments'))
+    #redirect(URL('default', 'assignments'))
     return dict()
 
 
