@@ -56,15 +56,6 @@
 
         <div class="result_table">
             <table>
-                <thead>
-                <tr>
-                    <th></th>
-                    <th v-on:click="toggle_sort('artist')"><i class="fa" v-bind:class="{'fa-sort-up': is_sort_up.artist, 'fa-sort-down': is_sort_down.artist, 'fa-sort': !(is_sort_up.artist || is_sort_down.artist)}"></i>Artist</th>
-                    <th>Album</th>
-                    <th v-on:click="toggle_sort('track')"><i class="fa" v-bind:class="{'fa-sort-up': is_sort_up.track, 'fa-sort-down': is_sort_down.track, 'fa-sort': !(is_sort_up.track || is_sort_down.track)}"></i>Track</th>
-                    <th></th>
-                </tr>
-                </thead>
                 <tbody>
                 <tr v-for="track in tracks">
                     <td><i class="fa" v-on:click="select_track(track._idx)" v-bind:class="{'fa-volume-up': track.id == selected_id, 'fa-volume-off': !(track.id == selected_id)}"></i></td>

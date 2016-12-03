@@ -115,18 +115,6 @@ var app = function() {
         }
     }
 
-    self.toggle_sort = function (col) {
-        // Toggle the sort for a given column.
-        // The default is to sort down (from largest to smallest).
-        var is_down = self.vue.is_sort_down[col];
-        reset_sort();
-        if (is_down) {
-            self.vue.is_sort_up[col] = true;
-        } else {
-            self.vue.is_sort_down[col] = true;
-        }
-        self.get_tracks();
-    };
 
 
     self.vue = new Vue({
@@ -157,7 +145,6 @@ var app = function() {
             add_assignment: self.add_assignment,
             delete_track: self.delete_track,
             select_track: self.select_track,
-            toggle_sort: self.toggle_sort
         }
 
     });
