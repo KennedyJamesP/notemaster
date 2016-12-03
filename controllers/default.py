@@ -24,6 +24,7 @@ def index():
     """
 
     #search_posts("John")
+    #getDaysApart(2016,12,25)
     return dict()
 
 

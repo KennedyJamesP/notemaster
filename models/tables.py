@@ -39,6 +39,13 @@ db.define_table('definitions',
                 Field('subject_definition', 'text'),
                 )
 
+
+db.define_table('assignments',
+                Field('due', 'date'),
+                Field('assignment_name', 'text'),
+                Field('assignment_definition', 'text'),
+                )
+
 # I don't want to display the user email by default in all forms.
 db.courses.user_email.readable = db.courses.user_email.writable = False
 db.courses.created_on.readable = db.courses.created_on.writable = False

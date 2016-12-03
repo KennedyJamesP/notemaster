@@ -158,3 +158,12 @@ def generate_course(courses_db_row):
         course_id=courses_db_row.id,
     )
     return c
+
+
+def getDaysApart(year, month, day):
+    import datetime
+    today = datetime.date.today()
+    someday = datetime.date(year, month, day)
+    diff = someday - today
+    print diff.days
+    return diff
