@@ -61,17 +61,16 @@ var app = function() {
         self.vue.is_adding_track = !self.vue.is_adding_track;
     };
 
-    self.add_track = function () {
+    self.add_assignment = function () {
         // The submit button to add a track has been added.
-        $.post(add_track_url,
+        $.post(add_assignment_url,
             {
-                artist: self.vue.form_artist,
-                title: self.vue.form_track,
-                album: self.vue.form_album,
-                duration: self.vue.form_duration
+                assignment_name: self.vue.assignment_name,
+                assignment_definition: self.vue.assignment_description,
+                due: self.vue.due,
             },
             function (data) {
-                $.web2py.enableElement($("#add_track_submit"));
+                $.web2py.enableElement($("#add_assignment"));
                 self.vue.tracks.unshift(data.track);
                 enumerate(self.vue.tracks);
             });
@@ -108,11 +107,6 @@ var app = function() {
         }
     };
 
-    self.uploaded_track = function () {
-        self.vue.tracks[self.vue.selected_idx].has_track = true;
-        self.vue.selected_url = play_url + '?' + $.param({track_id: self.vue.selected_id});
-        $("#uploader_div").hide();
-    };
 
     function reset_sort() {
         for (var i = 0; i < sortable.length; i++) {
@@ -140,6 +134,9 @@ var app = function() {
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
+            assignment_name: null,
+            assignment_description: null,
+            due: null,
             is_adding_track: false,
             tracks: [],
             logged_in: false,
@@ -157,10 +154,9 @@ var app = function() {
         methods: {
             get_more: self.get_more,
             add_track_button: self.add_track_button,
-            add_track: self.add_track,
+            add_assignment: self.add_assignment,
             delete_track: self.delete_track,
             select_track: self.select_track,
-            uploaded_track: self.uploaded_track,
             toggle_sort: self.toggle_sort
         }
 

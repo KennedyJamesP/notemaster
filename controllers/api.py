@@ -167,3 +167,19 @@ def getDaysApart(year, month, day):
     diff = someday - today
     print diff.days
     return diff
+
+
+@auth.requires_signature()
+def add_assignments():
+    print "called add assignment"
+    t_id = db.assignments.insert(
+        due = request.vars.due,
+        assignment_name = request.vars.assignment_name,
+        assignment_definition = request.vars.assignment_definition,
+    )
+    print request.vars.due
+    print request.vars.assignment_name
+    print request.vars.assignment_definition
+    print t_id
+    t = db.assignments(t_id)
+    return response.json(dict(track=t))
