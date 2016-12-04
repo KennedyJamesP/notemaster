@@ -58,7 +58,7 @@
             <table>
                 <tbody>
                 <tr v-for="track in tracks">
-                    <td><i class="fa" v-on:click="select_track(track._idx)" v-bind:class="{'fa-volume-up': track.id == selected_id, 'fa-volume-off': !(track.id == selected_id)}"></i></td>
+                    <td><i class="fa" v-on:click="select_track(track._idx)"></i></td>
                     <td>${track.due}</td>
                     <td>${track.assignment_name}</td>
                     <td>${track.assignment_definition}</td>

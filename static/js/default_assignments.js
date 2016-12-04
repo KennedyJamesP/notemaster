@@ -87,25 +87,6 @@ var app = function() {
         )
     };
 
-    self.select_track = function(track_idx) {
-        var track = self.vue.tracks[track_idx];
-        self.vue.selected_idx = track_idx;
-        self.vue.selected_id = track.id;
-        if (track.has_track) {
-            self.vue.selected_url = play_url + '?' + $.param({track_id: track.id});
-        } else {
-            self.vue.selected_url = null;
-        }
-        // Shows the uploader if we don't have a track url.
-        if (self.vue.selected_url) {
-            $("#uploader_div").hide();
-        } else {
-            // Also sets properly the attribute of the upload form.
-            self.upload_url = upload_url + "?" + $.param({track_id: track.id});
-            self.delete_file_url = delete_file_url + "?" + $.param({track_id: track.id});
-            $("#uploader_div").show();
-        }
-    };
 
 
     function reset_sort() {
@@ -139,7 +120,6 @@ var app = function() {
             add_assignment_button: self.add_assignment_button,
             add_assignment: self.add_assignment,
             delete_track: self.delete_track,
-            select_track: self.select_track,
         }
 
     });
