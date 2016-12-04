@@ -262,6 +262,16 @@ var app = function () {
         return get_assignments_url + "?" + $.param(pp);
     }
 
+
+    function get_past_assignments_function(start_idx, end_idx) {
+        var pp = {
+            start_idx: start_idx,
+            end_idx: end_idx
+        };
+
+        return get_past_assignments_url + "?" + $.param(pp);
+    }
+
     self.get_assignments = function () {
         $.getJSON(get_assignments_function(0, 20), function (data) {
             self.vue.assignments = data.assignments;
@@ -270,6 +280,15 @@ var app = function () {
             sort_by_date(self.vue.assignments);
             enumerate(self.vue.assignments);
             self.vue.assignments.reverse();
+        })
+    };
+
+      self.get_past_assignments = function () {
+        $.getJSON(get_past_assignments_function(0, 20), function (data) {
+            self.vue.past_assignments = data.past_assignments;
+            sort_by_date(self.vue.past_assignments);
+            enumerate(self.vue.past_assignments);
+            self.vue.past_assignments.reverse();
         })
     };
 
@@ -310,10 +329,20 @@ var app = function () {
             },
             function (data) {
                 $.web2py.enableElement($("#add_assignment"));
-                self.vue.assignments.unshift(data.track);
-                sort_by_date(self.vue.assignments);
-                enumerate(self.vue.assignments);
-                self.vue.assignments.reverse();
+                console.log(data);
+                console.log(data.assignment.diff)
+                if(data.assignment.diff <0){
+                    self.vue.past_assignments.unshift(data.assignment);
+                    sort_by_date(self.vue.past_assignments);
+                    enumerate(self.vue.past_assignments);
+                    self.vue.past_assignments.reverse();
+
+                }else {
+                    self.vue.assignments.unshift(data.assignment);
+                    sort_by_date(self.vue.assignments);
+                    enumerate(self.vue.assignments);
+                    self.vue.assignments.reverse();
+                }
             });
 
     };
@@ -359,6 +388,7 @@ var app = function () {
             due: null,
             is_adding_assignment: false,
             assignments: [],
+            past_assignments: [],
             selected_idx: null,
             selected_url: null,
         },
@@ -385,10 +415,11 @@ var app = function () {
         }
     })
 
-
+//these functions automatically get called when the page loads
     self.get_posts();
     self.get_courses();
     self.get_assignments();
+    self.get_past_assignments();
 
     $("#vue-div").show();
 

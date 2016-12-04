@@ -14,6 +14,7 @@
     var get_assignments_url = "{{=URL('api', 'get_assignments')}}";
     var add_assignment_url = "{{=URL('api', 'add_assignments', user_signature=True)}}";
     var del_assignment_url = "{{=URL('api', 'del_assignment', user_signature=True)}}";
+    var get_past_assignments_url = "{{=URL('api', 'get_past_assignments')}}";
 </script>
 {{end}}
 
@@ -106,10 +107,23 @@
         </div>
 
         <div class="result_table">
+            <h2>Upcoming Assignments</h2>
             <table>
                 <tbody>
                 <tr v-for="asgn in assignments">
-                    <td>Name: ${asgn.assignment_name}  &ensp; &ensp;</td>
+                    <td> Name: ${asgn.assignment_name} &ensp; &ensp;</td>
+                    <td>Due: ${asgn.due} &ensp;</td>
+                    <td>Days Remaining: ${asgn.diff} &ensp;</td>
+                    <td>Definition: ${asgn.assignment_definition} &ensp;</td>
+                    <td><i class="fa fa-trash-o" v-on:click="delete_assignment(asgn._idx)"></i></td>
+                </tr>
+                </tbody>
+            </table>
+            <h2>Past Assignments</h2>
+             <table>
+                <tbody>
+                <tr v-for="asgn in past_assignments">
+                    <td> Name: ${asgn.assignment_name} &ensp; &ensp;</td>
                     <td>Due: ${asgn.due} &ensp;</td>
                     <td>Days Remaining: ${asgn.diff} &ensp;</td>
                     <td>Definition: ${asgn.assignment_definition} &ensp;</td>

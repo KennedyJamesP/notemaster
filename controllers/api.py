@@ -191,7 +191,7 @@ def add_assignments():
     print diff.days
     t['diff'] = int(diff.days)
     print "done"
-    return response.json(dict(track=t))
+    return response.json(dict(assignment=t))
 
 
 def get_assignments():
@@ -216,15 +216,16 @@ def get_assignments():
             """
             diff=getDaysApart(slash[0],slash[1],slash[2])
             print diff.days
-            t = dict(
+            if int(diff.days)>0:
+                t = dict(
                 due = r.due,
                 assignment_name = r.assignment_name,
                 assignment_definition = r.assignment_definition,
                 id=r.id,
                 diff=int(diff.days)
-            )
-            print t
-            assignments.append(t)
+                )
+                print t
+                assignments.append(t)
     logged_in = auth.user_id is not None
     print "printing assignments"
     print assignments
@@ -235,6 +236,44 @@ def get_assignments():
         has_more=has_more,
     ))
 
+def get_past_assignments():
+    print "called get_past_assignments"
+    past_assignments = []
+    print "starting rows"
+    rows = db((db.assignments.user_email == auth.user.email)).select(db.assignments.ALL,orderby=db.assignments.due)
+    print rows
+    print "finished rows"
+    # need to calculate how many days until the assignment is due here
+    for i, r in enumerate(rows):
+            # Check if I have a track or not.
+            print "due on: "
+            print r.due
+            slash=str(r.due).split('-') #item 0 is year, item 1 is month, item 2 is day
+            print slash
+            """
+            print slash[0]
+            print slash[1]
+            print slash[2]
+            """
+            diff=getDaysApart(slash[0],slash[1],slash[2])
+            print diff.days
+            if(int(diff.days) <0):
+                t = dict(
+                due = r.due,
+                assignment_name = r.assignment_name,
+                assignment_definition = r.assignment_definition,
+                id=r.id,
+                diff=int(diff.days)
+            )
+                print t
+                past_assignments.append(t)
+    logged_in = auth.user_id is not None
+    print "printing past_assignments"
+    print past_assignments
+
+    return response.json(dict(
+        past_assignments=past_assignments,
+    ))
 
 @auth.requires_signature()
 def del_assignment():
