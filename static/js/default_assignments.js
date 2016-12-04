@@ -20,21 +20,14 @@ var app = function() {
     };
 
     // Sortable fields in table.
-    var sortable = ['due', 'assignment_name'];
+//    var sortable = ['due', 'assignment_name'];
 
     function get_assignments_function(start_idx, end_idx) {
         var pp = {
             start_idx: start_idx,
             end_idx: end_idx
         };
-        for (var i = 0; i < sortable.length; i++) {
-            var k = sortable[i];
-            if (self.vue.is_sort_up[k]) {
-                pp['sort_' + k] = 'up';
-            } else if (self.vue.is_sort_down[k]) {
-                pp['sort_' + k] = 'down';
-            }
-        }
+
         return get_assignments_url + "?" + $.param(pp);
     }
 
@@ -87,13 +80,6 @@ var app = function() {
         )
     };
 
-
-    function reset_sort() {
-        for (var i = 0; i < sortable.length; i++) {
-            self.vue.is_sort_up[sortable[i]] = false;
-            self.vue.is_sort_down[sortable[i]] = false;
-        }
-    }
 
 
     self.vue = new Vue({
