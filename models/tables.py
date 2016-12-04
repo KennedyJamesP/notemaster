@@ -39,6 +39,14 @@ db.define_table('definitions',
                 Field('subject_definition', 'text'),
                 )
 
+
+db.define_table('assignments',
+                Field('user_email', default=auth.user.email if auth.user_id else None),
+                Field('due', 'date'),
+                Field('assignment_name', 'text'),
+                Field('assignment_definition', 'text'),
+                )
+
 # I don't want to display the user email by default in all forms.
 db.courses.user_email.readable = db.courses.user_email.writable = False
 db.courses.created_on.readable = db.courses.created_on.writable = False
@@ -61,6 +69,10 @@ db.definitions.user_email.readable = db.definitions.user_email.writable = False
 db.definitions.post_id.requires = IS_NOT_EMPTY()
 db.definitions.subject_name.requires = IS_NOT_EMPTY()
 db.definitions.subject_definition.requires = IS_NOT_EMPTY()
+
+db.assignments.user_email.readable = db.assignments.user_email.writable = False
+
+
 
 # after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)

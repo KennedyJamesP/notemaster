@@ -22,20 +22,41 @@
         <!-- Splash Page -->
         <div v-if="page=='splash'" id="splash_page">
             <header>
+                <div class="logo">Notemaster</div>
+                <nav>
+                    <a href="">About Us</a>
+                    <a v-on:click="goto('notebook')">Notes</a>
+                    <a href="">Organizer</a>
+                    <a href="{{=URL('default', 'user', args=['login'])}}">Log In</a>
+                </nav>
+                <h1><span>Notemaster</span></h1>
+                <p class="caption">Blah // Blah // Blah</p>
+            </header>
 
-            <div class="logo">Notemaster</div>
+            <div class="about">
+                <h1>What is NoteMaster?</h1>
+                <p>
+                    NoteMaster is an online collaborative learning experience that hosts, organizes,
+                    and provides intelligent learning tools, enabling students to study harder and
+                    study smarter.
+                </p>
+            </div>
 
-            <nav>
-                <a href="">About Us</a>
-                <a v-on:click="goto('notebook')">Notes</a>
-                <a href="">Organizer</a>
-                <a href="{{=URL('default', 'user', args=['login'])}}">Log In</a>
-            </nav>
+            <footer>
+                <div class="lockup">
+                    <div class="logo">Notemaster</div>
+                    <div class="content-wrap">
+                        <nav>
+                            <a href="">About Us</a>
+                            <a href="">FAQ</a>
+                            <a href="">Contact Us</a>
+                            <a href="">Careers</a>
+                        </nav>
+                        <p class="copyright">All content copyright 2016</p>
+                    </div>
+                </div>
+            </footer>
 
-            <h1><span>Notemaster</span></h1>
-            <p class="caption">Blah // Blah // Blah</p>
-
-        </header>
         </div>
         <!-- End of Splash Page -->
 

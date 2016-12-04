@@ -159,3 +159,64 @@ def generate_course(courses_db_row):
         course_id=courses_db_row.id,
     )
     return c
+
+
+def getDaysApart(year, month, day):
+    import datetime
+    today = datetime.date.today()
+    someday = datetime.date(year, month, day)
+    diff = someday - today
+    print diff.days
+    return diff
+
+
+@auth.requires_signature()
+def add_assignments():
+    print "called add assignment"
+    assign = db.assignments.insert(
+        user_email = auth.user.email,
+        due = request.vars.due,
+        assignment_name = request.vars.assignment_name,
+        assignment_definition = request.vars.assignment_definition,
+    )
+    print request.vars.due
+    print request.vars.assignment_name
+    print request.vars.assignment_definition
+    print assign
+    t = db.assignments(assign)
+    print "done"
+    return response.json(dict(track=t))
+
+
+def get_tracks():
+    print "called get tracks"
+    # Gets the variables for the sorting.
+    """
+    if request.vars.sort_artist is not None:
+        orderby = db.track.artist if request.vars.sort_artist == 'up' else ~db.track.artist
+    if request.vars.sort_track is not None:
+        orderby = db.track.title if request.vars.sort_track == 'up' else ~db.track.title
+    """
+    tracks = []
+    has_more = False
+    print "starting rows"
+    rows = db((db.assignments.user_email == auth.user.email)).select(db.assignments.ALL)
+    print rows
+    print "finished rows"
+    for i, r in enumerate(rows):
+            # Check if I have a track or not.
+            t = dict(
+                due = r.due,
+                assignment_name = r.assignment_name,
+                assignment_definition = r.assignment_definition,
+            )
+            print t
+            tracks.append(t)
+    logged_in = auth.user_id is not None
+    print "printing tracks"
+    print tracks
+    return response.json(dict(
+        tracks=tracks,
+        logged_in=logged_in,
+        has_more=has_more,
+    ))
