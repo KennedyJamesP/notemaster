@@ -189,17 +189,10 @@ def add_assignments():
 
 def get_tracks():
     print "called get tracks"
-    # Gets the variables for the sorting.
-    """
-    if request.vars.sort_artist is not None:
-        orderby = db.track.artist if request.vars.sort_artist == 'up' else ~db.track.artist
-    if request.vars.sort_track is not None:
-        orderby = db.track.title if request.vars.sort_track == 'up' else ~db.track.title
-    """
     tracks = []
     has_more = False
     print "starting rows"
-    rows = db((db.assignments.user_email == auth.user.email)).select(db.assignments.ALL)
+    rows = db((db.assignments.user_email == auth.user.email)).select(db.assignments.ALL,orderby=db.assignments.due)
     print rows
     print "finished rows"
     for i, r in enumerate(rows):
@@ -208,6 +201,7 @@ def get_tracks():
                 due = r.due,
                 assignment_name = r.assignment_name,
                 assignment_definition = r.assignment_definition,
+                id=r.id,
             )
             print t
             tracks.append(t)
@@ -219,3 +213,11 @@ def get_tracks():
         logged_in=logged_in,
         has_more=has_more,
     ))
+
+
+@auth.requires_signature()
+def del_track():
+    print "called del_track()"
+    print request.vars.track_id
+    db(db.assignments.id == request.vars.track_id).delete()
+    return "ok"
