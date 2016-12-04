@@ -42,7 +42,7 @@ db.define_table('definitions',
 
 db.define_table('assignments',
                 Field('user_email', default=auth.user.email if auth.user_id else None),
-                Field('due', 'text'),
+                Field('due', 'date'),
                 Field('assignment_name', 'text'),
                 Field('assignment_definition', 'text'),
                 )
