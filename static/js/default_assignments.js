@@ -19,9 +19,6 @@ var app = function() {
         return v.map(function(e) {e._idx = k++;});
     };
 
-    // Sortable fields in table.
-//    var sortable = ['due', 'assignment_name'];
-
     function get_assignments_function(start_idx, end_idx) {
         var pp = {
             start_idx: start_idx,
@@ -36,7 +33,9 @@ var app = function() {
             self.vue.assignments = data.assignments;
             self.vue.has_more = data.has_more;
             self.vue.logged_in = data.logged_in;
+            sort_by_date(self.vue.assignments);
             enumerate(self.vue.assignments);
+            self.vue.assignments.reverse();
         })
     };
 
@@ -48,6 +47,19 @@ var app = function() {
             enumerate(self.vue.assignments);
         });
     };
+
+    var sort_by_date = function (v) {
+        console.log("sort_by_date")
+        v.sort(function (a, b) {
+            if (a.due > b.due)
+                return -1;
+            else if (a.due < b.due)
+                return 1;
+            else
+                return 0;
+        });
+    }
+
 
     self.add_assignment_button = function () {
         // The button to add a track has been pressed.
@@ -96,8 +108,6 @@ var app = function() {
             has_more: false,
             selected_idx: null,
             selected_url: null,
-            is_sort_up: {'artist': false, 'track': false},
-            is_sort_down: {'artist': false, 'track': false}
         },
         methods: {
             get_more: self.get_more,
