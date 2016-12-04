@@ -111,6 +111,7 @@ def add_course():
     new_row = db.courses(post_id)
     c = dict(
         course_name=new_row.course_name,
+        id=new_row.id,
         created_on=new_row.created_on,
         last_used=new_row.last_used
     )

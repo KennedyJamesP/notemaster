@@ -42,7 +42,7 @@
         <div v-if="page=='notebook'" id="notebook_page" >
 
             <h2>NOTEMASTER</h2>
-            <div id="main-container" class="container-fluid">
+            <div id="main-container" class="container">
 
             <div id="main-row" class="row">
 
@@ -50,82 +50,28 @@
                         <i class="fa fa-large fa-chevron-circle-right" v-on:click="sidebar_collapse_btn()"></i>
                 </div>
                 <div id="sidebar-open" class="col-md-3 post"  v-if="is_sidebar_open">
-                    <button class="btn btn-danger btn-sm" v-on:click="sidebar_collapse_btn()">
-                        <i class="fa fa-large fa-chevron-circle-left"></i>Collapse
-                    </button>
-                    <ul class="menuDropdown large-text">
-                          <li class="menuDropdownList" id="menu-userinfo">
-                            <div class="menuLabel font-soft-semibold" tabindex="0">
-                                <button class="btn"><i class="fa fa-book fa-lg"></i> Web Applications </button>
+                    <div id="sidebar-container" class="container">
+                        <div class="row">
+                            <button class="btn btn-danger btn-sm" v-on:click="sidebar_collapse_btn()">
+                                <i class="fa fa-large fa-chevron-circle-left"></i>Collapse
+                            </button>
+                        </div>
+
+
+                        <div id="add_course_row" class ="row">
+                            <input class="string" id="add_course_input" name="New course" type="text"
+                                   v-model="new_course_name" placeholder="Course Name"/>
+                            <button class="btn btn-danger btn-sm" v-on:click="add_course()">
+                                <i class="fa fa-plus"></i>Add
+                            </button>
+                        </div>
+                        <div id="courses_btn_group" class="btn-group btn-group-vertical">
+                            <div v-for="course in courses">
+                                <button class="btn btn-block"><i class="fa fa-book fa-lg"></i>${course.course_name} </button>
                             </div>
-                            <ul class="innerDropdown medium-text font-soft-regular">
-                                <li class="innerDropdownList" id="messagesSubMenu" tabindex="-1">
-                                    <button class="btn btn-block" ><i class="fa fa-file"></i> Messages </button>
-                                </li>
-                                <li class="innerDropdownList" id="notificationsSubMenu" data-ember-action="1149" tabindex="-1">
-                                    <button class="btn btn-block" ><i class="fa fa-plus"></i> Notifications </button>
-                                </li>
-                                <li class="innerDropdownList" id="settingsSubMenu" data-ember-action="1151" tabindex="-1">
-                                    <button class="btn" ><i class="fa fa-plus"></i> My Account </button>
-                                </li>
-                                <li class="innerDropdownList" id="helpSubMenu" data-ember-action="1153" tabindex="-1">
-                                    <button class="btn" ><i class="fa fa-plus"></i> Help </button>
-                                </li>
-                                <li class="innerDropdownList" id="signoutSubMenu" data-ember-action="1155" tabindex="-1">
-                                    <button class="btn" ><i class="fa fa-plus"></i> LogOut </button>
-
-                                </li>
-                            </ul>
-                          </li>
-                          <li class="menuDropdownList" id="menu-userinfo">
-                            <div class="menuLabel font-soft-semibold" tabindex="0" data-ember-action="1145">
-                                <button class="btn" v-on:click="do_search"><i class="fa fa-book fa-lg"></i> Web Applications </button>
-                            </div>
-                            <ul class="innerDropdown medium-text font-soft-regular">
-                                <li class="innerDropdownList" id="messagesSubMenu" data-ember-action="1147" tabindex="-1">
-                                    <button class="btn" ><i class="fa fa-file"></i> Messages </button>
-                                </li>
-                                <li class="innerDropdownList" id="notificationsSubMenu" data-ember-action="1149" tabindex="-1">
-                                    <button class="btn" ><i class="fa fa-plus"></i> Notifications </button>
-                                </li>
-                                <li class="innerDropdownList" id="settingsSubMenu" data-ember-action="1151" tabindex="-1">
-                                    <button class="btn" ><i class="fa fa-plus"></i> My Account </button>
-                                </li>
-                                <li class="innerDropdownList" id="helpSubMenu" data-ember-action="1153" tabindex="-1">
-                                    <button class="btn" ><i class="fa fa-plus"></i> Help </button>
-                                </li>
-                                <li class="innerDropdownList" id="signoutSubMenu" data-ember-action="1155" tabindex="-1">
-                                    <button class="btn" ><i class="fa fa-plus"></i> LogOut </button>
-
-                                </li>
-                            </ul>
-                          </li>
-                          <li class="menuDropdownList" id="menu-userinfo">
-                            <div class="menuLabel font-soft-semibold" tabindex="0" data-ember-action="1145">
-                                <button class="btn" v-on:click="do_search"><i class="fa fa-book fa-lg"></i> Web Applications </button>
-                            </div>
-                            <ul class="innerDropdown medium-text font-soft-regular">
-                                <li class="innerDropdownList" id="messagesSubMenu" data-ember-action="1147" tabindex="-1">
-                                    <button class="btn" ><i class="fa fa-file"></i> Messages </button>
-                                </li>
-                                <li class="innerDropdownList" id="notificationsSubMenu" data-ember-action="1149" tabindex="-1">
-                                    <button class="btn" ><i class="fa fa-plus"></i> Notifications </button>
-                                </li>
-                                <li class="innerDropdownList" id="settingsSubMenu" data-ember-action="1151" tabindex="-1">
-                                    <button class="btn" ><i class="fa fa-plus"></i> My Account </button>
-                                </li>
-                                <li class="innerDropdownList" id="helpSubMenu" data-ember-action="1153" tabindex="-1">
-                                    <button class="btn" ><i class="fa fa-plus"></i> Help </button>
-                                </li>
-                                <li class="innerDropdownList" id="signoutSubMenu" data-ember-action="1155" tabindex="-1">
-                                    <button class="btn" ><i class="fa fa-plus"></i> LogOut </button>
-
-                                </li>
-                            </ul>
-                          </li>
-
-                        </ul>
-                </div>
+                        </div>
+                    </div>
+                </div><!-- end sidebar-->
 
                 <div id="main_panel" class="post col-md-9 container-fluid">
                 <div class="search_div row">
