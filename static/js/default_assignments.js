@@ -79,6 +79,11 @@ var app = function() {
                 self.vue.assignments.unshift(data.track);
                 enumerate(self.vue.assignments);
             });
+        //following lines need work
+            sort_by_date(self.vue.assignments);
+            enumerate(self.vue.assignments);
+            self.vue.assignments.reverse();
+
     };
 
 
