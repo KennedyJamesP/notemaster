@@ -357,7 +357,15 @@ var app = function () {
             }
         )
     };
-
+ self.delete_past_assignment = function(track_idx) {
+        $.post(del_assignment_url,
+            { track_id: self.vue.past_assignments[track_idx].id },
+            function () {
+                self.vue.past_assignments.splice(track_idx, 1);
+                enumerate(self.vue.past_assignments);
+            }
+        )
+    };
 
 
     self.vue = new Vue({
@@ -411,7 +419,7 @@ var app = function () {
             add_assignment_button: self.add_assignment_button,
             add_assignment: self.add_assignment,
             delete_assignment: self.delete_assignment,
-
+            delete_past_assignment: self.delete_past_assignment
         }
     })
 
