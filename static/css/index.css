@@ -9,6 +9,17 @@ header {
         no-repeat center;
     background-size: cover;
 
+}header {
+    height: 450px;
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.50),
+            rgba(0, 0, 0, 0.50)
+        ),
+        url(http://gratisography.com/pictures/346_1.jpg)
+        no-repeat center;
+    background-size: cover;
+
 }
 
 header .logo {
@@ -142,4 +153,22 @@ footer .lockup .content-wrap a {
 footer .lockup .content-wrap a:hover {
     color: rgba(0, 0, 0, 0.7);
     text-decoration: none;
+}
+
+.search_input{
+
+    border:2px solid #456879;
+	border-radius:10px;
+	height: 35px;
+	width: 800px;
+}
+
+.center-block{
+    width: 800px;
+	height: 320px;
+	border: 6px solid #cccccc;
+	padding: 9px;
+	font-family: Tahoma, sans-serif;
+	background-position: bottom right;
+	background-repeat: no-repeat;
 }

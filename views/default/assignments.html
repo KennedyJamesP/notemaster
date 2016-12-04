@@ -3,19 +3,16 @@
 {{block head}}
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script>
-    var tracks_url = "{{=URL('api', 'get_tracks')}}";
+    var get_assignments_url = "{{=URL('api', 'get_assignments')}}";
     var add_assignment_url = "{{=URL('api', 'add_assignments', user_signature=True)}}";
-    var del_track_url = "{{=URL('api', 'del_track', user_signature=True)}}";
+    var del_assignment_url = "{{=URL('api', 'del_assignment', user_signature=True)}}";
 </script>
 
 {{end}}
 
 <div class="main_content">
 
-
-
     <div id="vue-div" style="display:none">
-
 
         <div class="button_bar">
             <button v-if="!is_adding_assignment" class="btn btn-danger btn-sm" v-on:click="add_assignment_button()" v-bind:class="{'disabled': !logged_in}">
@@ -27,22 +24,22 @@
         </div>
 
 
-        <div v-if="is_adding_assignment" id="add_track_div">
+        <div v-if="is_adding_assignment" id="add_assignment_div">
             <form action="#" v-on:submit.prevent="add_assignment" class="form-horizontal" enctype="multipart/form-data" method="post">
                 <div class="form-group" id="no_table_artist__row">
                     <div>
-                        <input class="form-control string" id="no_table_artist" v-model="assignment_name" placeholder="Assignment Name" type="text" />
+                        <input class="form-control string" id="the_assignment_name" v-model="assignment_name" placeholder="Assignment Name" type="text" />
                         <span class="help-block"></span>
                     </div>
                 </div>
                 <div class="form-group" id="no_table_album__row">
                     <div>
-                        <input class="form-control string" id="no_table_album" name="album" type="text" v-model="assignment_description" placeholder="Assignment Description"/>
+                        <input class="form-control string" id="the_assignment_description" name="description" type="text" v-model="assignment_description" placeholder="Assignment Description"/>
                         <span class="help-block"></span>
                     </div>
                 </div>
                 <div class="form-group" id="no_table_track__row">
-                    <div><input class="form-control string" id="no_table_track" name="track" type="text" v-model="due" placeholder="Due Date YYYY-MM-DD"/>
+                    <div><input class="form-control string" id="the_due_date" name="due date" type="text" v-model="due" placeholder="Due Date YYYY-MM-DD"/>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -57,12 +54,12 @@
         <div class="result_table">
             <table>
                 <tbody>
-                <tr v-for="track in tracks">
-                    <td><i class="fa" v-on:click="select_track(track._idx)"></i></td>
-                    <td>${track.due}</td>
-                    <td>${track.assignment_name}</td>
-                    <td>${track.assignment_definition}</td>
-                    <td><i class="fa fa-trash-o" v-on:click="delete_track(track._idx)"></i></td>
+                <tr v-for="asgn in assignments">
+                    <td>Due: ${asgn.due}</td>
+                    <td>Days Remaining: ${asgn.diff}</td>
+                    <td>Name: ${asgn.assignment_name}</td>
+                    <td>Definition: ${asgn.assignment_definition}</td>
+                    <td><i class="fa fa-trash-o" v-on:click="delete_assignment(asgn._idx)"></i></td>
                 </tr>
                 </tbody>
             </table>
@@ -72,9 +69,5 @@
     </div>
 
 
-</div>
-
-</div>
-
 <script src="{{=URL('static', 'js/default_assignments.js')}}"></script>
-
+    </div>
