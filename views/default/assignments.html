@@ -54,11 +54,11 @@
         <div class="result_table">
             <table>
                 <tbody>
-                <tr v-for="track in tracks">
-                    <td>Due: ${track.due}</td>
-                    <td>Name: ${track.assignment_name}</td>
-                    <td>Definition: ${track.assignment_definition}</td>
-                    <td><i class="fa fa-trash-o" v-on:click="delete_assignment(track._idx)"></i></td>
+                <tr v-for="asgn in assignments">
+                    <td>Due: ${asgn.due}</td>
+                    <td>Name: ${asgn.assignment_name}</td>
+                    <td>Definition: ${asgn.assignment_definition}</td>
+                    <td><i class="fa fa-trash-o" v-on:click="delete_assignment(asgn._idx)"></i></td>
                 </tr>
                 </tbody>
             </table>

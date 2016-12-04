@@ -189,7 +189,7 @@ def add_assignments():
 
 def get_assignments():
     print "called get_assignments"
-    tracks = []
+    assignments = []
     has_more = False
     print "starting rows"
     rows = db((db.assignments.user_email == auth.user.email)).select(db.assignments.ALL,orderby=db.assignments.due)
@@ -204,12 +204,12 @@ def get_assignments():
                 id=r.id,
             )
             print t
-            tracks.append(t)
+            assignments.append(t)
     logged_in = auth.user_id is not None
-    print "printing tracks"
-    print tracks
+    print "printing assignments"
+    print assignments
     return response.json(dict(
-        tracks=tracks,
+        assignments=assignments,
         logged_in=logged_in,
         has_more=has_more,
     ))

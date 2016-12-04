@@ -22,7 +22,7 @@ var app = function() {
         // Sortable fields in table.
     var sortable = ['artist', 'track'];
 
-    function get_tracks_url(start_idx, end_idx) {
+    function get_assignments_function(start_idx, end_idx) {
         var pp = {
             start_idx: start_idx,
             end_idx: end_idx
@@ -38,21 +38,21 @@ var app = function() {
         return get_assignments_url + "?" + $.param(pp);
     }
 
-    self.get_tracks = function () {
-        $.getJSON(get_tracks_url(0, 20), function (data) {
-            self.vue.tracks = data.tracks;
+    self.get_assignments = function () {
+        $.getJSON(get_assignments_function(0, 20), function (data) {
+            self.vue.assignments = data.assignments;
             self.vue.has_more = data.has_more;
             self.vue.logged_in = data.logged_in;
-            enumerate(self.vue.tracks);
+            enumerate(self.vue.assignments);
         })
     };
 
     self.get_more = function () {
-        var num_tracks = self.vue.tracks.length;
-        $.getJSON(get_tracks_url(num_tracks, num_tracks + 50), function (data) {
+        var num_tracks = self.vue.assignments.length;
+        $.getJSON(get_assignments_url(num_tracks, num_tracks + 50), function (data) {
             self.vue.has_more = data.has_more;
-            self.extend(self.vue.tracks, data.tracks);
-            enumerate(self.vue.tracks);
+            self.extend(self.vue.assignments, data.assignments);
+            enumerate(self.vue.assignments);
         });
     };
 
@@ -71,18 +71,18 @@ var app = function() {
             },
             function (data) {
                 $.web2py.enableElement($("#add_assignment"));
-                self.vue.tracks.unshift(data.track);
-                enumerate(self.vue.tracks);
+                self.vue.assignments.unshift(data.track);
+                enumerate(self.vue.assignments);
             });
     };
 
 
     self.delete_assignment = function(track_idx) {
         $.post(del_assignment_url,
-            { track_id: self.vue.tracks[track_idx].id },
+            { track_id: self.vue.assignments[track_idx].id },
             function () {
-                self.vue.tracks.splice(track_idx, 1);
-                enumerate(self.vue.tracks);
+                self.vue.assignments.splice(track_idx, 1);
+                enumerate(self.vue.assignments);
             }
         )
     };
@@ -106,7 +106,7 @@ var app = function() {
             assignment_description: null,
             due: null,
             is_adding_assignment: false,
-            tracks: [],
+            assignments: [],
             logged_in: false,
             has_more: false,
             selected_idx: null,
@@ -123,7 +123,7 @@ var app = function() {
 
     });
 
-    self.get_tracks();
+    self.get_assignments();
     $("#vue-div").show();
 
 
