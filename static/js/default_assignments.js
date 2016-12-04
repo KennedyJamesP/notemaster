@@ -19,8 +19,8 @@ var app = function() {
         return v.map(function(e) {e._idx = k++;});
     };
 
-        // Sortable fields in table.
-    var sortable = ['artist', 'track'];
+    // Sortable fields in table.
+    var sortable = ['due', 'assignment_name'];
 
     function get_assignments_function(start_idx, end_idx) {
         var pp = {
@@ -86,7 +86,6 @@ var app = function() {
             }
         )
     };
-
 
 
     function reset_sort() {

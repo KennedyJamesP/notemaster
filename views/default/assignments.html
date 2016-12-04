@@ -24,22 +24,22 @@
         </div>
 
 
-        <div v-if="is_adding_assignment" id="add_track_div">
+        <div v-if="is_adding_assignment" id="add_assignment_div">
             <form action="#" v-on:submit.prevent="add_assignment" class="form-horizontal" enctype="multipart/form-data" method="post">
                 <div class="form-group" id="no_table_artist__row">
                     <div>
-                        <input class="form-control string" id="no_table_artist" v-model="assignment_name" placeholder="Assignment Name" type="text" />
+                        <input class="form-control string" id="the_assignment_name" v-model="assignment_name" placeholder="Assignment Name" type="text" />
                         <span class="help-block"></span>
                     </div>
                 </div>
                 <div class="form-group" id="no_table_album__row">
                     <div>
-                        <input class="form-control string" id="no_table_album" name="album" type="text" v-model="assignment_description" placeholder="Assignment Description"/>
+                        <input class="form-control string" id="the_assignment_description" name="description" type="text" v-model="assignment_description" placeholder="Assignment Description"/>
                         <span class="help-block"></span>
                     </div>
                 </div>
                 <div class="form-group" id="no_table_track__row">
-                    <div><input class="form-control string" id="no_table_track" name="track" type="text" v-model="due" placeholder="Due Date YYYY-MM-DD"/>
+                    <div><input class="form-control string" id="the_due_date" name="due date" type="text" v-model="due" placeholder="Due Date YYYY-MM-DD"/>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -67,9 +67,6 @@
         </div>
     </div>
 
-</div>
-
-</div>
 
 <script src="{{=URL('static', 'js/default_assignments.js')}}"></script>
-
+    </div>
