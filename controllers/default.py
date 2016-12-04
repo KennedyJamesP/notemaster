@@ -18,6 +18,7 @@ def get_user_name_from_email(email):
         return ' '.join([u.first_name, u.last_name])
 
 
+@auth.requires_login()
 def index():
     """
     This is your main controller.  Here you do almost nothing; you just cause index.html to be served.

@@ -26,6 +26,8 @@ var app = function () {
                 return 0;
         });
     }
+
+
     var sort_by_last_used = function (v) {
         v.sort(function (a, b) {
             if (a.last_used > b.last_used)
@@ -130,17 +132,6 @@ var app = function () {
                 tags: self.vue.form_tags_content,
             },
             function (data) {
-                // $.web2py.enableElement($("#add_post_btn"));
-
-
-                //TODO: remove post from end of list if necessary to ensure num posts displayed doesnt change once posts
-                // // reaches its default limit
-                // if ((self.vue.posts.length > 0) &&
-                //     (self.vue.posts % DEFAULT_POST_LIST_LENGTH == 0)) {
-                //     self.vue.posts.pop();
-                //     self.vue.has_more = true;
-                // }
-
                 //no sorting needed since new item is inserted at front of posts list
                 self.vue.posts.unshift(data.post);
                 enumerate(self.vue.posts);

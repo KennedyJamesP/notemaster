@@ -109,13 +109,7 @@ def add_course():
         course_name=request.vars.course_name
     )
     new_row = db.courses(post_id)
-    c = dict(
-        course_name=new_row.course_name,
-        id=new_row.id,
-        created_on=new_row.created_on,
-        last_used=new_row.last_used
-    )
-
+    c = generate_course(new_row)
     return response.json(dict(course=c))
 
 
@@ -123,7 +117,7 @@ def add_course():
 def get_courses():
     """returns the list of courses for the current user"""
     courses = []
-    course_db_rows = db((db.courses.user_email == auth.user.email)).select(db.courses.ALL, orderby=~db.courses.last_used)
+    course_db_rows = db((db.courses.user_email == auth.user.email)).select(db.courses.ALL, orderby=db.courses.last_used)
 
     for r in course_db_rows:
         course = generate_course(r)
