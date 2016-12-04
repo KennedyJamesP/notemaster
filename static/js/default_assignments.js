@@ -77,12 +77,10 @@ var app = function() {
             function (data) {
                 $.web2py.enableElement($("#add_assignment"));
                 self.vue.assignments.unshift(data.track);
+                sort_by_date(self.vue.assignments);
                 enumerate(self.vue.assignments);
+                self.vue.assignments.reverse();
             });
-        //following lines need work
-            sort_by_date(self.vue.assignments);
-            enumerate(self.vue.assignments);
-            self.vue.assignments.reverse();
 
     };
 
