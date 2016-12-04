@@ -187,8 +187,8 @@ def add_assignments():
     return response.json(dict(track=t))
 
 
-def get_tracks():
-    print "called get tracks"
+def get_assignments():
+    print "called get_assignments"
     tracks = []
     has_more = False
     print "starting rows"
@@ -216,8 +216,8 @@ def get_tracks():
 
 
 @auth.requires_signature()
-def del_track():
-    print "called del_track()"
+def del_assignment():
+    print "called del_assignment()"
     print request.vars.track_id
     db(db.assignments.id == request.vars.track_id).delete()
     return "ok"

@@ -35,7 +35,7 @@ var app = function() {
                 pp['sort_' + k] = 'down';
             }
         }
-        return tracks_url + "?" + $.param(pp);
+        return get_assignments_url + "?" + $.param(pp);
     }
 
     self.get_tracks = function () {
@@ -77,8 +77,8 @@ var app = function() {
     };
 
 
-    self.delete_track = function(track_idx) {
-        $.post(del_track_url,
+    self.delete_assignment = function(track_idx) {
+        $.post(del_assignment_url,
             { track_id: self.vue.tracks[track_idx].id },
             function () {
                 self.vue.tracks.splice(track_idx, 1);
@@ -95,7 +95,6 @@ var app = function() {
             self.vue.is_sort_down[sortable[i]] = false;
         }
     }
-
 
 
     self.vue = new Vue({
@@ -119,7 +118,7 @@ var app = function() {
             get_more: self.get_more,
             add_assignment_button: self.add_assignment_button,
             add_assignment: self.add_assignment,
-            delete_track: self.delete_track,
+            delete_assignment: self.delete_assignment,
         }
 
     });
