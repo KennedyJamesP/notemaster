@@ -54,7 +54,7 @@ def search_posts():
     print "done with search"
     # print "q is: "+q
     rows = db(q)((db.post.user_email == auth.user.email)).select(db.post.ALL,orderby=~db.post.updated_on)
-    print rows
+    #print rows
 
     for i, r in enumerate(rows):
         p = generate_post(r)
@@ -63,7 +63,7 @@ def search_posts():
         posts.append(p)
     logged_in = auth.user_id is not None
     user_email = auth.user.email if logged_in else None
-    print p
+    #print p
     return response.json(dict(
         posts=posts,
         logged_in=logged_in,
@@ -154,13 +154,14 @@ def generate_course(courses_db_row):
     )
     return c
 
-
+#gets the days between the inputted date and today
+#year, month, and day need to be ints
 def getDaysApart(year, month, day):
     import datetime
     today = datetime.date.today()
-    someday = datetime.date(year, month, day)
+    someday = datetime.date(int(year), int(month), int(day))
     diff = someday - today
-    print diff.days
+    #print diff.days
     return diff
 
 
@@ -178,39 +179,99 @@ def add_assignments():
     print request.vars.assignment_definition
     print assign
     t = db.assignments(assign)
+
+    slash = str(request.vars.due).split('-')  # item 0 is year, item 1 is month, item 2 is day
+    diff = getDaysApart(slash[0], slash[1], slash[2])
+    print diff.days
+    t['diff'] = int(diff.days)
     print "done"
-    return response.json(dict(track=t))
+    return response.json(dict(assignment=t))
 
 
-def get_tracks():
-    print "called get tracks"
-    # Gets the variables for the sorting.
-    """
-    if request.vars.sort_artist is not None:
-        orderby = db.track.artist if request.vars.sort_artist == 'up' else ~db.track.artist
-    if request.vars.sort_track is not None:
-        orderby = db.track.title if request.vars.sort_track == 'up' else ~db.track.title
-    """
-    tracks = []
+def get_assignments():
+    print "called get_assignments"
+    assignments = []
     has_more = False
     print "starting rows"
-    rows = db((db.assignments.user_email == auth.user.email)).select(db.assignments.ALL)
+    rows = db((db.assignments.user_email == auth.user.email)).select(db.assignments.ALL,orderby=db.assignments.due)
     print rows
     print "finished rows"
+    # need to calculate how many days until the assignment is due here
     for i, r in enumerate(rows):
             # Check if I have a track or not.
-            t = dict(
+            print "due on: "
+            print r.due
+            slash=str(r.due).split('-') #item 0 is year, item 1 is month, item 2 is day
+            print slash
+            """
+            print slash[0]
+            print slash[1]
+            print slash[2]
+            """
+            diff=getDaysApart(slash[0],slash[1],slash[2])
+            print diff.days
+            if int(diff.days)>0:
+                t = dict(
                 due = r.due,
                 assignment_name = r.assignment_name,
                 assignment_definition = r.assignment_definition,
-            )
-            print t
-            tracks.append(t)
+                id=r.id,
+                diff=int(diff.days)
+                )
+                print t
+                assignments.append(t)
     logged_in = auth.user_id is not None
-    print "printing tracks"
-    print tracks
+    print "printing assignments"
+    print assignments
+
     return response.json(dict(
-        tracks=tracks,
+        assignments=assignments,
         logged_in=logged_in,
         has_more=has_more,
     ))
+
+def get_past_assignments():
+    print "called get_past_assignments"
+    past_assignments = []
+    print "starting rows"
+    rows = db((db.assignments.user_email == auth.user.email)).select(db.assignments.ALL,orderby=db.assignments.due)
+    print rows
+    print "finished rows"
+    # need to calculate how many days until the assignment is due here
+    for i, r in enumerate(rows):
+            # Check if I have a track or not.
+            print "due on: "
+            print r.due
+            slash=str(r.due).split('-') #item 0 is year, item 1 is month, item 2 is day
+            print slash
+            """
+            print slash[0]
+            print slash[1]
+            print slash[2]
+            """
+            diff=getDaysApart(slash[0],slash[1],slash[2])
+            print diff.days
+            if(int(diff.days) <0):
+                t = dict(
+                due = r.due,
+                assignment_name = r.assignment_name,
+                assignment_definition = r.assignment_definition,
+                id=r.id,
+                diff=int(diff.days)
+            )
+                print t
+                past_assignments.append(t)
+    logged_in = auth.user_id is not None
+    print "printing past_assignments"
+    print past_assignments
+
+    return response.json(dict(
+        past_assignments=past_assignments,
+    ))
+
+@auth.requires_signature()
+def del_assignment():
+    print "called del_assignment()"
+    print request.vars.track_id
+    db(db.assignments.id == request.vars.track_id).delete()
+    return "ok"

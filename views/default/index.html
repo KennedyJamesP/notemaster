@@ -11,6 +11,10 @@
     var del_post_url = "{{=URL('api', 'del_post', user_signature=True)}}";
     var edit_post_url = "{{=URL('api', 'edit_post', user_signature=True)}}";
     var search_post_url = "{{=URL('api', 'search_posts')}}";
+    var get_assignments_url = "{{=URL('api', 'get_assignments')}}";
+    var add_assignment_url = "{{=URL('api', 'add_assignments', user_signature=True)}}";
+    var del_assignment_url = "{{=URL('api', 'del_assignment', user_signature=True)}}";
+    var get_past_assignments_url = "{{=URL('api', 'get_past_assignments')}}";
 </script>
 {{end}}
 
@@ -26,6 +30,7 @@
                 <nav>
                     <a href="">About Us</a>
                     <a v-on:click="goto('notebook')">Notes</a>
+                    <a v-on:click="goto('assignments')">Assignments</a>
                     <a href="">Organizer</a>
                     <a href="{{=URL('default', 'user', args=['login'])}}">Log In</a>
                 </nav>
@@ -59,6 +64,82 @@
 
         </div>
         <!-- End of Splash Page -->
+        <!-- Start of Assignments Page -->
+        <div v-if="page=='assignments'" id="assignments_page" >
+            <h1>assignments</h1>
+
+
+        <div class="button_bar">
+            <button v-if="!is_adding_assignment" class="btn btn-danger btn-sm" v-on:click="add_assignment_button()" v-bind:class="{'disabled': !logged_in}">
+                <i class="fa fa-plus"></i>Add new assignment
+            </button>
+            <button v-if="is_adding_assignment" class="btn btn-warning btn-sm" v-on:click="add_assignment_button()">
+                <i class="btn btn-danger btn-sm"></i>Cancel
+            </button>
+        </div>
+
+
+        <div v-if="is_adding_assignment" id="add_assignment_div">
+            <form action="#" v-on:submit.prevent="add_assignment" class="form-horizontal" enctype="multipart/form-data" method="post">
+                <div class="form-group" id="no_table_artist__row">
+                    <div>
+                        <input class="form-control string" id="the_assignment_name" v-model="assignment_name" placeholder="Assignment Name" type="text" />
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group" id="no_table_album__row">
+                    <div>
+                        <input class="form-control string" id="the_assignment_description" name="description" type="text" v-model="assignment_description" placeholder="Assignment Description"/>
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group" id="no_table_track__row">
+                    <div><input class="form-control string" id="the_due_date" name="due date" type="text" v-model="due" placeholder="Due Date YYYY-MM-DD"/>
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group" id="submit_record__row">
+                    <div>
+                        <input class="btn btn-primary" id="add_assignment" type="submit" value="Submit"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="result_table">
+            <h2>Upcoming Assignments</h2>
+            <table>
+                <tbody>
+                <tr v-for="asgn in assignments">
+                    <td> Name: ${asgn.assignment_name} &ensp; &ensp;</td>
+                    <td>Due: ${asgn.due} &ensp;</td>
+                    <td>Days Remaining: ${asgn.diff} &ensp;</td>
+                    <td>Definition: ${asgn.assignment_definition} &ensp;</td>
+                    <td><i class="fa fa-trash-o" v-on:click="delete_assignment(asgn._idx)"></i></td>
+                </tr>
+                </tbody>
+            </table>
+            <h2>Past Assignments</h2>
+             <table>
+                <tbody>
+                <tr v-for="asgn in past_assignments">
+                    <td> Name: ${asgn.assignment_name} &ensp; &ensp;</td>
+                    <td>Due: ${asgn.due} &ensp;</td>
+                    <td>Days Remaining: ${asgn.diff} &ensp;</td>
+                    <td>Definition: ${asgn.assignment_definition} &ensp;</td>
+                    <td><i class="fa fa-trash-o" v-on:click="delete_past_assignment(asgn._idx)"></i></td>
+                </tr>
+                </tbody>
+            </table>
+            <div v-if="has_more" class="show_more">
+                <button class="btn btn-default" v-on:click="get_more()">Load more</button></div>
+        </div>
+
+
+        </div>
+
+
+        <!-- End of Assignments  Page -->
 
         <div v-if="page=='notebook'" id="notebook_page" >
 
