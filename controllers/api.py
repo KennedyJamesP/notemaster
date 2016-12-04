@@ -54,7 +54,7 @@ def search_posts():
     print "done with search"
     # print "q is: "+q
     rows = db(q)((db.post.user_email == auth.user.email)).select(db.post.ALL,orderby=~db.post.updated_on)
-    print rows
+    #print rows
 
     for i, r in enumerate(rows):
         p = generate_post(r)
@@ -63,7 +63,7 @@ def search_posts():
         posts.append(p)
     logged_in = auth.user_id is not None
     user_email = auth.user.email if logged_in else None
-    print p
+    #print p
     return response.json(dict(
         posts=posts,
         logged_in=logged_in,
