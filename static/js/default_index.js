@@ -377,6 +377,11 @@ var app = function () {
             goto:self.goto,
             get_courses:self.get_courses,
             add_course:self.add_course,
+            get_more: self.get_more,
+            add_assignment_button: self.add_assignment_button,
+            add_assignment: self.add_assignment,
+            delete_assignment: self.delete_assignment,
+
         }
     })
 

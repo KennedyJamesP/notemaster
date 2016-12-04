@@ -5,7 +5,7 @@ var app = function() {
     var self = {};
 
     Vue.config.silent = false; // show all warnings
-
+/*
     // Extends an array
     self.extend = function(a, b) {
         for (var i = 0; i < b.length; i++) {
@@ -123,7 +123,7 @@ var app = function() {
 
     self.get_assignments();
     $("#vue-div").show();
-
+*/
 
     return self;
 };
