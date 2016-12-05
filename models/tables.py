@@ -9,6 +9,7 @@
 
 import datetime
 
+
 db.define_table('courses',
                 Field('user_email', default=auth.user.email if auth.user_id else None),
                 Field('course_name', 'text', unique=True, notnull=True),
@@ -22,7 +23,7 @@ db.define_table('post',
                 Field('post_content', 'text'),
                 Field('created_on', 'datetime', default=datetime.datetime.utcnow()),
                 Field('updated_on', 'datetime', update=datetime.datetime.utcnow()),
-                Field('course_id', 'integer', db.courses), #references courses table
+                Field('course_id', 'reference courses', notnull=True),
                 Field('topic', 'text'),
                 Field('tags', 'text'),
                 )

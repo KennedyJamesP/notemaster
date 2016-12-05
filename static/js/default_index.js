@@ -64,7 +64,8 @@ var app = function () {
                 self.vue.has_more = data.has_more;
                 self.vue.logged_in = data.logged_in;
                 self.vue.user_email = data.user_email;
-                self.vue.current_course_id = data.course_id; //not sure if working
+                self.vue.current_course_id = data.course_id;
+                self.vue.form_course_content = self.vue.current_course_id;
 
                 sort_by_created_on(self.vue.posts)
                 enumerate(self.vue.posts);
@@ -112,10 +113,9 @@ var app = function () {
         // The button to add a post has been pressed.
         self.vue.form_post_content = "";
         self.vue.form_edit_content = "";
-        self.vue.form_course_content = "";
+        self.vue.form_course_content = self.vue.current_course_id;
         self.form_topic_content = "";
         self.form_tags_content = "";
-        self.vue.is_adding_post = false;
         self.vue.is_editing_post = false;
     };
 
@@ -125,7 +125,6 @@ var app = function () {
         // The submit button to add a post has been added.
         $.post(add_post_url,
             {
-                //TODO: get current course from vue instead of user inputting the course
                 course_id: self.vue.current_course_id,
                 post_content: self.vue.form_post_content,
                 topic: self.vue.form_topic_content,
@@ -421,7 +420,6 @@ var app = function () {
     self.get_past_assignments();
 
     $("#vue-div").show();
-
 
     return self;
 };
