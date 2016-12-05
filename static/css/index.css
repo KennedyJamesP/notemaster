@@ -1,3 +1,44 @@
+.navbar {
+    background-color: #eeeeee;
+    border: solid #cccccc;
+    border-width: 1px;
+}
+
+.navbar .logo {
+    float: left;
+    margin: 15px 0 0 30px;
+    display: inline-block;
+    color: dimgray;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 0.2em 0.5em;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+
+.navbar nav {
+    float: right;
+    margin: 30px 30px 0 0;
+}
+
+.navbar nav a {
+    display: inline-block;
+    margin-left: 20px;
+    color: dimgray;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.navbar nav a:hover {
+    color: rgba(0, 0, 0, 0.7);
+    text-decoration: none;
+}
+
+body {
+    background-color: lightblue;
+}
+
 header {
     height: 450px;
     background:
@@ -8,18 +49,6 @@ header {
         url(http://gratisography.com/pictures/346_1.jpg)
         no-repeat center;
     background-size: cover;
-
-}header {
-    height: 450px;
-    background:
-        linear-gradient(
-            rgba(0, 0, 0, 0.50),
-            rgba(0, 0, 0, 0.50)
-        ),
-        url(http://gratisography.com/pictures/346_1.jpg)
-        no-repeat center;
-    background-size: cover;
-
 }
 
 header .logo {
@@ -155,37 +184,47 @@ footer .lockup .content-wrap a:hover {
     text-decoration: none;
 }
 
-.search_input{
+#sidebar-closed {
 
+}
+
+#sidebar-open {
+
+}
+
+.search_input{
     border:2px solid #456879;
-	border-radius:10px;
 	height: 35px;
-	width: 50%;
+	width: 80%;
+    border: solid #cccccc;
+    border-width: 1px;
+	border-radius: 2px;
+    margin-bottom: 10px;
     margin-left: 35px;
 }
 
-.center-block{
-    width: 95%;
-    height: 225px;
-    padding: 12px 16px;
-    font-size: 14px;
-    line-height: 1.42857143;
-    color: #3e3f3a;
-    background-color: #ffffff;
-    background-image: none;
-    border: 1px solid #dfd7ca;
-    border-radius: 4px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-
+.search_div button {
+    float: right;
 }
 
-.boxed{
-  border-color: $clrPostBorder;
-  border-width: 1px;
-  background: $clrPostBackground;
-  margin: 20px 0px 20px 0px;
-  padding: 20px;
+.note_block {
+    width: 80%;
+	height: 320px;
+	border: solid #cccccc;
+	border-width: 1px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+}
+
+.note_list .post {
+    background-color: white;
+    border-color: white;
+}
+
+.note_details input {
+	border: solid #cccccc;
+	border-width: 1px;
+    border-radius: 2px;
 }
 
 .sidebarboxed{

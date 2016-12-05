@@ -11,6 +11,10 @@
     var del_post_url = "{{=URL('api', 'del_post', user_signature=True)}}";
     var edit_post_url = "{{=URL('api', 'edit_post', user_signature=True)}}";
     var search_post_url = "{{=URL('api', 'search_posts')}}";
+    var get_assignments_url = "{{=URL('api', 'get_assignments')}}";
+    var add_assignment_url = "{{=URL('api', 'add_assignments', user_signature=True)}}";
+    var del_assignment_url = "{{=URL('api', 'del_assignment', user_signature=True)}}";
+    var get_past_assignments_url = "{{=URL('api', 'get_past_assignments')}}";
 </script>
 {{end}}
 
@@ -24,8 +28,9 @@
             <header>
                 <div class="logo">Notemaster</div>
                 <nav>
-                    <a href="">About Us</a>
-                    <a v-on:click="goto('notebook')">Notes</a>
+                    <a href="#">About Us</a>
+                    <a href="#" v-on:click="goto('notebook')">Notes</a>
+                    <a href="#" v-on:click="goto('assignments')">Assignments</a>
                     <a href="{{=URL('default', 'mycal')}}">Class Schedule</a> 
                     <a href="{{=URL('default', 'user', args=['login'])}}">Log In</a>
                 </nav>
@@ -36,7 +41,7 @@
             <div class="about">
                 <h1>What is NoteMaster?</h1>
                 <p>
-                    NoteMaster is an online collaborative learning experience that hosts, organizes,
+                    NoteMaster is an online learning experience that hosts, organizes,
                     and provides intelligent learning tools, enabling students to study harder and
                     study smarter.
                 </p>
@@ -60,143 +65,238 @@
         </div>
         <!-- End of Splash Page -->
 
+        <!-- Start of Assignments Page -->
+        <div v-if="page=='assignments'" id="assignments_page" >
+            <h1>assignments</h1>
+
+
+            <div class="button_bar">
+                <button v-if="!is_adding_assignment" class="btn btn-danger btn-sm" v-on:click="add_assignment_button()" v-bind:class="{'disabled': !logged_in}">
+                    <i class="fa fa-plus"></i>Add new assignment
+                </button>
+                <button v-if="is_adding_assignment" class="btn btn-warning btn-sm" v-on:click="add_assignment_button()">
+                    <i class="btn btn-danger btn-sm"></i>Cancel
+                </button>
+            </div>
+
+
+            <div v-if="is_adding_assignment" id="add_assignment_div">
+                <form action="#" v-on:submit.prevent="add_assignment" class="form-horizontal" enctype="multipart/form-data" method="post">
+                    <div class="form-group" id="no_table_artist__row">
+                        <div>
+                            <input class="form-control string" id="the_assignment_name" v-model="assignment_name" placeholder="Assignment Name" type="text" />
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" id="no_table_album__row">
+                        <div>
+                            <input class="form-control string" id="the_assignment_description" name="description" type="text" v-model="assignment_description" placeholder="Assignment Description"/>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" id="no_table_track__row">
+                        <div><input class="form-control string" id="the_due_date" name="due date" type="text" v-model="due" placeholder="Due Date YYYY-MM-DD"/>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" id="submit_record__row">
+                        <div>
+                            <input class="btn btn-primary" id="add_assignment" type="submit" value="Submit"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="result_table">
+                <h2>Upcoming Assignments</h2>
+                <table>
+                    <tbody>
+                    <tr v-for="asgn in assignments">
+                        <td> Name: ${asgn.assignment_name} &ensp; &ensp;</td>
+                        <td>Due: ${asgn.due} &ensp;</td>
+                        <td>Days Remaining: ${asgn.diff} &ensp;</td>
+                        <td>Definition: ${asgn.assignment_definition} &ensp;</td>
+                        <td><i class="fa fa-trash-o" v-on:click="delete_assignment(asgn._idx)"></i></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <h2>Past Assignments</h2>
+                 <table>
+                    <tbody>
+                    <tr v-for="asgn in past_assignments">
+                        <td> Name: ${asgn.assignment_name} &ensp; &ensp;</td>
+                        <td>Due: ${asgn.due} &ensp;</td>
+                        <td>Days Remaining: ${asgn.diff} &ensp;</td>
+                        <td>Definition: ${asgn.assignment_definition} &ensp;</td>
+                        <td><i class="fa fa-trash-o" v-on:click="delete_past_assignment(asgn._idx)"></i></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div v-if="has_more" class="show_more">
+                    <button class="btn btn-default" v-on:click="get_more()">Load more</button></div>
+            </div>
+        </div>
+        <!-- End of Assignments  Page -->
+
+        <!-- Notebook Page -->
         <div v-if="page=='notebook'" id="notebook_page" >
 
-            <h2>NOTEMASTER</h2>
+            <div class="navbar">
+                <div class="logo">Notemaster</div>
+                <nav>
+                    <a href="">About Us</a>
+                    <a v-on:click="goto('notebook')">Notes</a>
+                    <a v-on:click="goto('assignments')">Assignments</a>
+                    <a href="">Organizer</a>
+                    <a href="{{=URL('default', 'user', args=['login'])}}">Log In</a>
+                </nav>
+            </div>
+
             <div id="main-container" class="container">
 
-            <div id="main-row" class="mainrow">
-                <div id ="setting-top-left" class="">
+                <div id="main-row" class="row">
+                    <!-- Sidebar closed-->
+                    <div id="sidebar-closed" class="col-md-1 post"  v-if="!is_sidebar_open">
+                            <i class="fa fa-large fa-chevron-circle-right" v-on:click="sidebar_collapse_btn()"></i>
+                    </div>
+                    <!-- end sidebar closed-->
 
-                <div id="sidebar-closed" class="sidebarboxed col-md-1"  v-if="!is_sidebar_open">
-                        <i class="fa fa-2x fa-bars" v-on:click="sidebar_collapse_btn()"></i> Add Course
-                </div>
-                <div id="sidebar-open" class="sidebarboxed_open col-md-3"  v-if="is_sidebar_open">
-                    <div id="sidebar-container" class="container">
-                        <div class="row">
-                            <button class="btn btn-danger btn-md" v-on:click="sidebar_collapse_btn()">
-                                <i class="fa fa-2x fa-rotate-90 fa-bars"></i>   Collapse
-                            </button>
-                        </div>
-
-
-                        <div id="add_course_row" class ="row">
-                            <input class="string" id="add_course_input" name="New course" type="text"
-                                   v-model="new_course_name" placeholder="Course Name"/>
-                            <button class="btn btn-danger btn-sm" v-on:click="add_course()">
-                                <i class="fa fa-plus"></i>Add
-                            </button>
-                        </div>
-                        <div id="courses_btn_group" class="btn-group btn-group-vertical">
-                            <div v-for="course in courses">
-                                <button class="btn btn-block"><i class="fa fa-book fa-lg"></i>${course.course_name} </button>
+                    <!-- sidebar open-->
+                    <div id="sidebar-open" class="col-md-3 post"  v-if="is_sidebar_open">
+                        <div id="sidebar-container" class="container">
+                            <div class="row">
+                                <button class="btn btn-danger btn-sm" v-on:click="sidebar_collapse_btn()">
+                                    <i class="fa fa-large fa-chevron-circle-left"></i>Collapse
+                                </button>
                             </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                    <!-- end sidebar-->
 
-                <div id="main_panel" class="mainpanel_container col-md-9 container-fluid">
-                <div class="search_div row">
-                    <input class="search_input col-md-9" v-model="post_search" placeholder="      Search for Notes...."/>
-                    <button class="btn" v-on:click="do_search"><i class="fa fa-search fa-lg"></i></button>
-                </div>
 
-                <!--div class="button_bar">TODO: decide what to do with these add post/cancel buttons
-                    <button class="btn btn-danger btn-sm" v-if="!is_adding_or_editing()" v-on:click="add_post_button()"
-                            v-bind:class="{'disabled': !logged_in}">
-                        <i class="fa fa-plus"></i>Add new post
-                    </button>
-                    <button class="btn btn-danger btn-sm" v-if="is_adding_or_editing()" v-on:click="cancel_post_button()">
-                        <i class="fa fa-close"></i>Cancel
-                    </button>
-                </div-->
-
-                <div class="post_list row" v-if="logged_in">
-                    <div class="post" v-for="post in posts">
-                        <div class="post_listing" v-if="!is_idx_being_edited(post._idx)">
-                            <p class="post-content center-block">
-                                ${post.post_content}
-                            </p>
-                            <p class="post-content center-block">
-                                topic: ${post.topic}
-                            </p>
-                            <p class="post-content center-block">
-                                tags: ${post.tags}
-                            </p>
-                            <div style="color: blue" class="post_details row">
-                                <div class="col-md-3"> created ${post.created_on}</div>
-                                <!-- add updated_on info if post has been updated since creation -->
-                                <div class="col-md-3" v-if="post.updated_on!=post.created_on">
-                                    updated ${post.updated_on}
+                            <div id="add_course_row" class ="row">
+                                <input class="string" id="add_course_input" name="New course" type="text"
+                                       v-model="new_course_name" placeholder="Course Name"/>
+                                <button class="btn btn-danger btn-sm" v-on:click="add_course()">
+                                    <i class="fa fa-plus"></i>Add
+                                </button>
+                            </div>
+                            <div id="courses_btn_group" class="btn-group-lg btn-group-vertical row">
+                                <div v-for="course in courses">
+                                    <button class="btn btn-block"><i class="fa fa-book fa-lg"></i>${course.course_name} </button>
                                 </div>
                             </div>
-                            <div class="row_buttons">
-                                <i class="fa fa-trash-o" id="del_post_btn" v-on:click="delete_post(post._idx)"></i>
-                                <i class="fa fa-pencil" id="edit_post_btn" v-on:click="edit_post_button(post._idx)"
-                                   v-bind:class="{'disabled': is_adding_post}"></i>
-                            </div>
+                        </div>
+                    </div>
+                    <!-- end sidebar-open -->
+
+                    <!-- Post class div used to go here -->
+                    <div id="notebook_main_panel" class="col-md-9 container-fluid">
+                        <div class="search_div row post">
+                            <input class="search_input" v-model="post_search"/>
+                            <button class="btn" v-on:click="do_search"><i class="fa fa-search fa-lg"></i></button>
                         </div>
 
-                        <template id="edit_post_template" v-if="is_idx_being_edited(post._idx)">
-                            <div id="edit_post_div">
-                                <div id="edit_post_text" class="row">
-                                    <textarea v-model="form_edit_content">
-                                    </textarea>
+                        <!--div class="button_bar">TODO: decide what to do with these add post/cancel buttons
+                            <button class="btn btn-danger btn-sm" v-if="!is_adding_or_editing()" v-on:click="add_post_button()"
+                                    v-bind:class="{'disabled': !logged_in}">
+                                <i class="fa fa-plus"></i>Add new post
+                            </button>
+                            <button class="btn btn-danger btn-sm" v-if="is_adding_or_editing()" v-on:click="cancel_post_button()">
+                                <i class="fa fa-close"></i>Cancel
+                            </button>
+                        </div-->
+
+                        <div class="post_list note_list" v-if="logged_in">
+                            <div class="post" v-for="post in posts">
+                                <div class="post_listing" v-if="!is_idx_being_edited(post._idx)">
+                                    <p class="post_topic">
+                                        ${post.topic}
+                                    </p>
+                                    <p class="post_content">
+                                        ${post.post_content}
+                                    </p>
+                                    <p class="post_tags">
+                                        Tags: ${post.tags}
+                                    </p>
+                                    <div class="post_details">
+                                        <div class="col-md-3"> created ${post.created_on}</div>
+                                        <!-- add updated_on info if post has been updated since creation -->
+                                        <div class="col-md-3" v-if="post.updated_on!=post.created_on">
+                                            updated ${post.updated_on}
+                                        </div>
+                                    </div>
+                                    <div class="row_buttons">
+                                        <i class="fa fa-trash-o" id="del_post_btn" v-on:click="delete_post(post._idx)"></i>
+                                        <i class="fa fa-pencil" id="edit_post_btn" v-on:click="edit_post_button(post._idx)"
+                                           v-bind:class="{'disabled': is_adding_post}"></i>
+                                    </div>
                                 </div>
-                                <div id="post_changes_btn" class="row">
-                                    <button class="btn btn-danger btn-sm col-md-offset-9" v-on:click="edit_post()">
-                                        <i class="fa fa-plus"></i>Post changes
-                                    </button>
+
+                                <template id="edit_post_template" v-if="is_idx_being_edited(post._idx)">
+                                    <div id="edit_post_div">
+                                        <div id="edit_post_text" class="row">
+                                            <textarea v-model="form_edit_content">
+                                            </textarea>
+                                        </div>
+                                        <div id="post_changes_btn" class="row">
+                                            <button class="btn btn-danger btn-sm col-md-offset-9" v-on:click="edit_post()">
+                                                <i class="fa fa-plus"></i>Post changes
+                                            </button>
+                                        </div>
+                                    </div>
+                                </template>
+
+                            </div>
+
+                            <div v-if="has_more" class="load_more">
+                                <button class="btn btn-default" v-on:click="load_more()">Load more</button>
+                            </div>
+                        </div>
+                        <!-- end post_list -->
+                        <!-- add_post div -->
+                        <div id="add_post_div" class="row post">
+                            <div id="new_post_text" class="row">
+                                <textarea v-model="form_post_content" class="note_block" rows="5">
+                                </textarea>
+                            </div>
+
+                            <div class="note_details">
+                                <div class="form-group" id="class">
+                                    <div>
+                                        <input class="form-control string" id="class" name="course" type="text"
+                                               v-model="current_course_name" placeholder="Class"/>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="topic">
+                                    <div>
+                                        <input class="form-control string" id="topic" name="album" type="text"
+                                               v-model="form_topic_content" placeholder="Topic"/>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="tag">
+                                    <div>
+                                        <input class="form-control string" id="tag" name="album" type="text"
+                                               v-model="form_tags_content" placeholder="Tags"/>
+                                           <span class="help-block"></span>
+                                    </div>
                                 </div>
                             </div>
-                        </template>
 
-                    </div>
-
-                    <div v-if="has_more" class="load_more">
-                        <button class="btn btn-default" v-on:click="load_more()">Load more</button>
+                            <div id="add_post_btn" class="row">
+                                <button class="btn btn-danger btn-sm col-md-offset-9" v-on:click="add_post()">
+                                    <i class="fa fa-plus"></i> Add Note
+                                </button>
+                            </div>
+                        </div>
+                        <!-- end add_post div -->
                     </div>
                 </div>
-                <template id="add_post_template" v-if="is_adding_post">
-                    <div id="add_post_div" class="row">
-                        <div id="new_post_text" class="row">
-                            <textarea v-model="form_post_content" class="center-block" rows="5" style="padding:10px">
-                            </textarea>
-                        </div>
-                        <div class="form-group" id="class">
-                            <div>
-                                <input class="form-control string" id="class" name="course" type="text" style="width: 75%"
-                                       v-model="current_course_name" placeholder="Class"/>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" id="topic">
-                            <div>
-                                <input class="form-control string" id="topic" name="album" type="text" style="width: 75%"
-                                       v-model="form_topic_content" placeholder="Topic"/>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" id="tag">
-                            <div>
-                                <input class="form-control string" id="tag" name="album" type="text" style="width: 75%"
-                                       v-model="form_tags_content" placeholder="Tags"/>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div id="add_post_btn" class="row">
-                            <button class="btn btn-danger btn-sm col-md-offset-9" v-on:click="add_post()">
-                                <i class="fa fa-plus"></i> Add Notes
-                            </button>
-                        </div>
-                    </div>
-                </template>
-            </div>
             </div>
         </div>
-        </div>
+        <!-- End of notebook Page -->
     </div>
 </div>
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
+
