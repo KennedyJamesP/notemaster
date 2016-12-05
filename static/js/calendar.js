@@ -1,3 +1,5 @@
+<!-- Adopted from the free web2py example code https://github.com/mdipierro/web2py-appliances -->
+
 /* Copyright Notice for Dynarch Date Time Picker */
 /*  Copyright Mihai Bazon, 2002-2005  |  www.bazon.net/mishoo
  * -----------------------------------------------------------

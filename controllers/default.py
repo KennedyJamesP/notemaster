@@ -32,6 +32,7 @@ def index():
 @auth.requires_login()
 def mycal():
     rows=db(db.t_appointment.created_by==auth.user.id).select()
+    print rows
     return dict(rows=rows)
 
 @auth.requires_login()

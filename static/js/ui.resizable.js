@@ -1,4 +1,5 @@
-/*
+/*<!-- Adopted from the free web2py example code https://github.com/mdipierro/web2py-appliances -->
+
  * jQuery UI Resizable 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
