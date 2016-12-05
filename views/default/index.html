@@ -138,10 +138,11 @@
 
 
         </div>
-
-
         <!-- End of Assignments  Page -->
 
+
+
+        <!-- Notebook Page -->
         <div v-if="page=='notebook'" id="notebook_page" >
 
             <div class="notebook">
@@ -161,9 +162,12 @@
 
             <div id="main-row" class="row">
 
+                <!-- Sidebar -->
+
                 <div id="sidebar-closed" class="col-md-1 post"  v-if="!is_sidebar_open">
                         <i class="fa fa-large fa-chevron-circle-right" v-on:click="sidebar_collapse_btn()"></i>
                 </div>
+
                 <div id="sidebar-open" class="col-md-3 post"  v-if="is_sidebar_open">
                     <div id="sidebar-container" class="container">
                         <div class="row">
@@ -186,11 +190,12 @@
                             </div>
                         </div>
                     </div>
-                </div><!-- end sidebar-->
+                </div>
+                <!-- End Sidebar -->
 
                 <div id="main_panel" class="post col-md-9 container-fluid">
                 <div class="search_div row">
-                    <input class="search_input col-md-9" v-model="post_search"/>
+                    <input class="search_input" v-model="post_search"/>
                     <button class="btn" v-on:click="do_search"><i class="fa fa-search fa-lg"></i></button>
                 </div>
 
@@ -207,16 +212,16 @@
                 <div class="post_list row" v-if="logged_in">
                     <div class="post" v-for="post in posts">
                         <div class="post_listing" v-if="!is_idx_being_edited(post._idx)">
-                            <p class="post-content center-block">
+                            <p class="post_topic">
+                                ${post.topic}
+                            </p>
+                            <p class="post_content">
                                 ${post.post_content}
                             </p>
-                            <p class="post-content center-block">
-                                topic: ${post.topic}
+                            <p class="post_tags">
+                                Tags: ${post.tags}
                             </p>
-                            <p class="post-content center-block">
-                                tags: ${post.tags}
-                            </p>
-                            <div style="color: blue" class="post_details row">
+                            <div class="post_details">
                                 <div class="col-md-3"> created ${post.created_on}</div>
                                 <!-- add updated_on info if post has been updated since creation -->
                                 <div class="col-md-3" v-if="post.updated_on!=post.created_on">
@@ -253,30 +258,36 @@
                 <template id="add_post_template" v-if="is_adding_post">
                     <div id="add_post_div" class="row">
                         <div id="new_post_text" class="row">
-                            <textarea v-model="form_post_content" class="center-block" rows="5">
+                            <textarea v-model="form_post_content" class="note_block" rows="5">
                             </textarea>
                         </div>
-                        <div class="form-group" id="class">
-                            <div>
-                                <input class="form-control string" id="class" name="course" type="text"
-                                       v-model="current_course_name" placeholder="Class"/>
-                                <span class="help-block"></span>
+
+                        <div class="note_details">
+                            <div class="form-group" id="class">
+                                <div>
+                                    <input class="form-control string" id="class" name="course" type="text"
+                                           v-model="current_course_name" placeholder="Class"/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="topic">
+                                <div>
+                                    <input class="form-control string" id="topic" name="album" type="text"
+                                           v-model="form_topic_content" placeholder="Topic"/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="tag">
+                                <div>
+                                    <input class="form-control string" id="tag" name="album" type="text"
+                                           v-model="form_tags_content" placeholder="Tags"/>
+                                       <span class="help-block"></span>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group" id="topic">
-                            <div>
-                                <input class="form-control string" id="topic" name="album" type="text"
-                                       v-model="form_topic_content" placeholder="Topic"/>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group" id="tag">
-                            <div>
-                                <input class="form-control string" id="tag" name="album" type="text"
-                                       v-model="form_tags_content" placeholder="Tags"/>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
+
                         <div id="add_post_btn" class="row">
                             <button class="btn btn-danger btn-sm col-md-offset-9" v-on:click="add_post()">
                                 <i class="fa fa-plus"></i>Post

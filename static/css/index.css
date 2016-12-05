@@ -1,12 +1,12 @@
 .navbar {
-    background-color: gray;
+    background-color: #eeeeee;
 }
 
 .navbar .logo {
     float: left;
     margin: 15px 0 0 30px;
     display: inline-block;
-    color: white;
+    color: #cccccc;
     font-size: 20px;
     font-weight: 700;
     padding: 0.2em 0.5em;
@@ -22,7 +22,7 @@
 .navbar nav a {
     display: inline-block;
     margin-left: 20px;
-    color: white;
+    color: #cccccc;
     font-size: 14px;
     font-weight: 500;
     text-transform: uppercase;
@@ -33,6 +33,9 @@
     text-decoration: none;
 }
 
+body {
+    background-color: lightblue;
+}
 
 header {
     height: 450px;
@@ -179,20 +182,49 @@ footer .lockup .content-wrap a:hover {
     text-decoration: none;
 }
 
-.search_input{
+#sidebar-closed {
 
-    border:2px solid #456879;
-	border-radius:10px;
-	height: 35px;
-	width: 800px;
 }
 
-.center-block{
-    width: 800px;
+#sidebar-open {
+
+}
+
+.search_input{
+    height: 38px;
+	width: 660px;
+    border: solid #cccccc;
+    border-width: 2px;
+	border-radius: 2px;
+    margin-bottom: 10px;
+}
+
+.note_block {
+    width: 715px;
 	height: 320px;
-	border: 6px solid #cccccc;
-	padding: 9px;
-	font-family: Tahoma, sans-serif;
-	background-position: bottom right;
-	background-repeat: no-repeat;
+	border: solid #cccccc;
+	border-width: 2px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+}
+
+.note_details .form-group {
+    width: 715px;
+	height: 50px;
+	border: solid #cccccc;
+	border-width: 2px;
+    border-radius: 2px;
+}
+
+.post_topic {
+
+}
+
+.post_content {
+
+}
+
+
+.post_tags {
+
 }
