@@ -26,10 +26,21 @@ def index():
 
     #search_posts("John")
     #getDaysApart(2016,12,25)
-    #redirect(URL('default', 'assignments'))
+    #redirect(URL('default', 'appointment_create'))
     return dict()
 
+@auth.requires_login()
+def mycal():
+    rows=db(db.t_appointment.created_by==auth.user.id).select()
+    return dict(rows=rows)
 
+@auth.requires_login()
+def appointment_create():
+    form=crud.create(db.t_appointment,
+                     next='mycal')
+    return dict(form=form)
+
+@auth.requires_login()
 def assignments():
     print "called assignments"
     return dict()

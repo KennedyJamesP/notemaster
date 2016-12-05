@@ -8,7 +8,11 @@
 # Consult manual for more options, validators, etc.
 
 import datetime
+from gluon.tools import *
 
+#these 2 lines are needed for the calendar stuff
+crud = Crud(globals(),db)                      # for CRUD helpers using auth
+crud.settings.auth = None                      # =auth to enforce authorization on crud
 
 db.define_table('courses',
                 Field('user_email', default=auth.user.email if auth.user_id else None),
@@ -48,6 +52,36 @@ db.define_table('assignments',
                 Field('assignment_name', 'text'),
                 Field('assignment_definition', 'text'),
                 )
+
+
+
+db.define_table('t_appointment',
+    Field('id','id',
+          represent=lambda id:SPAN(id,' ',A('view',_href=URL('appointment_read',args=id)))),
+    Field('f_title', type='string', notnull=True,
+          label=T('Title')),
+    Field('f_start_time', type='datetime',
+          label=T('Start Time')),
+    Field('f_end_time', type='datetime',
+          label=T('End Time')),
+    Field('f_log', type='text',
+          represent=lambda x: MARKMIN(x),
+          label=T('Extra Info')),
+    Field('created_on','datetime',default=request.now,
+          label=T('Created On'),writable=False,readable=False),
+    Field('modified_on','datetime',default=request.now,
+          label=T('Modified On'),writable=False,readable=False,
+          update=request.now),
+    Field('created_by',db.auth_user,default=auth.user_id,
+          label=T('Created By'),writable=False,readable=False),
+    Field('modified_by',db.auth_user,default=auth.user_id,
+          label=T('Modified By'),writable=False,readable=False,
+          update=auth.user_id))
+
+#weird location stuff was here
+def geocode2(form):
+    from gluon.tools import geocode
+
 
 # I don't want to display the user email by default in all forms.
 db.courses.user_email.readable = db.courses.user_email.writable = False

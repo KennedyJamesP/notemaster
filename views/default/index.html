@@ -31,7 +31,7 @@
                     <a href="#">About Us</a>
                     <a href="#" v-on:click="goto('notebook')">Notes</a>
                     <a href="#" v-on:click="goto('assignments')">Assignments</a>
-                    <a href="#">Class Schedule</a>
+                    <a href="{{=URL('default', 'mycal')}}">Class Schedule</a>
                     <a href="{{=URL('default', 'user', args=['login'])}}">Log In</a>
                 </nav>
                 <h1><span>Notemaster</span></h1>
