@@ -1,12 +1,14 @@
 .navbar {
     background-color: #eeeeee;
+    border: solid #cccccc;
+    border-width: 1px;
 }
 
 .navbar .logo {
     float: left;
     margin: 15px 0 0 30px;
     display: inline-block;
-    color: #cccccc;
+    color: dimgray;
     font-size: 20px;
     font-weight: 700;
     padding: 0.2em 0.5em;
@@ -22,7 +24,7 @@
 .navbar nav a {
     display: inline-block;
     margin-left: 20px;
-    color: #cccccc;
+    color: dimgray;
     font-size: 14px;
     font-weight: 500;
     text-transform: uppercase;
@@ -192,27 +194,34 @@ footer .lockup .content-wrap a:hover {
 
 .search_input{
     height: 38px;
-	width: 660px;
+	width: 620px;
     border: solid #cccccc;
-    border-width: 2px;
+    border-width: 1px;
 	border-radius: 2px;
     margin-bottom: 10px;
 }
 
+.search_div button {
+    float: right;
+}
+
 .note_block {
-    width: 715px;
+    width: 686px;
 	height: 320px;
 	border: solid #cccccc;
-	border-width: 2px;
+	border-width: 1px;
     border-radius: 2px;
     margin-bottom: 20px;
 }
 
-.note_details .form-group {
-    width: 715px;
-	height: 50px;
+.note_list .post {
+    background-color: white;
+    border-color: white;
+}
+
+.note_details input {
 	border: solid #cccccc;
-	border-width: 2px;
+	border-width: 1px;
     border-radius: 2px;
 }
 

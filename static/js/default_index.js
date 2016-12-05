@@ -18,9 +18,9 @@ var app = function () {
 
     var sort_by_created_on = function (v) {
         v.sort(function (a, b) {
-            if (a.created_on > b.created_on)
+            if (a.created_on < b.created_on)
                 return -1;
-            else if (a.created_on < b.created_on)
+            else if (a.created_on > b.created_on)
                 return 1;
             else
                 return 0;
@@ -28,7 +28,7 @@ var app = function () {
     }
 
 
-    var sort_by_last_used = function (v) {
+    var sort_reverse_last_used = function (v) {
         v.sort(function (a, b) {
             if (a.last_used > b.last_used)
                 return -1;
@@ -93,7 +93,7 @@ var app = function () {
         );
     };
 
-    self.load_more = function () {
+    self.load_more_notes = function () {
         var num_posts = self.vue.posts.length;
         $.getJSON(get_posts_url(num_posts, num_posts + DEFAULT_POST_LIST_LENGTH), function (data) {
             self.vue.has_more = data.has_more;
@@ -132,15 +132,13 @@ var app = function () {
             },
             function (data) {
                 //no sorting needed since new item is inserted at front of posts list
-                self.vue.posts.unshift(data.post);
+                self.vue.posts.push(data.post);
                 enumerate(self.vue.posts);
             });
-        //clear out all input fields (except course) so they don't have leftover data in them
+        //clear out all input fields (except topic) so they don't have leftover data in them
         self.vue.form_post_content = "";
-        self.form_topic_content = "";
+        // self.form_topic_content = "";
         self.form_tags_content = "";
-        //self.form_course_content = "";
-        self.vue.is_adding_post = false;
     };
 
     self.edit_post_button = function (post_idx) {
@@ -174,8 +172,7 @@ var app = function () {
                 post_content: self.vue.form_edit_content,
             },
             function (data) {
-                self.vue.posts.splice(self.vue.idx_to_edit, 1);
-                self.vue.posts.unshift(data.post);
+                self.vue.posts.splice(self.vue.idx_to_edit, 1, data.post);
                 sort_by_created_on(self.vue.posts);
                 enumerate(self.vue.posts);
             }
@@ -215,7 +212,7 @@ var app = function () {
         $.getJSON(get_courses_url, function (data) {
                 self.vue.courses = data.courses;
                 self.vue.current_course_id = data.current_course_id;
-                sort_by_last_used(self.vue.courses);
+                sort_reverse_last_used(self.vue.courses);
                 enumerate(self.vue.courses);
             }
         );
@@ -265,7 +262,7 @@ var app = function () {
     self.get_assignments = function () {
         $.getJSON(get_assignments_function(0, 20), function (data) {
             self.vue.assignments = data.assignments;
-            self.vue.has_more = data.has_more;
+            self.vue.has_more_assgn = data.has_more_assgn;
             self.vue.logged_in = data.logged_in;
             sort_by_date(self.vue.assignments);
             enumerate(self.vue.assignments);
@@ -282,7 +279,7 @@ var app = function () {
         })
     };
 
-    self.get_more = function () {
+    self.get_more_assignmts = function () {
         var num_tracks = self.vue.assignments.length;
         $.getJSON(get_assignments_url(num_tracks, num_tracks + 50), function (data) {
             self.vue.has_more = data.has_more;
@@ -305,12 +302,12 @@ var app = function () {
 
 
     self.add_assignment_button = function () {
-        // The button to add a track has been pressed.
+        // The button to add an assignment has been pressed.
         self.vue.is_adding_assignment = !self.vue.is_adding_assignment;
     };
 
     self.add_assignment = function () {
-        // The submit button to add a track has been added.
+        // The submit button to add an assignment has been added.
         $.post(add_assignment_url,
             {
                 assignment_name: self.vue.assignment_name,
@@ -372,7 +369,6 @@ var app = function () {
             logged_in: false,
             has_more: false,
             current_course_id: null,
-            current_course_name: null,
             form_post_content: null,
             form_edit_content: null,
             form_topic_content: null,
@@ -391,7 +387,7 @@ var app = function () {
             selected_url: null,
         },
         methods: {
-            load_more: self.load_more,
+            load_more_notes: self.load_more_notes,
             add_post_button: self.add_post_button,
             cancel_post_button: self.cancel_post_button,
             edit_post_button: self.edit_post_button,
@@ -405,7 +401,7 @@ var app = function () {
             goto:self.goto,
             get_courses:self.get_courses,
             add_course:self.add_course,
-            get_more: self.get_more,
+            get_more_assignmts: self.get_more_assignmts,
             add_assignment_button: self.add_assignment_button,
             add_assignment: self.add_assignment,
             delete_assignment: self.delete_assignment,
