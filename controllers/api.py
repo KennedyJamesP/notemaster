@@ -54,7 +54,7 @@ def search_posts():
     print "done with search"
     # print "q is: "+q
     rows = db(q)((db.post.user_email == auth.user.email)).select(db.post.ALL,orderby=~db.post.updated_on)
-    print rows
+    #print rows
 
     for i, r in enumerate(rows):
         p = generate_post(r)
@@ -63,7 +63,7 @@ def search_posts():
         posts.append(p)
     logged_in = auth.user_id is not None
     user_email = auth.user.email if logged_in else None
-    print p
+    #print p
     return response.json(dict(
         posts=posts,
         logged_in=logged_in,
@@ -109,13 +109,7 @@ def add_course():
         course_name=request.vars.course_name
     )
     new_row = db.courses(post_id)
-    c = dict(
-        course_name=new_row.course_name,
-        id=new_row.id,
-        created_on=new_row.created_on,
-        last_used=new_row.last_used
-    )
-
+    c = generate_course(new_row)
     return response.json(dict(course=c))
 
 
@@ -123,7 +117,7 @@ def add_course():
 def get_courses():
     """returns the list of courses for the current user"""
     courses = []
-    course_db_rows = db((db.courses.user_email == auth.user.email)).select(db.courses.ALL, orderby=~db.courses.last_used)
+    course_db_rows = db((db.courses.user_email == auth.user.email)).select(db.courses.ALL, orderby=db.courses.last_used)
 
     for r in course_db_rows:
         course = generate_course(r)
@@ -185,8 +179,13 @@ def add_assignments():
     print request.vars.assignment_definition
     print assign
     t = db.assignments(assign)
+
+    slash = str(request.vars.due).split('-')  # item 0 is year, item 1 is month, item 2 is day
+    diff = getDaysApart(slash[0], slash[1], slash[2])
+    print diff.days
+    t['diff'] = int(diff.days)
     print "done"
-    return response.json(dict(track=t))
+    return response.json(dict(assignment=t))
 
 
 def get_assignments():
@@ -211,15 +210,16 @@ def get_assignments():
             """
             diff=getDaysApart(slash[0],slash[1],slash[2])
             print diff.days
-            t = dict(
+            if int(diff.days)>0:
+                t = dict(
                 due = r.due,
                 assignment_name = r.assignment_name,
                 assignment_definition = r.assignment_definition,
                 id=r.id,
                 diff=int(diff.days)
-            )
-            print t
-            assignments.append(t)
+                )
+                print t
+                assignments.append(t)
     logged_in = auth.user_id is not None
     print "printing assignments"
     print assignments
@@ -230,6 +230,44 @@ def get_assignments():
         has_more=has_more,
     ))
 
+def get_past_assignments():
+    print "called get_past_assignments"
+    past_assignments = []
+    print "starting rows"
+    rows = db((db.assignments.user_email == auth.user.email)).select(db.assignments.ALL,orderby=db.assignments.due)
+    print rows
+    print "finished rows"
+    # need to calculate how many days until the assignment is due here
+    for i, r in enumerate(rows):
+            # Check if I have a track or not.
+            print "due on: "
+            print r.due
+            slash=str(r.due).split('-') #item 0 is year, item 1 is month, item 2 is day
+            print slash
+            """
+            print slash[0]
+            print slash[1]
+            print slash[2]
+            """
+            diff=getDaysApart(slash[0],slash[1],slash[2])
+            print diff.days
+            if(int(diff.days) <0):
+                t = dict(
+                due = r.due,
+                assignment_name = r.assignment_name,
+                assignment_definition = r.assignment_definition,
+                id=r.id,
+                diff=int(diff.days)
+            )
+                print t
+                past_assignments.append(t)
+    logged_in = auth.user_id is not None
+    print "printing past_assignments"
+    print past_assignments
+
+    return response.json(dict(
+        past_assignments=past_assignments,
+    ))
 
 @auth.requires_signature()
 def del_assignment():

@@ -18,15 +18,17 @@ var app = function () {
 
     var sort_by_created_on = function (v) {
         v.sort(function (a, b) {
-            if (a.created_on > b.created_on)
+            if (a.created_on < b.created_on)
                 return -1;
-            else if (a.created_on < b.created_on)
+            else if (a.created_on > b.created_on)
                 return 1;
             else
                 return 0;
         });
     }
-    var sort_by_last_used = function (v) {
+
+
+    var sort_reverse_last_used = function (v) {
         v.sort(function (a, b) {
             if (a.last_used > b.last_used)
                 return -1;
@@ -62,7 +64,8 @@ var app = function () {
                 self.vue.has_more = data.has_more;
                 self.vue.logged_in = data.logged_in;
                 self.vue.user_email = data.user_email;
-                self.vue.current_course_id = data.course_id; //not sure if working
+                self.vue.current_course_id = data.course_id;
+                self.vue.form_course_content = self.vue.current_course_id;
 
                 sort_by_created_on(self.vue.posts)
                 enumerate(self.vue.posts);
@@ -90,7 +93,7 @@ var app = function () {
         );
     };
 
-    self.load_more = function () {
+    self.load_more_notes = function () {
         var num_posts = self.vue.posts.length;
         $.getJSON(get_posts_url(num_posts, num_posts + DEFAULT_POST_LIST_LENGTH), function (data) {
             self.vue.has_more = data.has_more;
@@ -110,10 +113,9 @@ var app = function () {
         // The button to add a post has been pressed.
         self.vue.form_post_content = "";
         self.vue.form_edit_content = "";
-        self.vue.form_course_content = "";
+        self.vue.form_course_content = self.vue.current_course_id;
         self.form_topic_content = "";
         self.form_tags_content = "";
-        self.vue.is_adding_post = false;
         self.vue.is_editing_post = false;
     };
 
@@ -123,34 +125,20 @@ var app = function () {
         // The submit button to add a post has been added.
         $.post(add_post_url,
             {
-                //TODO: get current course from vue instead of user inputting the course
                 course_id: self.vue.current_course_id,
                 post_content: self.vue.form_post_content,
                 topic: self.vue.form_topic_content,
                 tags: self.vue.form_tags_content,
             },
             function (data) {
-                // $.web2py.enableElement($("#add_post_btn"));
-
-
-                //TODO: remove post from end of list if necessary to ensure num posts displayed doesnt change once posts
-                // // reaches its default limit
-                // if ((self.vue.posts.length > 0) &&
-                //     (self.vue.posts % DEFAULT_POST_LIST_LENGTH == 0)) {
-                //     self.vue.posts.pop();
-                //     self.vue.has_more = true;
-                // }
-
                 //no sorting needed since new item is inserted at front of posts list
-                self.vue.posts.unshift(data.post);
+                self.vue.posts.push(data.post);
                 enumerate(self.vue.posts);
             });
-        //clear out all input fields (except course) so they don't have leftover data in them
+        //clear out all input fields (except topic) so they don't have leftover data in them
         self.vue.form_post_content = "";
-        self.form_topic_content = "";
+        // self.form_topic_content = "";
         self.form_tags_content = "";
-        //self.form_course_content = "";
-        self.vue.is_adding_post = false;
     };
 
     self.edit_post_button = function (post_idx) {
@@ -184,8 +172,7 @@ var app = function () {
                 post_content: self.vue.form_edit_content,
             },
             function (data) {
-                self.vue.posts.splice(self.vue.idx_to_edit, 1);
-                self.vue.posts.unshift(data.post);
+                self.vue.posts.splice(self.vue.idx_to_edit, 1, data.post);
                 sort_by_created_on(self.vue.posts);
                 enumerate(self.vue.posts);
             }
@@ -225,7 +212,7 @@ var app = function () {
         $.getJSON(get_courses_url, function (data) {
                 self.vue.courses = data.courses;
                 self.vue.current_course_id = data.current_course_id;
-                sort_by_last_used(self.vue.courses);
+                sort_reverse_last_used(self.vue.courses);
                 enumerate(self.vue.courses);
             }
         );
@@ -253,6 +240,119 @@ var app = function () {
         self.vue.is_adding_post = false;
     };
 
+    function get_assignments_function(start_idx, end_idx) {
+        var pp = {
+            start_idx: start_idx,
+            end_idx: end_idx
+        };
+
+        return get_assignments_url + "?" + $.param(pp);
+    }
+
+
+    function get_past_assignments_function(start_idx, end_idx) {
+        var pp = {
+            start_idx: start_idx,
+            end_idx: end_idx
+        };
+
+        return get_past_assignments_url + "?" + $.param(pp);
+    }
+
+    self.get_assignments = function () {
+        $.getJSON(get_assignments_function(0, 20), function (data) {
+            self.vue.assignments = data.assignments;
+            self.vue.has_more_assgn = data.has_more_assgn;
+            self.vue.logged_in = data.logged_in;
+            sort_by_date(self.vue.assignments);
+            enumerate(self.vue.assignments);
+            self.vue.assignments.reverse();
+        })
+    };
+
+      self.get_past_assignments = function () {
+        $.getJSON(get_past_assignments_function(0, 20), function (data) {
+            self.vue.past_assignments = data.past_assignments;
+            sort_by_date(self.vue.past_assignments);
+            enumerate(self.vue.past_assignments);
+            self.vue.past_assignments.reverse();
+        })
+    };
+
+    self.get_more_assignmts = function () {
+        var num_tracks = self.vue.assignments.length;
+        $.getJSON(get_assignments_url(num_tracks, num_tracks + 50), function (data) {
+            self.vue.has_more = data.has_more;
+            self.extend(self.vue.assignments, data.assignments);
+            enumerate(self.vue.assignments);
+        });
+    };
+
+    var sort_by_date = function (v) {
+        console.log("sort_by_date")
+        v.sort(function (a, b) {
+            if (a.due > b.due)
+                return -1;
+            else if (a.due < b.due)
+                return 1;
+            else
+                return 0;
+        });
+    }
+
+
+    self.add_assignment_button = function () {
+        // The button to add an assignment has been pressed.
+        self.vue.is_adding_assignment = !self.vue.is_adding_assignment;
+    };
+
+    self.add_assignment = function () {
+        // The submit button to add an assignment has been added.
+        $.post(add_assignment_url,
+            {
+                assignment_name: self.vue.assignment_name,
+                assignment_definition: self.vue.assignment_description,
+                due: self.vue.due,
+            },
+            function (data) {
+                $.web2py.enableElement($("#add_assignment"));
+                console.log(data);
+                console.log(data.assignment.diff)
+                if(data.assignment.diff <0){
+                    self.vue.past_assignments.unshift(data.assignment);
+                    sort_by_date(self.vue.past_assignments);
+                    enumerate(self.vue.past_assignments);
+                    self.vue.past_assignments.reverse();
+
+                }else {
+                    self.vue.assignments.unshift(data.assignment);
+                    sort_by_date(self.vue.assignments);
+                    enumerate(self.vue.assignments);
+                    self.vue.assignments.reverse();
+                }
+            });
+
+    };
+
+
+    self.delete_assignment = function(track_idx) {
+        $.post(del_assignment_url,
+            { track_id: self.vue.assignments[track_idx].id },
+            function () {
+                self.vue.assignments.splice(track_idx, 1);
+                enumerate(self.vue.assignments);
+            }
+        )
+    };
+ self.delete_past_assignment = function(track_idx) {
+        $.post(del_assignment_url,
+            { track_id: self.vue.past_assignments[track_idx].id },
+            function () {
+                self.vue.past_assignments.splice(track_idx, 1);
+                enumerate(self.vue.past_assignments);
+            }
+        )
+    };
 
 
     self.vue = new Vue({
@@ -269,7 +369,6 @@ var app = function () {
             logged_in: false,
             has_more: false,
             current_course_id: null,
-            current_course_name: null,
             form_post_content: null,
             form_edit_content: null,
             form_topic_content: null,
@@ -277,10 +376,18 @@ var app = function () {
             user_email: null,
             post_search: "",
             page:"splash",
-            new_course_name: ""
+            new_course_name: "",
+            assignment_name: null,
+            assignment_description: null,
+            due: null,
+            is_adding_assignment: false,
+            assignments: [],
+            past_assignments: [],
+            selected_idx: null,
+            selected_url: null,
         },
         methods: {
-            load_more: self.load_more,
+            load_more_notes: self.load_more_notes,
             add_post_button: self.add_post_button,
             cancel_post_button: self.cancel_post_button,
             edit_post_button: self.edit_post_button,
@@ -294,15 +401,21 @@ var app = function () {
             goto:self.goto,
             get_courses:self.get_courses,
             add_course:self.add_course,
+            get_more_assignmts: self.get_more_assignmts,
+            add_assignment_button: self.add_assignment_button,
+            add_assignment: self.add_assignment,
+            delete_assignment: self.delete_assignment,
+            delete_past_assignment: self.delete_past_assignment
         }
     })
 
-
+//these functions automatically get called when the page loads
     self.get_posts();
     self.get_courses();
+    self.get_assignments();
+    self.get_past_assignments();
 
     $("#vue-div").show();
-
 
     return self;
 };
