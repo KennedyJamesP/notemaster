@@ -16,6 +16,7 @@
 
 
 <div class="main_content container-fluid">
+    <div class="container1">
 
     <div id="vue-div" class="display:none">
 
@@ -65,16 +66,17 @@
             <h2>NOTEMASTER</h2>
             <div id="main-container" class="container">
 
-            <div id="main-row" class="row">
+            <div id="main-row" class="mainrow">
+                <div id ="setting-top-left" class="">
 
-                <div id="sidebar-closed" class="col-md-1 post"  v-if="!is_sidebar_open">
-                        <i class="fa fa-large fa-chevron-circle-right" v-on:click="sidebar_collapse_btn()"></i>
+                <div id="sidebar-closed" class="sidebarboxed col-md-1"  v-if="!is_sidebar_open">
+                        <i class="fa fa-2x fa-bars" v-on:click="sidebar_collapse_btn()"></i> Add Course
                 </div>
-                <div id="sidebar-open" class="col-md-3 post"  v-if="is_sidebar_open">
+                <div id="sidebar-open" class="sidebarboxed_open col-md-3"  v-if="is_sidebar_open">
                     <div id="sidebar-container" class="container">
                         <div class="row">
-                            <button class="btn btn-danger btn-sm" v-on:click="sidebar_collapse_btn()">
-                                <i class="fa fa-large fa-chevron-circle-left"></i>Collapse
+                            <button class="btn btn-danger btn-md" v-on:click="sidebar_collapse_btn()">
+                                <i class="fa fa-2x fa-rotate-90 fa-bars"></i>   Collapse
                             </button>
                         </div>
 
@@ -92,11 +94,13 @@
                             </div>
                         </div>
                     </div>
-                </div><!-- end sidebar-->
+                    </div>
+                </div>
+                    <!-- end sidebar-->
 
-                <div id="main_panel" class="post col-md-9 container-fluid">
+                <div id="main_panel" class="mainpanel_container col-md-9 container-fluid">
                 <div class="search_div row">
-                    <input class="search_input col-md-9" v-model="post_search"/>
+                    <input class="search_input col-md-9" v-model="post_search" placeholder="      Search for Notes...."/>
                     <button class="btn" v-on:click="do_search"><i class="fa fa-search fa-lg"></i></button>
                 </div>
 
@@ -159,33 +163,33 @@
                 <template id="add_post_template" v-if="is_adding_post">
                     <div id="add_post_div" class="row">
                         <div id="new_post_text" class="row">
-                            <textarea v-model="form_post_content" class="center-block" rows="5">
+                            <textarea v-model="form_post_content" class="center-block" rows="5" style="padding:10px">
                             </textarea>
                         </div>
                         <div class="form-group" id="class">
                             <div>
-                                <input class="form-control string" id="class" name="course" type="text"
+                                <input class="form-control string" id="class" name="course" type="text" style="width: 75%"
                                        v-model="current_course_name" placeholder="Class"/>
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div class="form-group" id="topic">
                             <div>
-                                <input class="form-control string" id="topic" name="album" type="text"
+                                <input class="form-control string" id="topic" name="album" type="text" style="width: 75%"
                                        v-model="form_topic_content" placeholder="Topic"/>
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div class="form-group" id="tag">
                             <div>
-                                <input class="form-control string" id="tag" name="album" type="text"
+                                <input class="form-control string" id="tag" name="album" type="text" style="width: 75%"
                                        v-model="form_tags_content" placeholder="Tags"/>
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div id="add_post_btn" class="row">
                             <button class="btn btn-danger btn-sm col-md-offset-9" v-on:click="add_post()">
-                                <i class="fa fa-plus"></i>Post
+                                <i class="fa fa-plus"></i> Add Notes
                             </button>
                         </div>
                     </div>
@@ -195,6 +199,7 @@
         </div>
         </div>
     </div>
+        </div>
 </div>
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
 
