@@ -1,44 +1,3 @@
-.navbar {
-    background-color: #eeeeee;
-    border: solid #cccccc;
-    border-width: 1px;
-}
-
-.navbar .logo {
-    float: left;
-    margin: 15px 0 0 30px;
-    display: inline-block;
-    color: dimgray;
-    font-size: 20px;
-    font-weight: 700;
-    padding: 0.2em 0.5em;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-}
-
-.navbar nav {
-    float: right;
-    margin: 30px 30px 0 0;
-}
-
-.navbar nav a {
-    display: inline-block;
-    margin-left: 20px;
-    color: dimgray;
-    font-size: 14px;
-    font-weight: 500;
-    text-transform: uppercase;
-}
-
-.navbar nav a:hover {
-    color: rgba(0, 0, 0, 0.7);
-    text-decoration: none;
-}
-
-body {
-    background-color: lightblue;
-}
-
 header {
     height: 450px;
     background:
@@ -49,6 +8,18 @@ header {
         url(http://gratisography.com/pictures/346_1.jpg)
         no-repeat center;
     background-size: cover;
+
+}header {
+    height: 450px;
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.50),
+            rgba(0, 0, 0, 0.50)
+        ),
+        url(http://gratisography.com/pictures/346_1.jpg)
+        no-repeat center;
+    background-size: cover;
+
 }
 
 header .logo {
@@ -184,56 +155,73 @@ footer .lockup .content-wrap a:hover {
     text-decoration: none;
 }
 
-#sidebar-closed {
-
-}
-
-#sidebar-open {
-
-}
-
 .search_input{
-    height: 38px;
-	width: 620px;
-    border: solid #cccccc;
-    border-width: 1px;
-	border-radius: 2px;
-    margin-bottom: 10px;
+
+    border:2px solid #456879;
+	border-radius:10px;
+	height: 35px;
+	width: 50%;
+    margin-left: 35px;
 }
 
-.search_div button {
-    float: right;
-}
-
-.note_block {
-    width: 686px;
-	height: 320px;
-	border: solid #cccccc;
-	border-width: 1px;
-    border-radius: 2px;
+.center-block{
+    width: 95%;
+    height: 225px;
+    padding: 12px 16px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #3e3f3a;
+    background-color: #ffffff;
+    background-image: none;
+    border: 1px solid #dfd7ca;
+    border-radius: 4px;
+    margin-top: 20px;
     margin-bottom: 20px;
-}
-
-.note_list .post {
-    background-color: white;
-    border-color: white;
-}
-
-.note_details input {
-	border: solid #cccccc;
-	border-width: 1px;
-    border-radius: 2px;
-}
-
-.post_topic {
 
 }
 
-.post_content {
-
+.boxed{
+  border-color: $clrPostBorder;
+  border-width: 1px;
+  background: $clrPostBackground;
+  margin: 20px 0px 20px 0px;
+  padding: 20px;
 }
 
+.sidebarboxed{
+  border-width: 1px;
+    border-style: solid;
+  margin: 20px 0px 20px 0px;
+  padding: 20px;
+    width: 250px;
+    position: static;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.3em;
+}
+.sidebarboxed_open{
+  border-width: 1px;
+    border-style: solid;
+  margin: 20px 0px 20px 0px;
+  padding: 20px;
+    width: 450px;
+    position: static;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.3em;
+}
 
-.post_tags {
+.mainpanel_container{
+  border-width: 1px;
+    border-style: solid;
+  margin: 20px 0px 20px 0px;
+  padding: 20px;
+    min-height: 100%;
+    min-width: 100%;
+    position: static;
 
+}
+.topleft {
+    position: absolute;
+    top: 40px;
+    left: 80px;
+    font-size: 18px;
 }
