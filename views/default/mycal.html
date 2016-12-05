@@ -6,6 +6,15 @@
 {{response.files.append(URL(r=request,c='static',f='css/fullcalendar.css'))}}
 {{extend 'layout.html'}}
 
+<div class="navbar">
+    <div class="logo">Notemaster</div>
+    <nav>
+        <a v-on:click="goto('notebook')">Notes</a>
+        <a v-on:click="goto('assignments')">Assignments</a>
+        <a href="{{=URL('default', 'mycal')}}">Organizer</a> 
+    </nav>
+</div>
+
 <h1>My Schedule</h1>
 
 {{=A(T('Add Class'),_href=URL('appointment_create'))}}
