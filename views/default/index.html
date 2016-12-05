@@ -64,6 +64,7 @@
 
         </div>
         <!-- End of Splash Page -->
+
         <!-- Start of Assignments Page -->
         <div v-if="page=='assignments'" id="assignments_page" >
             <h1>assignments</h1>
@@ -142,8 +143,20 @@
         <!-- Start of Notes Page -->
         <div v-if="page=='notebook'" id="notebook_page" >
 
-            <h2>NOTEMASTER</h2>
-            <div id="notebook-container" class="container">
+            <div class="notebook">
+
+            <div class="navbar">
+                <div class="logo">Notemaster</div>
+                <nav>
+                    <a href="">About Us</a>
+                    <a v-on:click="goto('notebook')">Notes</a>
+                    <a v-on:click="goto('assignments')">Assignments</a>
+                    <a href="">Organizer</a>
+                    <a href="{{=URL('default', 'user', args=['login'])}}">Log In</a>
+                </nav>
+            </div>
+
+            <div id="main-container" class="container">
 
                 <div id="main-row" class="row">
 

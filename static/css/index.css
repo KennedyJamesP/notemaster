@@ -1,3 +1,39 @@
+.navbar {
+    background-color: gray;
+}
+
+.navbar .logo {
+    float: left;
+    margin: 15px 0 0 30px;
+    display: inline-block;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 0.2em 0.5em;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+
+.navbar nav {
+    float: right;
+    margin: 30px 30px 0 0;
+}
+
+.navbar nav a {
+    display: inline-block;
+    margin-left: 20px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.navbar nav a:hover {
+    color: rgba(0, 0, 0, 0.7);
+    text-decoration: none;
+}
+
+
 header {
     height: 450px;
     background:
@@ -8,18 +44,6 @@ header {
         url(http://gratisography.com/pictures/346_1.jpg)
         no-repeat center;
     background-size: cover;
-
-}header {
-    height: 450px;
-    background:
-        linear-gradient(
-            rgba(0, 0, 0, 0.50),
-            rgba(0, 0, 0, 0.50)
-        ),
-        url(http://gratisography.com/pictures/346_1.jpg)
-        no-repeat center;
-    background-size: cover;
-
 }
 
 header .logo {
