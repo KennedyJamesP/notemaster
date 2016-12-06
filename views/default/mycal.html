@@ -79,7 +79,6 @@
                         <th>Due     </th>
                         <th>Days Remaining      </th>
                         <th>Definition     </th>
-                        <th>Delete     </th>
                     </tr>
                     <tbody>
                     {{for asgn in assignments:}}
@@ -88,7 +87,6 @@
                         <td>   {{=asgn['due']}} &ensp;</td>
                         <td>   {{=asgn['diff']}} &ensp;</td>
                         <td>   {{=asgn['assignment_definition']}} &ensp;</td>
-                        <td><i class="fa fa-trash-o" ></i></td>
                     </tr>
                     {{pass}}
                     </tbody>
@@ -100,7 +98,6 @@
                         <th>Due     </th>
                         <th>Days Remaining      </th>
                         <th>Definition     </th>
-                        <th>Delete     </th>
                     </tr>
                     <tbody>
                     {{for asgn in past_assignments:}}
@@ -109,7 +106,6 @@
                         <td>   {{=asgn['due']}} &ensp;</td>
                         <td>   {{=asgn['diff']}} &ensp;</td>
                         <td>   {{=asgn['assignment_definition']}} &ensp;</td>
-                        <td><i class="fa fa-trash-o" ></i></td>
                     </tr>
                     {{pass}}
                     </tbody>
