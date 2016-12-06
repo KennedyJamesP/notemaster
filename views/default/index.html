@@ -34,19 +34,30 @@
                     <a href="#">About Us</a>
                     <a href="#" v-on:click="goto('notebook')">Notes</a>
                     <a href="#" v-on:click="goto('assignments')">Assignments</a>
-                    <a href="{{=URL('default', 'mycal')}}" >Organizer</a> 
+                    <a href="{{=URL('default', 'mycal')}}">Calendar</a>
                     <a href="{{=URL('default', 'user', args=['login'])}}">Log In</a>
                 </nav>
-                <h1><span>Notemaster</span></h1>
-                <p class="caption">Blah // Blah // Blah</p>
+                <h1><span>Study Smarter</span></h1>
+                <p class="caption">
+                    We empower students by providing the digital study tools needed to succeed on and off campus.
+                </p>
+                <p class="caption">
+                    Join for free today to stay organized, get better grades, and dominate school!
+                </p>
+                <div class="button_container">
+                    <a href="{{=URL('default', 'user', args=['login'])}}" class="btn btn-lg signup_button">
+                        Get started today for free!
+                    </a>
+                </div>
             </header>
 
             <div class="about">
                 <h1>What is NoteMaster?</h1>
                 <p>
-                    NoteMaster is an online learning experience that hosts, organizes,
-                    and provides intelligent learning tools, enabling students to study harder and
-                    study smarter.
+                    NoteMaster is an online learning experience that hosts, organizes, and provides
+                </p>
+                <p>
+                    intelligent learning tools, enabling students to study harder and study smarter.
                 </p>
             </div>
 
@@ -68,34 +79,6 @@
         </div>
         <!-- End of Splash Page -->
 
-        <!-- Start of Calendar Page -->
-        <!--div v-if="page=='calendar'" id="calendar_page">
-
-        {{response.files.append(URL(r=request,c='static',f='js/ui.draggable.js'))}}
-        {{response.files.append(URL(r=request,c='static',f='js/ui.resizable.js'))}}
-        {{response.files.append(URL(r=request,c='static',f='js/fullcalendar.min.js'))}}
-        {{response.files.append(URL(r=request,c='static',f='css/fullcalendar.css'))}}
-
-
-        <div class="navbar">
-            <div class="logo">Notemaster</div>
-            <nav>
-                <a v-on:click="goto('notebook')">Notes</a>
-                <a v-on:click="goto('assignments')">Assignments</a>
-                <a href="{{=URL('default', 'mycal')}}">Organizer</a> 
-            </nav>
-        </div>
-
-        <h1>My Schedule</h1>
-
-        {{=A(T('Add Class'),_href=URL('appointment_create'))}}
-        <br/>
-
-
-        <div id='calendar'></div>
-    </div-->
-        <!-- End of Calendar Page -->
-
         <!-- Start of Assignments Page -->
         <div v-if="page=='assignments'" id="assignments_page" >
 
@@ -104,7 +87,7 @@
                 <nav>
                     <a v-on:click="goto('notebook')">Notes</a>
                     <a v-on:click="goto('assignments')">Assignments</a>
-                    <a href="{{=URL('default', 'mycal')}}">Organizer</a> 
+                    <a href="{{=URL('default', 'mycal')}}">Calendar</a> 
                 </nav>
             </div>
 
@@ -202,7 +185,7 @@
                 <nav>
                     <a v-on:click="goto('notebook')">Notes</a>
                     <a v-on:click="goto('assignments')">Assignments</a>
-                    <a href="{{=URL('default', 'mycal')}}">Organizer</a> 
+                    <a href="{{=URL('default', 'mycal')}}">Calendar</a> 
                 </nav>
             </div>
 
@@ -219,11 +202,10 @@
                     <div id="sidebar-open" class="col-md-3 post"  v-if="is_sidebar_open">
                         <div id="sidebar-container" class="container">
                             <div class="row">
-                                <button class="btn btn-danger btn-sm" v-on:click="sidebar_collapse_btn()">
+                                <button class="btn btn-danger btn-sm course_collapse" v-on:click="sidebar_collapse_btn()">
                                     <i class="fa fa-large fa-chevron-circle-left"></i>Collapse
                                 </button>
                             </div>
-
 
                             <div id="add_course_row" class ="row">
                                 <input class="string" id="add_course_input" name="New course" type="text"
@@ -232,6 +214,7 @@
                                     <i class="fa fa-plus"></i>Add
                                 </button>
                             </div>
+
                             <div id="courses_btn_group" class="btn-group-lg btn-group-vertical row">
                                 <div v-for="course in courses">
                                     <button class="btn btn-block"><i class="fa fa-book fa-lg"></i>${course.course_name} </button>
@@ -323,7 +306,7 @@
 
                                 <div class="form-group" id="topic">
                                     <div>
-                                        <input class="form-control string" id="topic" name="album" type="text"
+                                        <input class="form-control string" id="topic" name="topic" type="text"
                                                v-model="form_topic_content" placeholder="Topic"/>
                                         <span class="help-block"></span>
                                     </div>
@@ -331,7 +314,7 @@
 
                                 <div class="form-group" id="tag">
                                     <div>
-                                        <input class="form-control string" id="tag" name="album" type="text"
+                                        <input class="form-control string" id="tag" name="tag" type="text"
                                                v-model="form_tags_content" placeholder="Tags"/>
                                            <span class="help-block"></span>
                                     </div>
