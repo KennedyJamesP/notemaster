@@ -34,7 +34,7 @@
                     <a href="#">About Us</a>
                     <a href="#" v-on:click="goto('notebook')">Notes</a>
                     <a href="#" v-on:click="goto('assignments')">Assignments</a>
-                    <a href="#" v-on:click="goto('calendar')">Calendar</a> 
+                    <a href="{{=URL('default', 'mycal')}}">Calendar</a>
                     <a href="{{=URL('default', 'user', args=['login'])}}">Log In</a>
                 </nav>
                 <h1><span>Study Smarter</span></h1>
@@ -78,34 +78,6 @@
 
         </div>
         <!-- End of Splash Page -->
-
-        <!-- Start of Calendar Page -->
-        <div v-if="page=='calendar'" id="calendar_page">
-
-        {{response.files.append(URL(r=request,c='static',f='js/ui.draggable.js'))}}
-        {{response.files.append(URL(r=request,c='static',f='js/ui.resizable.js'))}}
-        {{response.files.append(URL(r=request,c='static',f='js/fullcalendar.min.js'))}}
-        {{response.files.append(URL(r=request,c='static',f='css/fullcalendar.css'))}}
-
-
-        <div class="navbar">
-            <div class="logo">Notemaster</div>
-            <nav>
-                <a v-on:click="goto('notebook')">Notes</a>
-                <a v-on:click="goto('assignments')">Assignments</a>
-                <a href="{{=URL('default', 'mycal')}}">Calendar</a> 
-            </nav>
-        </div>
-
-        <h1>My Schedule</h1>
-
-        {{=A(T('Add Class'),_href=URL('appointment_create'))}}
-        <br/>
-
-
-        <div id='calendar'></div>
-    </div>
-        <!-- End of Calendar Page -->
 
         <!-- Start of Assignments Page -->
         <div v-if="page=='assignments'" id="assignments_page" >
@@ -213,7 +185,7 @@
                 <nav>
                     <a v-on:click="goto('notebook')">Notes</a>
                     <a v-on:click="goto('assignments')">Assignments</a>
-                    <a href="{{=URL('default', 'mycal')}}">Organizer</a> 
+                    <a href="{{=URL('default', 'mycal')}}">Calendar</a> 
                 </nav>
             </div>
 
