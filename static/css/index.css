@@ -4,10 +4,6 @@
     border-width: 1px;
 }
 
-#calendar_page .navbar {
-   background-color: transparent;
-}
-
 .navbar .logo {
     float: left;
     margin: 15px 0 0 30px;
@@ -204,14 +200,6 @@ footer .lockup .content-wrap a:hover {
     text-decoration: none;
 }
 
-#sidebar-closed {
-
-}
-
-#sidebar-open {
-
-}
-
 #courses_btn_group .btn {
     margin-bottom: 2px;
     width: 216px;
@@ -250,7 +238,7 @@ footer .lockup .content-wrap a:hover {
 }
 
 .note_block {
-    width: 836px;
+    width: 886px;
 	height: 320px;
 	border: solid #cccccc;
 	border-width: 1px;
@@ -308,18 +296,41 @@ footer .lockup .content-wrap a:hover {
 }
 
 /*resulting table from adding assignments*/
-result_table{
+result_table {
     color: #333;
     font-family: Helvetica, Arial, sans-serif;
     width: 700px;
     border-collapse:
     collapse; border-spacing: 0;
     font-size: large;
+    text-align: center;
+    display:block; margin:0 auto;
 }
+
+#assignments_page .button_bar {
+    margin-left: 4px;
+}
+
+#assignments_page .container {
+    display:block; margin:0 auto;
+}
+
+#notebook_page #main-container #main-row {
+    display:block; margin:0 auto;
+}
+
+.cal_container {
+    display:block; margin:0 auto;
+}
+
+.cal_container button {
+    margin-bottom: 15px;
+}
+
 td, th {
 /*border: 1px solid transparent;  No more visible border */
-    border: 1px solid black;
-    text-align: center;
+    background-color: dimgray;
+    border: 1px solid #cccccc;
     height: 20px;
     transition: all 0.3s; /* Simple transition for hover effect */
     width: 200px;
@@ -328,8 +339,8 @@ td, th {
 }
 th {
     background: #DFDFDF; /* Darken header a bit */
-    font-weight: bold;
     text-align: center;
+    color: dimgray;
 }
 td {
     background: #FAFAFA;

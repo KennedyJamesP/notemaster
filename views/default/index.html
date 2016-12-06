@@ -91,16 +91,16 @@
                 </nav>
             </div>
 
-            <div class="container envelope">
+            <div class="container post">
                 <h1>Assignments</h1>
 
 
                 <div class="button_bar row">
                     <button v-if="!is_adding_assignment" class="btn btn-danger btn-sm" v-on:click="add_assignment_button()" v-bind:class="{'disabled': !logged_in}">
-                        <i class="fa fa-plus"></i>Add new assignment
+                        <i class="fa fa-plus"></i> Add new assignment
                     </button>
                     <button v-if="is_adding_assignment" class="btn btn-warning btn-sm" v-on:click="add_assignment_button()">
-                        <i class="btn btn-danger btn-sm"></i>Cancel
+                        Cancel
                     </button>
                 </div>
 
@@ -132,6 +132,7 @@
                     </form>
                 </div>
 
+                <!-- Post used to go here -->
                 <div class="result_table">
                     <h2>Upcoming Assignments</h2>
                     <table>
@@ -191,7 +192,7 @@
                 </nav>
             </div>
 
-            <div id="main-container" class="container col-md-11 envelope">
+            <div id="main-container" class="container col-md-11">
 
                 <div id="main-row" class="row">
                     <!-- Sidebar closed-->
