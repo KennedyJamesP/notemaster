@@ -120,7 +120,7 @@
                             </div>
                         </div>
                         <div class="form-group" id="Due_date_description">
-                            <div><input class="form-control string" id="the_due_date" name="due date" type="text" v-model="due" placeholder="Due Date YYYY-MM-DD"/>
+                            <div><input class="form-control string" id="the_due_date" name="due date" type="text" v-model="due" placeholder="Due Date YYYY-MM-DD mm-ss-ms"/>
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -164,10 +164,10 @@
                         </tr>
                         <tbody>
                         <tr v-for="asgn in past_assignments">
-                            <td> Name: ${asgn.assignment_name} &ensp; &ensp;</td>
-                            <td>Due: ${asgn.due} &ensp;</td>
-                            <td>Days Remaining: ${asgn.diff} &ensp;</td>
-                            <td>Definition: ${asgn.assignment_definition} &ensp;</td>
+                            <td>   ${asgn.assignment_name} &ensp;</td>
+                            <td>   ${asgn.due} &ensp;</td>
+                            <td>   ${asgn.diff} &ensp;</td>
+                            <td>   ${asgn.assignment_definition} &ensp;</td>
                             <td><i class="fa fa-trash-o" v-on:click="delete_past_assignment(asgn._idx)"></i></td>
                         </tr>
                         </tbody>
