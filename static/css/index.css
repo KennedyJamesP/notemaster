@@ -4,6 +4,10 @@
     border-width: 1px;
 }
 
+#calendar_page .navbar {
+   background-color: transparent;
+}
+
 .navbar .logo {
     float: left;
     margin: 15px 0 0 30px;

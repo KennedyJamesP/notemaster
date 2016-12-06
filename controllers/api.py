@@ -168,18 +168,19 @@ def getDaysApart(year, month, day):
 @auth.requires_signature()
 def add_assignments():
     print "called add assignment"
-    assign = db.assignments.insert(
-        user_email = auth.user.email,
-        due = request.vars.due,
-        assignment_name = request.vars.assignment_name,
-        assignment_definition = request.vars.assignment_definition,
+    assign = db.t_appointment.insert(
+        created_by = auth.user_id,
+        f_start_time = request.vars.due,
+        f_title = request.vars.assignment_name,
+        description = request.vars.assignment_definition,
     )
     print request.vars.due
     print request.vars.assignment_name
     print request.vars.assignment_definition
     print assign
-    t = db.assignments(assign)
-
+    print "before t"
+    t = db.t_appointment(assign)
+    print "after t"
     slash = str(request.vars.due).split('-')  # item 0 is year, item 1 is month, item 2 is day
     diff = getDaysApart(slash[0], slash[1], slash[2])
     print diff.days
