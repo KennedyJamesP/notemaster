@@ -168,6 +168,10 @@ def getDaysApart(year, month, day):
 @auth.requires_signature()
 def add_assignments():
     print "called add assignment"
+    valid= str(request.vars.due).split(" ")
+    print len(valid)
+    if (len(valid)!=2):
+        return "invalid format"
     assign = db.t_appointment.insert(
         created_by = auth.user_id,
         f_start_time = request.vars.due,
