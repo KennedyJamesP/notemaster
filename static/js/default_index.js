@@ -355,6 +355,29 @@ var app = function () {
     };
 
 
+
+
+
+    self.update_calendar = function (){
+        $.getJSON(calendar_URL, function(data){
+            self.vue.calendar = data.events;
+            enumerate(self.vue.calendar);
+        })
+
+        jQuery(document).ready(function() {
+
+            $('#calendar').fullCalendar({
+                editable: false,
+                events: self.vue.calendar
+            });
+        });
+    }
+
+
+
+
+
+
     self.vue = new Vue({
         el: "#vue-div",
         delimiters: ['${', '}'],
@@ -385,6 +408,7 @@ var app = function () {
             past_assignments: [],
             selected_idx: null,
             selected_url: null,
+            calendar: [],
         },
         methods: {
             load_more_notes: self.load_more_notes,
@@ -405,7 +429,7 @@ var app = function () {
             add_assignment_button: self.add_assignment_button,
             add_assignment: self.add_assignment,
             delete_assignment: self.delete_assignment,
-            delete_past_assignment: self.delete_past_assignment
+            delete_past_assignment: self.delete_past_assignment,
         }
     })
 
@@ -414,6 +438,7 @@ var app = function () {
     self.get_courses();
     self.get_assignments();
     self.get_past_assignments();
+    self.update_calendar();
 
     $("#vue-div").show();
 
