@@ -1,6 +1,10 @@
 // This is the js for the default/index.html view.
 
+
+
 var app = function () {
+
+
 
     //this controls the number of posts displayed at first and the number of posts received from the server
     const DEFAULT_POST_LIST_LENGTH = 10;
@@ -353,7 +357,6 @@ var app = function () {
             }
         )
     };
-
 
 
 
