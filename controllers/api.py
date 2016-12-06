@@ -182,7 +182,9 @@ def add_assignments():
     t = db.t_appointment(assign)
     print "after t"
     slash = str(request.vars.due).split('-')  # item 0 is year, item 1 is month, item 2 is day
-    diff = getDaysApart(slash[0], slash[1], slash[2])
+    day = slash[2].split(" ")
+    print day[0]
+    diff = getDaysApart(slash[0], slash[1], day[0])
     print diff.days
     t['diff'] = int(diff.days)
     print "done"
