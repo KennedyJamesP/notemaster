@@ -244,9 +244,8 @@
                             </button>
                         </div-->
 
-                        <div class="post_list note_list" v-if="logged_in">
-                            <div class="post" style="overflow-y:scroll; overflow-x:hidden; height:600px; border: solid #cccccc">
-                            <div class="post" v-for="post in posts" style="overflow-y:scroll; overflow-x:hidden; height:175px; border: solid #cccccc;">
+                        <div class="post post_list note_list"style="overflow-y:scroll; overflow-x:hidden; height:500px; border: solid #cccccc" v-if="logged_in">
+                            <div class="post" v-for="post in posts" style="height:175px; border: solid #cccccc;">
                                 <div class="post_listing" v-if="!is_idx_being_edited(post._idx)">
                                     <p class="post_topic">
                                         ${post.topic}
@@ -285,7 +284,7 @@
                                     </div>
                                 </template>
                             </div>
-                            </div>
+
 
                             <div v-if="has_more" class="load_more">
                                 <button class="btn btn-default" v-on:click="load_more()">Load more</button>
