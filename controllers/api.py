@@ -178,16 +178,19 @@ def add_assignments():
     print request.vars.assignment_name
     print request.vars.assignment_definition
     print assign
-    print "before t"
-    t = db.t_appointment(assign)
-    print "after t"
     slash = str(request.vars.due).split('-')  # item 0 is year, item 1 is month, item 2 is day
     day = slash[2].split(" ")
     print day[0]
     diff = getDaysApart(slash[0], slash[1], day[0])
     print diff.days
+    t=dict()
     t['diff'] = int(diff.days)
+    t['due']=request.vars.due
+    t['assignment_name']=request.vars.assignment_name
+    t['assignment_definition']=request.vars.assignment_definition
     print "done"
+    print "t is:"
+    print t
     return response.json(dict(assignment=t))
 
 
