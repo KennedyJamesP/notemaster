@@ -33,26 +33,7 @@ def index():
 @auth.requires_login()
 def mycal():
     rows=db(db.t_appointment.created_by==auth.user.id).select()
-    print rows
-
-    d = datetime.date.day
-    m = datetime.date.month
-    y = datetime.date.year
-
-    events = []
-
-    for i, row in enumerate(rows):
-        if i != 0: pass
-        t = dict (
-            title= row.f_title,
-            allDay= false,
-            start=  Date(row.f_start_time.strftime(' % B % d, % Y % H: % M: % S ') ),
-            end= Date(row.f_end_time.strftime(' % B % d, % Y % H: % M: % S') ),
-            url= URL('appointment_delete',args=row.id)
-        )
-        events.append(t)
-
-    return dict(events=events)
+    return dict(rows=rows)
 
 
 @auth.requires_login()
