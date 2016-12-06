@@ -94,25 +94,26 @@
                     </tbody>
                 </table>
                 <h2>Past Assignments</h2>
-                 <!--table>
-                     <tr>
+                <table>
+                    <tr>
                         <th>Name     </th>
                         <th>Due     </th>
-                        <th>Days Remaining     </th>
+                        <th>Days Remaining      </th>
                         <th>Definition     </th>
-                         <th>Delete     </th>
-
+                        <th>Delete     </th>
                     </tr>
                     <tbody>
-                    <tr v-for="asgn in past_assignments">
-                        <td> Name: ${asgn.assignment_name} &ensp; &ensp;</td>
-                        <td>Due: ${asgn.due} &ensp;</td>
-                        <td>Days Remaining: ${asgn.diff} &ensp;</td>
-                        <td>Definition: ${asgn.assignment_definition} &ensp;</td>
-                        <td><i class="fa fa-trash-o" v-on:click="delete_past_assignment(asgn._idx)"></i></td>
+                    {{for asgn in past_assignments:}}
+                    <tr>
+                        <td>   {{=asgn['assignment_name']}} &ensp;</td>
+                        <td>   {{=asgn['due']}} &ensp;</td>
+                        <td>   {{=asgn['diff']}} &ensp;</td>
+                        <td>   {{=asgn['assignment_definition']}} &ensp;</td>
+                        <td><i class="fa fa-trash-o" ></i></td>
                     </tr>
+                    {{pass}}
                     </tbody>
-                </table-->
+                </table>
 
             </div>
 
