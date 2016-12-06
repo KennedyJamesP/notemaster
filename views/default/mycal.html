@@ -67,6 +67,21 @@
 <div id='calendar'></div>
 </div>
 
+
+
+{{for asgn in assignments:}}
+
+                        <td>   ${asgn.assignment_name} &ensp;</td>
+                        <td>   ${asgn.due} &ensp;</td>
+                        <td>   ${asgn.diff} &ensp;</td>
+                        <td>   ${asgn.assignment_definition} &ensp;</td>
+                        <td><i class="fa fa-trash-o" v-on:click="delete_assignment(asgn._idx)"></i></td>
+
+{{pass}}
+
+
+
+
 <div class="main_content container-fluid">
     <div id="vue-div" class="display:none">
 
