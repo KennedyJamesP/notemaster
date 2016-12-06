@@ -6,6 +6,26 @@
 {{response.files.append(URL(r=request,c='static',f='css/fullcalendar.css'))}}
 {{extend 'layout.html'}}
 
+
+
+{{block head}}
+<script src="{{=URL('static', 'js/vue.js')}}"></script>
+<script>
+    var posts_url = "{{=URL('api', 'get_posts')}}";
+    var get_courses_url = "{{=URL('api', 'get_courses', user_signature=True)}}";
+    var add_course_url = "{{=URL('api', 'add_course', user_signature=True)}}";
+    var add_post_url = "{{=URL('api', 'add_post', user_signature=True)}}";
+    var del_post_url = "{{=URL('api', 'del_post', user_signature=True)}}";
+    var edit_post_url = "{{=URL('api', 'edit_post', user_signature=True)}}";
+    var search_post_url = "{{=URL('api', 'search_posts')}}";
+    var get_assignments_url = "{{=URL('api', 'get_assignments')}}";
+    var add_assignment_url = "{{=URL('api', 'add_assignments', user_signature=True)}}";
+    var del_assignment_url = "{{=URL('api', 'del_assignment', user_signature=True)}}";
+    var get_past_assignments_url = "{{=URL('api', 'get_past_assignments')}}";
+    var calendar_URL = "{{=URL('default', 'mycal', user_signature=True)}}";
+</script>
+{{end}}
+
 <div class="navbar">
     <div class="logo">Notemaster</div>
     <nav>
@@ -45,3 +65,70 @@
     });
 </script>
 <div id='calendar'></div>
+</div>
+
+
+
+{{for asgn in assignments:}}
+
+                        <td>   ${asgn.assignment_name} &ensp;</td>
+                        <td>   ${asgn.due} &ensp;</td>
+                        <td>   ${asgn.diff} &ensp;</td>
+                        <td>   ${asgn.assignment_definition} &ensp;</td>
+                        <td><i class="fa fa-trash-o" v-on:click="delete_assignment(asgn._idx)"></i></td>
+
+{{pass}}
+
+
+
+
+<div class="main_content container-fluid">
+    <div id="vue-div" class="display:none">
+
+            <h1>Assignments</h1>
+            <div class="result_table">
+                <h2>Upcoming Assignments</h2>
+                <table>
+                    <tr>
+                        <th>Name     </th>
+                        <th>Due     </th>
+                        <th>Days Remaining      </th>
+                        <th>Definition     </th>
+                        <th>Delete     </th>
+                    </tr>
+                    <tbody>
+                    <tr v-for="asgn in assignments">
+                        <td>   ${asgn.assignment_name} &ensp;</td>
+                        <td>   ${asgn.due} &ensp;</td>
+                        <td>   ${asgn.diff} &ensp;</td>
+                        <td>   ${asgn.assignment_definition} &ensp;</td>
+                        <td><i class="fa fa-trash-o" v-on:click="delete_assignment(asgn._idx)"></i></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <h2>Past Assignments</h2>
+                 <table>
+                     <tr>
+                        <th>Name     </th>
+                        <th>Due     </th>
+                        <th>Days Remaining     </th>
+                        <th>Definition     </th>
+                         <th>Delete     </th>
+
+                    </tr>
+                    <tbody>
+                    <tr v-for="asgn in past_assignments">
+                        <td> Name: ${asgn.assignment_name} &ensp; &ensp;</td>
+                        <td>Due: ${asgn.due} &ensp;</td>
+                        <td>Days Remaining: ${asgn.diff} &ensp;</td>
+                        <td>Definition: ${asgn.assignment_definition} &ensp;</td>
+                        <td><i class="fa fa-trash-o" v-on:click="delete_past_assignment(asgn._idx)"></i></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+    </div>
+</div>
+<script src="{{=URL('static', 'js/default_index.js')}}"></script>
