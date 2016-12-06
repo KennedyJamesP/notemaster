@@ -56,7 +56,6 @@
                     title: '{{=row.f_title}}',
                     allDay: false,
                     start: new Date('{{=row.f_start_time.strftime('%B %d, %Y %H:%M:%S')}}'),
-                    url: '{{=URL('appointment_delete',args=row.id)}}'
                 }
             {{pass}}
             ]
@@ -69,66 +68,3 @@
 
 
 
-{{for asgn in assignments:}}
-
-                        <td>   ${asgn.assignment_name} &ensp;</td>
-                        <td>   ${asgn.due} &ensp;</td>
-                        <td>   ${asgn.diff} &ensp;</td>
-                        <td>   ${asgn.assignment_definition} &ensp;</td>
-                        <td><i class="fa fa-trash-o" v-on:click="delete_assignment(asgn._idx)"></i></td>
-
-{{pass}}
-
-
-
-
-<div class="main_content container-fluid">
-    <div id="vue-div" class="display:none">
-
-            <h1>Assignments</h1>
-            <div class="result_table">
-                <h2>Upcoming Assignments</h2>
-                <table>
-                    <tr>
-                        <th>Name     </th>
-                        <th>Due     </th>
-                        <th>Days Remaining      </th>
-                        <th>Definition     </th>
-                        <th>Delete     </th>
-                    </tr>
-                    <tbody>
-                    <tr v-for="asgn in assignments">
-                        <td>   ${asgn.assignment_name} &ensp;</td>
-                        <td>   ${asgn.due} &ensp;</td>
-                        <td>   ${asgn.diff} &ensp;</td>
-                        <td>   ${asgn.assignment_definition} &ensp;</td>
-                        <td><i class="fa fa-trash-o" v-on:click="delete_assignment(asgn._idx)"></i></td>
-                    </tr>
-                    </tbody>
-                </table>
-                <h2>Past Assignments</h2>
-                 <table>
-                     <tr>
-                        <th>Name     </th>
-                        <th>Due     </th>
-                        <th>Days Remaining     </th>
-                        <th>Definition     </th>
-                         <th>Delete     </th>
-
-                    </tr>
-                    <tbody>
-                    <tr v-for="asgn in past_assignments">
-                        <td> Name: ${asgn.assignment_name} &ensp; &ensp;</td>
-                        <td>Due: ${asgn.due} &ensp;</td>
-                        <td>Days Remaining: ${asgn.diff} &ensp;</td>
-                        <td>Definition: ${asgn.assignment_definition} &ensp;</td>
-                        <td><i class="fa fa-trash-o" v-on:click="delete_past_assignment(asgn._idx)"></i></td>
-                    </tr>
-                    </tbody>
-                </table>
-
-            </div>
-
-    </div>
-</div>
-<script src="{{=URL('static', 'js/default_index.js')}}"></script>

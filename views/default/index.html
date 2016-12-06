@@ -34,7 +34,7 @@
                     <a href="#">About Us</a>
                     <a href="#" v-on:click="goto('notebook')">Notes</a>
                     <a href="#" v-on:click="goto('assignments')">Assignments</a>
-                    <a href="#" v-on:click="goto('calendar')">Organizer</a> 
+                    <a href="#" v-on:click="goto('calendar')">Calendar</a> 
                     <a href="{{=URL('default', 'user', args=['login'])}}">Log In</a>
                 </nav>
                 <h1><span>Study Smarter</span></h1>
@@ -93,7 +93,7 @@
             <nav>
                 <a v-on:click="goto('notebook')">Notes</a>
                 <a v-on:click="goto('assignments')">Assignments</a>
-                <a href="{{=URL('default', 'mycal')}}">Organizer</a> 
+                <a href="{{=URL('default', 'mycal')}}">Calendar</a> 
             </nav>
         </div>
 
@@ -115,7 +115,7 @@
                 <nav>
                     <a v-on:click="goto('notebook')">Notes</a>
                     <a v-on:click="goto('assignments')">Assignments</a>
-                    <a href="{{=URL('default', 'mycal')}}">Organizer</a> 
+                    <a href="{{=URL('default', 'mycal')}}">Calendar</a> 
                 </nav>
             </div>
 
@@ -334,7 +334,7 @@
 
                                 <div class="form-group" id="topic">
                                     <div>
-                                        <input class="form-control string" id="topic" name="album" type="text"
+                                        <input class="form-control string" id="topic" name="topic" type="text"
                                                v-model="form_topic_content" placeholder="Topic"/>
                                         <span class="help-block"></span>
                                     </div>
@@ -342,7 +342,7 @@
 
                                 <div class="form-group" id="tag">
                                     <div>
-                                        <input class="form-control string" id="tag" name="album" type="text"
+                                        <input class="form-control string" id="tag" name="tag" type="text"
                                                v-model="form_tags_content" placeholder="Tags"/>
                                            <span class="help-block"></span>
                                     </div>

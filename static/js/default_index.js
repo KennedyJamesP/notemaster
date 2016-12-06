@@ -438,7 +438,7 @@ var app = function () {
     self.get_courses();
     self.get_assignments();
     self.get_past_assignments();
-    self.update_calendar();
+    //self.update_calendar();
 
     $("#vue-div").show();
 

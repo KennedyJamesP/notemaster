@@ -277,5 +277,5 @@ def get_past_assignments():
 def del_assignment():
     print "called del_assignment()"
     print request.vars.track_id
-    db(db.assignments.id == request.vars.track_id).delete()
+    db(db.t_appointment.id == request.vars.track_id).delete()
     return "ok"
