@@ -355,29 +355,6 @@ var app = function () {
     };
 
 
-
-
-
-    self.update_calendar = function (){
-        $.getJSON(calendar_URL, function(data){
-            self.vue.calendar = data.events;
-            enumerate(self.vue.calendar);
-        })
-
-        jQuery(document).ready(function() {
-
-            $('#calendar').fullCalendar({
-                editable: false,
-                events: self.vue.calendar
-            });
-        });
-    }
-
-
-
-
-
-
     self.vue = new Vue({
         el: "#vue-div",
         delimiters: ['${', '}'],
@@ -438,7 +415,6 @@ var app = function () {
     self.get_courses();
     self.get_assignments();
     self.get_past_assignments();
-    self.update_calendar();
 
     $("#vue-div").show();
 

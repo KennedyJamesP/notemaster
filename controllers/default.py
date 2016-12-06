@@ -27,8 +27,7 @@ def index():
     #search_posts("John")
     #getDaysApart(2016,12,25)
     #redirect(URL('default', 'appointment_create'))
-    rows=mycal()
-    return dict(rows=rows)
+    return dict()
 
 @auth.requires_login()
 def mycal():
@@ -88,6 +87,7 @@ def get_assignments():
     logged_in = auth.user_id is not None
     print "printing assignments"
     print assignments
+    return assignments
 
     # gets the days between the inputted date and today
     # year, month, and day need to be ints

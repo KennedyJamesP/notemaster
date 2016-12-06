@@ -34,7 +34,7 @@
                     <a href="#">About Us</a>
                     <a href="#" v-on:click="goto('notebook')">Notes</a>
                     <a href="#" v-on:click="goto('assignments')">Assignments</a>
-                    <a href="#" v-on:click="goto('calendar')">Organizer</a> 
+                    <a href="{{=URL('default', 'mycal')}}" >Organizer</a> 
                     <a href="{{=URL('default', 'user', args=['login'])}}">Log In</a>
                 </nav>
                 <h1><span>Notemaster</span></h1>
@@ -69,7 +69,7 @@
         <!-- End of Splash Page -->
 
         <!-- Start of Calendar Page -->
-        <div v-if="page=='calendar'" id="calendar_page">
+        <!--div v-if="page=='calendar'" id="calendar_page">
 
         {{response.files.append(URL(r=request,c='static',f='js/ui.draggable.js'))}}
         {{response.files.append(URL(r=request,c='static',f='js/ui.resizable.js'))}}
@@ -93,7 +93,7 @@
 
 
         <div id='calendar'></div>
-    </div>
+    </div-->
         <!-- End of Calendar Page -->
 
         <!-- Start of Assignments Page -->
