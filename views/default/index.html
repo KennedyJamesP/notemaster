@@ -85,94 +85,96 @@
             <div class="navbar">
                 <div class="logo">Notemaster</div>
                 <nav>
-                    <a v-on:click="goto('notebook')">Notes</a>
-                    <a v-on:click="goto('assignments')">Assignments</a>
+                    <a href="#" v-on:click="goto('notebook')">Notes</a>
+                    <a href="#" v-on:click="goto('assignments')">Assignments</a>
                     <a href="{{=URL('default', 'mycal')}}">Calendar</a> 
                 </nav>
             </div>
 
-            <h1>Assignments</h1>
+            <div class="container envelope">
+                <h1>Assignments</h1>
 
 
-            <div class="button_bar">
-                <button v-if="!is_adding_assignment" class="btn btn-danger btn-sm" v-on:click="add_assignment_button()" v-bind:class="{'disabled': !logged_in}">
-                    <i class="fa fa-plus"></i>Add new assignment
-                </button>
-                <button v-if="is_adding_assignment" class="btn btn-warning btn-sm" v-on:click="add_assignment_button()">
-                    <i class="btn btn-danger btn-sm"></i>Cancel
-                </button>
-            </div>
+                <div class="button_bar row">
+                    <button v-if="!is_adding_assignment" class="btn btn-danger btn-sm" v-on:click="add_assignment_button()" v-bind:class="{'disabled': !logged_in}">
+                        <i class="fa fa-plus"></i>Add new assignment
+                    </button>
+                    <button v-if="is_adding_assignment" class="btn btn-warning btn-sm" v-on:click="add_assignment_button()">
+                        <i class="btn btn-danger btn-sm"></i>Cancel
+                    </button>
+                </div>
 
 
-            <div v-if="is_adding_assignment" id="add_assignment_div">
-                <form action="#" v-on:submit.prevent="add_assignment" class="form-horizontal" enctype="multipart/form-data" method="post">
-                    <div class="form-group" id="assignment_name">
-                        <div>
-                            <input class="form-control string" id="the_assignment_name" v-model="assignment_name" placeholder="Assignment Name" type="text" />
-                            <span class="help-block"></span>
+                <div v-if="is_adding_assignment" id="add_assignment_div" class="row post">
+                    <form action="#" v-on:submit.prevent="add_assignment" class="form-horizontal" enctype="multipart/form-data" method="post">
+                        <div class="form-group" id="assignment_name">
+                            <div>
+                                <input class="form-control string" id="the_assignment_name" v-model="assignment_name" placeholder="Assignment Name" type="text" />
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group" id="assignment_description">
-                        <div>
-                            <input class="form-control string" id="the_assignment_description" name="description" type="text" v-model="assignment_description" placeholder="Assignment Description"/>
-                            <span class="help-block"></span>
+                        <div class="form-group" id="assignment_description">
+                            <div>
+                                <input class="form-control string" id="the_assignment_description" name="description" type="text" v-model="assignment_description" placeholder="Assignment Description"/>
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group" id="Due_date_description">
-                        <div><input class="form-control string" id="the_due_date" name="due date" type="text" v-model="due" placeholder="Due Date YYYY-MM-DD"/>
-                            <span class="help-block"></span>
+                        <div class="form-group" id="Due_date_description">
+                            <div><input class="form-control string" id="the_due_date" name="due date" type="text" v-model="due" placeholder="Due Date YYYY-MM-DD"/>
+                                <span class="help-block"></span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group" id="submit_record__row">
-                        <div>
-                            <input class="btn btn-primary" id="add_assignment" type="submit" value="Submit"/>
+                        <div class="form-group" id="submit_record__row">
+                            <div>
+                                <input class="btn btn-primary" id="add_assignment" type="submit" value="Submit"/>
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
+                    </form>
+                </div>
 
-            <div class="result_table">
-                <h2>Upcoming Assignments</h2>
-                <table>
-                    <tr>
-                        <th>Name     </th>
-                        <th>Due     </th>
-                        <th>Days Remaining      </th>
-                        <th>Definition     </th>
-                        <th>Delete     </th>
-                    </tr>
-                    <tbody>
-                    <tr v-for="asgn in assignments">
-                        <td>   ${asgn.assignment_name} &ensp;</td>
-                        <td>   ${asgn.due} &ensp;</td>
-                        <td>   ${asgn.diff} &ensp;</td>
-                        <td>   ${asgn.assignment_definition} &ensp;</td>
-                        <td><i class="fa fa-trash-o" v-on:click="delete_assignment(asgn._idx)"></i></td>
-                    </tr>
-                    </tbody>
-                </table>
-                <h2>Past Assignments</h2>
-                 <table>
-                     <tr>
-                        <th>Name     </th>
-                        <th>Due     </th>
-                        <th>Days Remaining     </th>
-                        <th>Definition     </th>
-                         <th>Delete     </th>
+                <div class="result_table">
+                    <h2>Upcoming Assignments</h2>
+                    <table>
+                        <tr>
+                            <th>Name     </th>
+                            <th>Due     </th>
+                            <th>Days Remaining      </th>
+                            <th>Definition     </th>
+                            <th>Delete     </th>
+                        </tr>
+                        <tbody>
+                        <tr v-for="asgn in assignments">
+                            <td>   ${asgn.assignment_name} &ensp;</td>
+                            <td>   ${asgn.due} &ensp;</td>
+                            <td>   ${asgn.diff} &ensp;</td>
+                            <td>   ${asgn.assignment_definition} &ensp;</td>
+                            <td><i class="fa fa-trash-o" v-on:click="delete_assignment(asgn._idx)"></i></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <h2>Past Assignments</h2>
+                     <table>
+                         <tr>
+                            <th>Name     </th>
+                            <th>Due     </th>
+                            <th>Days Remaining     </th>
+                            <th>Definition     </th>
+                             <th>Delete     </th>
 
-                    </tr>
-                    <tbody>
-                    <tr v-for="asgn in past_assignments">
-                        <td> Name: ${asgn.assignment_name} &ensp; &ensp;</td>
-                        <td>Due: ${asgn.due} &ensp;</td>
-                        <td>Days Remaining: ${asgn.diff} &ensp;</td>
-                        <td>Definition: ${asgn.assignment_definition} &ensp;</td>
-                        <td><i class="fa fa-trash-o" v-on:click="delete_past_assignment(asgn._idx)"></i></td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div v-if="has_more" class="show_more">
-                    <button class="btn btn-default" v-on:click="get_more()">Load more</button></div>
+                        </tr>
+                        <tbody>
+                        <tr v-for="asgn in past_assignments">
+                            <td> Name: ${asgn.assignment_name} &ensp; &ensp;</td>
+                            <td>Due: ${asgn.due} &ensp;</td>
+                            <td>Days Remaining: ${asgn.diff} &ensp;</td>
+                            <td>Definition: ${asgn.assignment_definition} &ensp;</td>
+                            <td><i class="fa fa-trash-o" v-on:click="delete_past_assignment(asgn._idx)"></i></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div v-if="has_more" class="show_more">
+                        <button class="btn btn-default" v-on:click="get_more()">Load more</button></div>
+                </div>
             </div>
         </div>
         <!-- End of Assignments  Page -->
@@ -183,13 +185,13 @@
             <div class="navbar">
                 <div class="logo">Notemaster</div>
                 <nav>
-                    <a v-on:click="goto('notebook')">Notes</a>
-                    <a v-on:click="goto('assignments')">Assignments</a>
+                    <a href="#" v-on:click="goto('notebook')">Notes</a>
+                    <a href="#" v-on:click="goto('assignments')">Assignments</a>
                     <a href="{{=URL('default', 'mycal')}}">Calendar</a> 
                 </nav>
             </div>
 
-            <div id="main-container" class="container">
+            <div id="main-container" class="container col-md-11 envelope">
 
                 <div id="main-row" class="row">
                     <!-- Sidebar closed-->
