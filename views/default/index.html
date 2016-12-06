@@ -37,8 +37,18 @@
                     <a href="#" v-on:click="goto('calendar')">Organizer</a> 
                     <a href="{{=URL('default', 'user', args=['login'])}}">Log In</a>
                 </nav>
-                <h1><span>Notemaster</span></h1>
-                <p class="caption">Blah // Blah // Blah</p>
+                <h1><span>Study Smarter</span></h1>
+                <p class="caption">
+                    We empower students by providing the digital study tools needed to succeed on and off campus.
+                </p>
+                <p class="caption">
+                    Join for free today to stay organized, get better grades, and dominate school!
+                </p>
+                <div class="button_container">
+                    <a href="{{=URL('default', 'user', args=['login'])}}" class="btn btn-lg signup_button">
+                        Get started today for free!
+                    </a>
+                </div>
             </header>
 
             <div class="about">
@@ -219,11 +229,10 @@
                     <div id="sidebar-open" class="col-md-3 post"  v-if="is_sidebar_open">
                         <div id="sidebar-container" class="container">
                             <div class="row">
-                                <button class="btn btn-danger btn-sm" v-on:click="sidebar_collapse_btn()">
+                                <button class="btn btn-danger btn-sm course_collapse" v-on:click="sidebar_collapse_btn()">
                                     <i class="fa fa-large fa-chevron-circle-left"></i>Collapse
                                 </button>
                             </div>
-
 
                             <div id="add_course_row" class ="row">
                                 <input class="string" id="add_course_input" name="New course" type="text"
@@ -232,6 +241,7 @@
                                     <i class="fa fa-plus"></i>Add
                                 </button>
                             </div>
+
                             <div id="courses_btn_group" class="btn-group-lg btn-group-vertical row">
                                 <div v-for="course in courses">
                                     <button class="btn btn-block"><i class="fa fa-book fa-lg"></i>${course.course_name} </button>
