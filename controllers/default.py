@@ -45,33 +45,33 @@ def appointment_create():
 
 @auth.requires_login()
 def assignments():
-    print "called assignments"
+    #print "called assignments"
     return dict()
 
 @auth.requires_login()
 def get_past_assignments():
-    print "called get_past_assignments"
+    #print "called get_past_assignments"
     past_assignments = []
-    print "starting rows"
+    #print "starting rows"
     rows = db((db.t_appointment.created_by == auth.user_id)).select(db.t_appointment.ALL,orderby=db.t_appointment.f_start_time)
-    print rows
-    print "finished rows"
+    #print rows
+    #print "finished rows"
     # need to calculate how many days until the assignment is due here
     for i, r in enumerate(rows):
             # Check if I have a track or not.
-            print "due on: "
-            print r.f_start_time
+            #print "due on: "
+            #print r.f_start_time
             slash=str(r.f_start_time).split('-') #item 0 is year, item 1 is month, item 2 is day
-            print slash
+            #print slash
 
-            print slash[0]
-            print slash[1]
-            print slash[2]
+            #print slash[0]
+            #print slash[1]
+            #print slash[2]
 
             day=slash[2].split(" ")
-            print day[0]
+            #print day[0]
             diff=getDaysApart(slash[0],slash[1],day[0])
-            print diff.days
+            #print diff.days
             if(int(diff.days) <0):
                 t = dict(
                 due = r.f_start_time,
@@ -80,37 +80,37 @@ def get_past_assignments():
                 id=r.id,
                 diff=int(diff.days)
             )
-                print t
+                #print t
                 past_assignments.append(t)
-    print "printing assignments"
-    print past_assignments
+    #print "#printing assignments"
+    #print past_assignments
     return past_assignments
 
 @auth.requires_login()
 def get_assignments():
-    print "called get_assignments"
+    #print "called get_assignments"
     assignments = []
     has_more = False
-    print "starting rows"
+    #print "starting rows"
     rows = db((db.t_appointment.created_by == auth.user_id)).select(db.t_appointment.ALL,orderby=db.t_appointment.f_start_time)
-    print rows
-    print "finished rows"
+    #print rows
+    #print "finished rows"
     # need to calculate how many days until the assignment is due here
     for i, r in enumerate(rows):
             # Check if I have a track or not.
-            print "due on: "
-            print r.f_start_time
+            #print "due on: "
+            #print r.f_start_time
             slash=str(r.f_start_time).split('-') #item 0 is year, item 1 is month, item 2 is day
-            print slash
+            #print slash
 
-            print slash[0]
-            print slash[1]
-            print slash[2]
+            #print slash[0]
+            #print slash[1]
+            #print slash[2]
 
             day=slash[2].split(" ")
-            print day[0]
+            #print day[0]
             diff=getDaysApart(slash[0],slash[1],day[0])
-            print diff.days
+            #print diff.days
             if(int(diff.days) >=0):
                 t = dict(
                 due = r.f_start_time,
@@ -119,11 +119,11 @@ def get_assignments():
                 id=r.id,
                 diff=int(diff.days)
             )
-                print t
+                #print t
                 assignments.append(t)
     logged_in = auth.user_id is not None
-    print "printing assignments"
-    print assignments
+    #print "#printing assignments"
+    #print assignments
     return assignments
 
     # gets the days between the inputted date and today
@@ -133,7 +133,7 @@ def getDaysApart(year, month, day):
         today = datetime.date.today()
         someday = datetime.date(int(year), int(month), int(day))
         diff = someday - today
-        # print diff.days
+        # #print diff.days
         return diff
 
 @auth.requires_login()
