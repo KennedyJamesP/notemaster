@@ -31,15 +31,11 @@
 
                 <ul class="nav nav-pills nav-justified">
                     <li><div class="logo">Notemaster</div></li>
-                    <li class> <a href="#" v-on:click="goto('notebook')">Notes</a> </li>
-                    <li> <a href="#" v-on:click="goto('assignments')">Assignments</a> </li>
-                    <li> <a href="{{=URL('default', 'mycal')}}">Calendar</a>  </li>
-                    <li id="login" v-if="!logged_in">
-                        <a href="{{=URL('default', 'user', args=['login'])}}">Log In</a>
-                     </li>
-                    <li id="logout" v-if="logged_in">
-                        <a href="{{=URL('default', 'user', args=['logout'])}}">Log Out</a>
-                    </li>
+                    <li v-if="logged_in"> <a href="#" v-on:click="goto('notebook')">Notes</a> </li>
+                    <li v-if="logged_in"> <a href="#" v-on:click="goto('assignments')">Assignments</a> </li>
+                    <li v-if="logged_in"> <a href="{{=URL('default', 'mycal')}}">Calendar</a>  </li>
+                    <li id="logout" v-if="logged_in"> <a href="{{=URL('default', 'user', args=['logout'])}}">Log Out</a></li>
+                    <li id="login" v-if="!logged_in"> <a href="{{=URL('default', 'user', args=['login'])}}">Log In</a></li>
                 </ul>
             </div>
         <!--End of NavBar -->
@@ -192,35 +188,40 @@
 
 
         <!-- Notebook Page -->
-        <div v-if="page=='notebook'" id="notebook_page" >
+        <div v-if="page=='notebook'" id="notebook_page" class ="container">
 
-            <div id="main-container" class="container col-md-11">
 
-                <div id="main-row" class="row">
+                <div id="main-row" class="flex_container_row">
                     <!-- Sidebar closed-->
-                    <div id="sidebar-closed" class="col-md-1 post"  v-if="!is_sidebar_open">
-                            <i class="fa fa-large fa-chevron-circle-right" v-on:click="sidebar_collapse_btn()"></i>
+                    <div id="sidebar-closed"  v-if="!is_sidebar_open">
+                        <div class = "post">
+                            <i class="fa fa-large fa-chevron-circle-right" v-on:click="sidebar_collapse_btn()"></i> Menu
+                        </div>
                     </div>
                     <!-- end sidebar closed-->
 
                     <!-- sidebar open-->
-                    <div id="sidebar-open" class="col-md-3 post"  v-if="is_sidebar_open">
-                        <div id="sidebar-container" class="container">
-                            <div class="row">
+                    <div id="sidebar-open" class="flex_container_col post"  v-if="is_sidebar_open">
+                        <div id="sidebar-container" class="flex_container_col">
+                            <div>
                                 <button class="btn btn-danger btn-sm course_collapse" v-on:click="sidebar_collapse_btn()">
                                     <i class="fa fa-large fa-chevron-circle-left"></i>Collapse
                                 </button>
                             </div>
 
-                            <div id="add_course_row" class ="row">
-                                <input class="string" id="add_course_input" name="New course" type="text"
+
+                            <div id="add_course_row" class ="flex_container_row">
+                                <div id = "add_course_input_div">
+                                    <input class="string" id="add_course_input" name="New course" type="text"
                                        v-model="new_course_name" placeholder="Course Name"/>
+                                </div>
                                 <button class="btn btn-danger btn-sm" v-on:click="add_course()">
                                     <i class="fa fa-plus"></i>Add
                                 </button>
+
                             </div>
 
-                            <div id="courses_btn_group" class="btn-group-lg btn-group-vertical row">
+                            <div id="courses_btn_group" class="btn-group-lg btn-group-vertical ">
                                 <div v-for="course in courses">
                                     <button class="btn btn-block"><i class="fa fa-book fa-lg"></i>${course.course_name} </button>
                                 </div>
@@ -229,25 +230,15 @@
                     </div>
                     <!-- end sidebar-open -->
 
-                    <!-- Post class div used to go here -->
-                    <div id="notebook_main_panel" class="col-md-9 container-fluid">
-                        <div class="search_div row post">
+                    <!-- Notebook Main Panel -->
+                    <div id="notebook_main_panel" class="flex_container_col">
+                        <div class="search_div flex_container_row">
                             <input class="search_input" v-model="post_search"/>
                             <button class="btn" v-on:click="do_search"><i class="fa fa-search fa-lg"></i></button>
                         </div>
 
-                        <!--div class="button_bar">TODO: decide what to do with these add post/cancel buttons
-                            <button class="btn btn-danger btn-sm" v-if="!is_adding_or_editing()" v-on:click="add_post_button()"
-                                    v-bind:class="{'disabled': !logged_in}">
-                                <i class="fa fa-plus"></i>Add new post
-                            </button>
-                            <button class="btn btn-danger btn-sm" v-if="is_adding_or_editing()" v-on:click="cancel_post_button()">
-                                <i class="fa fa-close"></i>Cancel
-                            </button>
-                        </div-->
-
-                        <div class="post_list note_list" style="overflow-y:scroll; overflow-x:hidden; height:500px;" v-if="logged_in">
-                            <div class="post" v-for="post in posts" style="height:175px; border: solid #cccccc;">
+                        <div class="post_list note_list row" >
+                            <div class="note" v-for="post in posts" style="height:175px; border: solid #cccccc;">
                                 <div class="post_listing" v-if="!is_idx_being_edited(post._idx)">
                                     <p class="post_topic">
                                         ${post.topic}
@@ -294,40 +285,28 @@
                         </div>
                         <!-- end post_list -->
                         <!-- add_post div -->
-                        <div id="add_post_div" class="row post">
-                            <div id="new_post_text" class="row">
-                                <textarea v-model="form_post_content" class="note_block" rows="5">
+                        <div id="add_post_div" class="row">
+                            <div id="new_note_input_block" class="post note-details">
+                                <textarea v-model="form_post_content" class="form-control note_block" rows="6">
                                 </textarea>
-                            </div>
-
-                            <div class="note_details">
-                                <div class="form-group" id="topic">
-                                    <div>
-                                        <input class="form-control string" id="topic" name="topic" type="text"
-                                               v-model="form_topic_content" placeholder="Topic"/>
-                                        <span class="help-block"></span>
-                                    </div>
+                                <input class="form-control string" id="topic" name="topic" type="text"
+                                           v-model="form_topic_content" placeholder="Topic"/>
+                                <span class="help-block"></span>
+                                <input class="form-control string" id="tag" name="tag" type="text"
+                                            v-model="form_tags_content" placeholder="Tags"/>
+                               <span class="help-block"></span>
+                                <div id="add_post_btn" class="row">
+                                    <button class="btn btn-danger btn-sm col-md-offset-9" v-on:click="add_post()">
+                                        <i class="fa fa-plus"></i> Add Note
+                                    </button>
                                 </div>
-
-                                <div class="form-group" id="tag">
-                                    <div>
-                                        <input class="form-control string" id="tag" name="tag" type="text"
-                                               v-model="form_tags_content" placeholder="Tags"/>
-                                           <span class="help-block"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div id="add_post_btn" class="row">
-                                <button class="btn btn-danger btn-sm col-md-offset-9" v-on:click="add_post()">
-                                    <i class="fa fa-plus"></i> Add Note
-                                </button>
                             </div>
                         </div>
                         <!-- end add_post div -->
                     </div>
+                    <!-- end Notebook main panel -->
                 </div>
-            </div>
+
         </div>
         <!-- End of notebook Page -->
 

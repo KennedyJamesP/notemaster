@@ -203,7 +203,6 @@ footer .lockup .content-wrap a:hover {
 
 #courses_btn_group .btn {
     margin-bottom: 2px;
-    width: 216px;
 }
 
 #courses_btn_group .fa-book {
@@ -222,23 +221,65 @@ footer .lockup .content-wrap a:hover {
     margin-bottom: 5px;
 }
 
+.grid_container {
+    display: grid;
+}
+
 .search_input{
-    border:2px solid #cccccc;
-	height: 35px;
-	width: 85%;
-    border-width: 1px;
-	border-radius: 2px;
-    margin:0px 10px 10px 10px;
-    float: left;
+    height: 35px;
+	flex-grow: 1;
+    margin:10px 10px 10px 10px;
+    float: inherit;
 }
 
 .search_div button {
-    /*float: right;*/
+    float: inherit;
 }
+
+#sidebar-open {
+    float: left;
+    height: 100%;
+}
+
+.flex_container_col {
+     display:inline-flex;
+    flex-direction: column;
+    align-content: center;
+    height: 100%;
+    margin: 10px 10px 10px 10px;
+}
+
+.flex_container_row {
+     display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    margin: 10px 10px 10px 10px;
+}
+
+#notebook_main_panel {
+    flex-grow:1;
+}
+
+#add_course_input_div {
+    flex-flow: 1;
+}
+
+.note {
+  border-color: #cccccc;
+  border-style: solid;
+  border-width: 1px;
+  background: white;
+  margin-top: 10px;
+  padding: 10px 20px 20px 20px;
+  -moz-border-radius: 16px;
+  -webkit-border-radius: 16px;
+  border-radius: 16px;
+}
+
 
 .note_block {
     width: 90%;
-	height: 320px;
 	border: solid #cccccc;
 	border-width: 1px;
     border-radius: 2px;
@@ -246,8 +287,15 @@ footer .lockup .content-wrap a:hover {
 }
 
 .note_list  {
+    border-radius: 4px;
+    border-style: inset;
     border-color: white;
-    border-width: medium;
+    border-width: thin;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    height:500px;
+    padding: 10px 10px 10px 10px;
+
 }
 
 .note_details input {
@@ -315,8 +363,8 @@ result_table {
     display:block; margin:0 auto;
 }
 
-#notebook_page #main-container #main-row {
-    display:block; margin:0 auto;
+#notebook_page {
+     width: 90%
 }
 
 .cal_container {
