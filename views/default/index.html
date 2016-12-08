@@ -26,6 +26,24 @@
 
     <div id="vue-div" class="display:none">
 
+        <!--Navigation Bar for content pages -->
+        <div class="navbar" v-if="page!='splash'">
+
+                <ul class="nav nav-pills nav-justified">
+                    <li><div class="logo">Notemaster</div></li>
+                    <li class> <a href="#" v-on:click="goto('notebook')">Notes</a> </li>
+                    <li> <a href="#" v-on:click="goto('assignments')">Assignments</a> </li>
+                    <li> <a href="{{=URL('default', 'mycal')}}">Calendar</a>  </li>
+                    <li id="login" v-if="!logged_in">
+                        <a href="{{=URL('default', 'user', args=['login'])}}">Log In</a>
+                     </li>
+                    <li id="logout" v-if="logged_in">
+                        <a href="{{=URL('default', 'user', args=['logout'])}}">Log Out</a>
+                    </li>
+                </ul>
+            </div>
+        <!--End of NavBar -->
+
         <!-- Splash Page -->
         <div v-if="page=='splash'" id="splash_page">
             <header>
@@ -82,14 +100,6 @@
         <!-- Start of Assignments Page -->
         <div v-if="page=='assignments'" id="assignments_page" >
 
-            <div class="navbar">
-                <div class="logo">Notemaster</div>
-                <nav>
-                    <a href="#" v-on:click="goto('notebook')">Notes</a>
-                    <a href="#" v-on:click="goto('assignments')">Assignments</a>
-                    <a href="{{=URL('default', 'mycal')}}">Calendar</a> 
-                </nav>
-            </div>
 
             <div class="container post">
                 <h1>Assignments</h1>
@@ -180,17 +190,9 @@
         </div>
         <!-- End of Assignments  Page -->
 
+
         <!-- Notebook Page -->
         <div v-if="page=='notebook'" id="notebook_page" >
-
-            <div class="navbar">
-                <div class="logo">Notemaster</div>
-                <nav>
-                    <a href="#" v-on:click="goto('notebook')">Notes</a>
-                    <a href="#" v-on:click="goto('assignments')">Assignments</a>
-                    <a href="{{=URL('default', 'mycal')}}">Calendar</a> 
-                </nav>
-            </div>
 
             <div id="main-container" class="container col-md-11">
 
@@ -244,7 +246,7 @@
                             </button>
                         </div-->
 
-                        <div class="post post_list note_list"style="overflow-y:scroll; overflow-x:hidden; height:500px; border: solid #cccccc" v-if="logged_in">
+                        <div class="post_list note_list" style="overflow-y:scroll; overflow-x:hidden; height:500px;" v-if="logged_in">
                             <div class="post" v-for="post in posts" style="height:175px; border: solid #cccccc;">
                                 <div class="post_listing" v-if="!is_idx_being_edited(post._idx)">
                                     <p class="post_topic">
@@ -299,14 +301,6 @@
                             </div>
 
                             <div class="note_details">
-                                <div class="form-group" id="class">
-                                    <div>
-                                        <input class="form-control string" id="class" name="course" type="text"
-                                               v-model="current_course_name" placeholder="Class"/>
-                                        <span class="help-block"></span>
-                                    </div>
-                                </div>
-
                                 <div class="form-group" id="topic">
                                     <div>
                                         <input class="form-control string" id="topic" name="topic" type="text"
@@ -336,6 +330,345 @@
             </div>
         </div>
         <!-- End of notebook Page -->
+
+        <!-- Calendar page -->
+        <div id="cal_page" v-if="page=='calendar'">
+            <div id="calendar" class="fc">
+                <table class="fc-header">
+                    <tbody>
+                    <tr>
+                        <td class="fc-header-left">
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td><h2 class="fc-header-title"></h2></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td class="fc-header-center"></td>
+                        <td class="fc-header-right">
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td><!-- Today button -->
+                                        <div class="fc-button-today fc-state-default fc-corner-left fc-corner-right">
+                                            <a><span>today</span></a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="fc-header-space"></span>
+                                    </td>
+                                    <td>
+                                        <div class="fc-button-prev fc-state-default fc-corner-left fc-no-right">
+                                            <a><span>&nbsp;◄&nbsp;</span></a>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="fc-button-next fc-state-default fc-corner-right">
+                                            <a><span>&nbsp;►&nbsp;</span></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="fc-content fc-widget-content" style="position: relative; overflow: visible;">
+                    <div class="fc-view fc-view-month fc-grid" style="position: relative;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="fc-sun fc-state-default fc-leftmost" style="width: 132px;">Sun</th>
+                                    <th class="fc-mon fc-state-default" style="width: 132px;">Mon</th>
+                                    <th class="fc-tue fc-state-default" style="width: 132px;">Tue</th>
+                                    <th class="fc-wed fc-state-default" style="width: 132px;">Wed</th>
+                                    <th class="fc-thu fc-state-default" style="width: 132px;">Thu</th>
+                                    <th class="fc-fri fc-state-default" style="width: 132px;">Fri</th>
+                                    <th class="fc-sat fc-state-default">Sat</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="fc-week0">
+                                <td class="fc-sun fc-state-default fc-day0 fc-leftmost fc-other-month fc-not-today" style="height: 111px;">
+                                    <div class="fc-day-number">27</div>
+                                    <div class="fc-day-content">
+                                        <div style="position: relative; height: 0px;">&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-mon fc-state-default fc-day1 fc-other-month fc-not-today">
+                                    <div class="fc-day-number">28</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-tue fc-state-default fc-day2 fc-other-month fc-not-today">
+                                    <div class="fc-day-number">29</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-wed fc-state-default fc-day3 fc-other-month fc-not-today">
+                                    <div class="fc-day-number">30</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-thu fc-state-default fc-day4 fc-not-today">
+                                    <div class="fc-day-number">1</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-fri fc-state-default fc-day5 fc-not-today">
+                                    <div class="fc-day-number">2</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-sat fc-state-default fc-day6 fc-not-today">
+                                    <div class="fc-day-number">3</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="fc-week1">
+                                <td class="fc-sun fc-state-default fc-day7 fc-leftmost fc-not-today" style="height: 111px;">
+                                    <div class="fc-day-number">4</div>
+                                    <div class="fc-day-content">
+                                        <div style="position: relative; height: 19px;">&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-mon fc-state-default fc-day8 fc-not-today">
+                                    <div class="fc-day-number">5</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-tue fc-state-default fc-day9 fc-not-today">
+                                    <div class="fc-day-number">6</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-wed fc-state-default fc-day10 fc-today fc-state-highlight">
+                                    <div class="fc-day-number">7</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-thu fc-state-default fc-day11 fc-not-today">
+                                    <div class="fc-day-number">8</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-fri fc-state-default fc-day12 fc-not-today">
+                                    <div class="fc-day-number">9</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-sat fc-state-default fc-day13 fc-not-today">
+                                    <div class="fc-day-number">10</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="fc-week2">
+                                <td class="fc-sun fc-state-default fc-day14 fc-leftmost fc-not-today" style="height: 111px;">
+                                    <div class="fc-day-number">11</div>
+                                    <div class="fc-day-content">
+                                        <div style="position: relative; height: 0px;">&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-mon fc-state-default fc-day15 fc-not-today">
+                                    <div class="fc-day-number">12</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-tue fc-state-default fc-day16 fc-not-today">
+                                    <div class="fc-day-number">13</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-wed fc-state-default fc-day17 fc-not-today">
+                                    <div class="fc-day-number">14</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-thu fc-state-default fc-day18 fc-not-today">
+                                    <div class="fc-day-number">15</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-fri fc-state-default fc-day19 fc-not-today">
+                                    <div class="fc-day-number">16</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-sat fc-state-default fc-day20 fc-not-today">
+                                    <div class="fc-day-number">17</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="fc-week3">
+                                <td class="fc-sun fc-state-default fc-day21 fc-leftmost fc-not-today" style="height: 111px;">
+                                    <div class="fc-day-number">18</div>
+                                    <div class="fc-day-content">
+                                        <div style="position: relative; height: 0px;">&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-mon fc-state-default fc-day22 fc-not-today">
+                                    <div class="fc-day-number">19</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-tue fc-state-default fc-day23 fc-not-today">
+                                    <div class="fc-day-number">20</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-wed fc-state-default fc-day24 fc-not-today">
+                                    <div class="fc-day-number">21</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-thu fc-state-default fc-day25 fc-not-today">
+                                    <div class="fc-day-number">22</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-fri fc-state-default fc-day26 fc-not-today">
+                                    <div class="fc-day-number">23</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-sat fc-state-default fc-day27 fc-not-today">
+                                    <div class="fc-day-number">24</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="fc-week4">
+                                <td class="fc-sun fc-state-default fc-day28 fc-leftmost fc-not-today" style="height: 111px;">
+                                    <div class="fc-day-number">25</div>
+                                    <div class="fc-day-content">
+                                        <div style="position: relative; height: 0px;">&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-mon fc-state-default fc-day29 fc-not-today">
+                                    <div class="fc-day-number">26</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-tue fc-state-default fc-day30 fc-not-today">
+                                    <div class="fc-day-number">27</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-wed fc-state-default fc-day31 fc-not-today">
+                                    <div class="fc-day-number">28</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-thu fc-state-default fc-day32 fc-not-today">
+                                    <div class="fc-day-number">29</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-fri fc-state-default fc-day33 fc-not-today">
+                                    <div class="fc-day-number">30</div>
+                                    <div class="fc-day-content">
+                                    <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-sat fc-state-default fc-day34 fc-not-today">
+                                    <div class="fc-day-number">31</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="fc-week5">
+                                <td class="fc-sun fc-state-default fc-day35 fc-leftmost fc-other-month fc-not-today" style="height: 112px;">
+                                    <div class="fc-day-number">1</div>
+                                    <div class="fc-day-content">
+                                        <div style="position: relative; height: 0px;">&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-mon fc-state-default fc-day36 fc-other-month fc-not-today">
+                                    <div class="fc-day-number">2</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-tue fc-state-default fc-day37 fc-other-month fc-not-today">
+                                    <div class="fc-day-number">3</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-wed fc-state-default fc-day38 fc-other-month fc-not-today">
+                                    <div class="fc-day-number">4</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-thu fc-state-default fc-day39 fc-other-month fc-not-today">
+                                    <div class="fc-day-number">5</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-fri fc-state-default fc-day40 fc-other-month fc-not-today">
+                                    <div class="fc-day-number">6</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                                <td class="fc-sat fc-state-default fc-day41 fc-other-month fc-not-today">
+                                    <div class="fc-day-number">7</div>
+                                    <div class="fc-day-content">
+                                        <div>&nbsp;</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!-- Event -->
+                        <div class="fc-event fc-event-hori fc-corner-left fc-corner-right " style="position: absolute; top: 106px; left: 268px; z-index: 8; width: 125px;">
+                            <a>
+                                <span class="fc-event-time">4:21p</span>
+                                <span class="fc-event-title">Web Apps</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of Calendar Page -->
     </div>
 </div>
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>

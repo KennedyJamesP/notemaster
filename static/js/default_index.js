@@ -375,7 +375,7 @@ var app = function () {
             form_tags_content: null,
             user_email: null,
             post_search: "",
-            page:"splash",
+            page:"notebook",
             new_course_name: "",
             assignment_name: null,
             assignment_description: null,

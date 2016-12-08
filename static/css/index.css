@@ -37,6 +37,7 @@
 
 body {
     background-color: lightblue;
+    padding-top: 0px;
 }
 
 header {
@@ -222,23 +223,21 @@ footer .lockup .content-wrap a:hover {
 }
 
 .search_input{
-    border:2px solid #456879;
+    border:2px solid #cccccc;
 	height: 35px;
-	width: 740px;
-    border: solid #cccccc;
+	width: 85%;
     border-width: 1px;
 	border-radius: 2px;
-    margin-bottom: 10px;
-    margin-left: 35px;
+    margin:0px 10px 10px 10px;
     float: left;
 }
 
 .search_div button {
-    float: right;
+    /*float: right;*/
 }
 
 .note_block {
-    width: 886px;
+    width: 90%;
 	height: 320px;
 	border: solid #cccccc;
 	border-width: 1px;
@@ -246,9 +245,9 @@ footer .lockup .content-wrap a:hover {
     margin-bottom: 20px;
 }
 
-.note_list .post {
-    background-color: white;
+.note_list  {
     border-color: white;
+    border-width: medium;
 }
 
 .note_details input {
@@ -300,11 +299,12 @@ result_table {
     color: #333;
     font-family: Helvetica, Arial, sans-serif;
     width: 700px;
-    border-collapse:
-    collapse; border-spacing: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
     font-size: large;
     text-align: center;
-    display:block; margin:0 auto;
+    display:block;
+    margin:0 auto;
 }
 
 #assignments_page .button_bar {
